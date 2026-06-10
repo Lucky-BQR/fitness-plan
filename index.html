@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>三个月健身训练计划 · 莲莲莲</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif; background: #f8f7f4; color: #2C2C2A; font-size: 13px; line-height: 1.6; }
+  .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+  h1 { font-size: 20px; font-weight: 500; margin-bottom: 4px; }
+  .subtitle { font-size: 13px; color: #5F5E5A; margin-bottom: 2rem; }
+  .tab-bar { display: flex; gap: 4px; margin-bottom: 1.5rem; border-bottom: 0.5px solid rgba(44,44,42,0.15); flex-wrap: wrap; }
+  .tab { padding: 8px 16px; font-size: 13px; cursor: pointer; border: none; background: transparent; color: #5F5E5A; border-bottom: 2px solid transparent; margin-bottom: -1px; font-family: inherit; white-space: nowrap; }
+  .tab.active { color: #534AB7; border-bottom-color: #534AB7; font-weight: 500; }
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .plan-header { background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.5rem; }
+  .plan-header h2 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .plan-header p { font-size: 13px; color: #5F5E5A; }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .tag { font-size: 11px; padding: 3px 8px; border-radius: 20px; font-weight: 500; }
+  .tag-purple { background: #EEEDFE; color: #534AB7; }
+  .tag-teal { background: #E1F5EE; color: #0F6E56; }
+  .tag-amber { background: #FAEEDA; color: #854F0B; }
+  .tag-rose { background: #FCE4EC; color: #C73866; }
+  .tag-blue { background: #E3F2FD; color: #1565C0; }
+
+  .week-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin-bottom: 1.5rem; }
+  .day-card { background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 8px; padding: 10px 8px; text-align: center; }
+  .day-label { font-size: 11px; color: #888780; margin-bottom: 4px; }
+  .day-type { font-size: 12px; font-weight: 500; }
+  .day-sub { font-size: 10px; color: #888780; margin-top: 2px; }
+  .day-rest { color: #B4B2A9; }
+  .day-upper { color: #534AB7; }
+  .day-lower { color: #0F6E56; }
+  .day-full { color: #BA7517; }
+  .day-card.rest-card { background: #F1EFE8; }
+  .day-card.upper-card { background: #EEEDFE; border-color: rgba(83,74,183,0.2); }
+  .day-card.lower-card { background: #E1F5EE; border-color: rgba(15,110,86,0.2); }
+  .day-card.full-card { background: #FAEEDA; border-color: rgba(186,117,23,0.2); }
+
+  .daily-banner { background: linear-gradient(135deg, #FFF3E0 0%, #FCE4EC 50%, #E3F2FD 100%); border: 0.5px solid rgba(199,56,102,0.2); border-radius: 10px; padding: 10px 14px; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 12px; font-size: 12px; }
+  .daily-banner-icon { font-size: 20px; flex-shrink: 0; }
+  .daily-banner-text strong { color: #C73866; }
+  .daily-banner-text .ba-duan-jin { color: #1565C0; }
+
+  .session-block { background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 12px; margin-bottom: 12px; overflow: hidden; }
+  .session-header { padding: 12px 16px; display: flex; align-items: center; gap: 10px; cursor: pointer; }
+  .session-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .session-title { font-size: 14px; font-weight: 500; flex: 1; }
+  .session-meta { font-size: 12px; color: #888780; }
+  .session-arrow { font-size: 12px; color: #B4B2A9; transition: transform 0.2s; }
+  .session-body { display: none; padding: 0 16px 16px; }
+  .session-block.open .session-body { display: block; }
+  .session-block.open .session-arrow { transform: rotate(90deg); }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px; }
+  th { text-align: left; padding: 6px 8px; background: #F1EFE8; color: #5F5E5A; font-weight: 500; border-bottom: 0.5px solid rgba(44,44,42,0.15); }
+  td { padding: 7px 8px; border-bottom: 0.5px solid rgba(44,44,42,0.08); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #faf9f7; }
+  .rpe-badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+  .rpe-7 { background: #E1F5EE; color: #0F6E56; }
+  .rpe-8 { background: #FAEEDA; color: #854F0B; }
+  .rpe-9 { background: #FAECE7; color: #993C1D; }
+
+  .cooldown-row td { background: #F3F0FF; font-weight: 500; }
+  .cooldown-label { color: #534AB7; }
+
+  .phase-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 1.5rem 0; }
+  .phase-card { background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 12px; padding: 1rem 1.25rem; }
+  .phase-num { font-size: 11px; color: #888780; margin-bottom: 4px; }
+  .phase-name { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .phase-weeks { font-size: 12px; color: #534AB7; font-weight: 500; margin-bottom: 8px; }
+  .phase-desc { font-size: 12px; color: #5F5E5A; line-height: 1.6; }
+
+  .tip-block { background: #EEEDFE; border-radius: 8px; padding: 10px 14px; margin-top: 12px; font-size: 12px; color: #3C3489; line-height: 1.6; }
+  .tip-block strong { font-weight: 500; }
+  .tip-rose { background: #FCE4EC; color: #880E4F; }
+  .tip-blue { background: #E3F2FD; color: #0D47A1; }
+
+  .equip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 1rem; }
+  .equip-item { background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 8px; padding: 8px 12px; font-size: 12px; }
+  .equip-cat { font-size: 11px; color: #888780; margin-bottom: 3px; }
+
+  .section-title { font-size: 14px; font-weight: 500; margin: 1.5rem 0 0.75rem; }
+
+  .daily-practice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin: 1.5rem 0; }
+  .daily-card { background: #fff; border-radius: 12px; padding: 1.25rem; overflow: hidden; }
+  .daily-card-rose { border: 0.5px solid rgba(199,56,102,0.25); border-left: 3px solid #C73866; }
+  .daily-card-blue { border: 0.5px solid rgba(21,101,192,0.25); border-left: 3px solid #1565C0; }
+  .daily-card-title { font-size: 15px; font-weight: 500; margin-bottom: 8px; }
+  .daily-card-title.rose { color: #C73866; }
+  .daily-card-title.blue { color: #1565C0; }
+  .daily-card-body { font-size: 12px; color: #5F5E5A; line-height: 1.8; }
+  .daily-card-body strong { color: #2C2C2A; }
+  .daily-card-body .highlight-rose { color: #C73866; font-weight: 500; }
+  .daily-card-body .highlight-blue { color: #1565C0; font-weight: 500; }
+
+  .bdj-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  .bdj-item { background: #F5F5F5; border-radius: 6px; padding: 8px 10px; font-size: 11px; line-height: 1.5; }
+  .bdj-num { font-weight: 500; color: #1565C0; margin-bottom: 2px; }
+  .bdj-benefit { color: #C73866; font-size: 10px; }
+
+  @media (max-width: 600px) {
+    .phase-grid { grid-template-columns: 1fr; }
+    .daily-practice-grid { grid-template-columns: 1fr; }
+    .equip-grid { grid-template-columns: repeat(2, 1fr); }
+    .week-grid { grid-template-columns: repeat(4, 1fr); }
+    .bdj-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>三个月健身训练计划</h1>
+  <p class="subtitle">基于现有器械 · 上下肢分化 · 复训恢复版 · 2026年6月</p>
+
+  <div class="tab-bar">
+    <button class="tab active" onclick="switchTab('overview')">总览</button>
+    <button class="tab" onclick="switchTab('daily')">每日必修</button>
+    <button class="tab" onclick="switchTab('plan1')">方案一 · 四天均衡</button>
+    <button class="tab" onclick="switchTab('plan2')">方案二 · 后侧链强化</button>
+    <button class="tab" onclick="switchTab('plan3')">方案三 · 极简三天</button>
+    <button class="tab" onclick="switchTab('progress')">三阶段进阶</button>
+  </div>
+
+  <!-- 总览 -->
+  <div class="panel active" id="tab-overview">
+    <div class="plan-header">
+      <h2>训练背景与选型依据</h2>
+      <p>处于复训恢复期（约2周），核心目标：重建神经肌肉连接，唤醒肌肉，避免过度疲劳。当前最优解为<strong>上下肢分化（Upper/Lower Split）</strong>，原因如下：</p>
+      <div class="tags">
+        <span class="tag tag-purple">每块肌肉每周练2次</span>
+        <span class="tag tag-teal">单日容量低，恢复快</span>
+        <span class="tag tag-amber">避免严重DOMS影响生活</span>
+        <span class="tag tag-teal">兼容高强度脑力工作</span>
+      </div>
+    </div>
+
+    <p class="section-title">现有器械清单</p>
+    <div class="equip-grid">
+      <div class="equip-item"><div class="equip-cat">下肢专属</div>哈克深蹲机、坐姿推屈伸<br>坐姿髋外展、臀桥机</div>
+      <div class="equip-item"><div class="equip-cat">背部专属</div>引体向上架、高位下拉<br>直臂下拉、坐姿划船机</div>
+      <div class="equip-item"><div class="equip-cat">胸肩专属</div>推胸机、推肩机<br>蝴蝶机（正/反飞鸟）</div>
+      <div class="equip-item"><div class="equip-cat">自由重量</div>哑铃（全套）、壶铃/提壶</div>
+      <div class="equip-item"><div class="equip-cat">有氧</div>跑步机、划船机</div>
+      <div class="equip-item"><div class="equip-cat">说明</div>无杠铃不是问题，器械覆盖率极高，安全性更好</div>
+    </div>
+
+    <p class="section-title">每日必修 · 固本培元</p>
+    <div class="daily-banner">
+      <div class="daily-banner-icon">🧘</div>
+      <div class="daily-banner-text">
+        <strong>撮谷道 200次/日</strong>（不分训练日/休息日） + <span class="ba-duan-jin">练后八段锦</span>（每次训练结束后必练）<br>
+        详细说明请点击上方 <strong>"每日必修"</strong> 标签页查看完整指南
+      </div>
+    </div>
+
+    <p class="section-title">三个方案对比</p>
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="phase-num">方案一</div>
+        <div class="phase-name">四天均衡型</div>
+        <div class="phase-weeks">每周4天训练</div>
+        <div class="phase-desc">练2休1练2休2。A/B计划动作交替，全面覆盖所有肌群。追求肌肉量和力量的均衡重塑。<br><br><strong>适合：</strong>时间充裕、希望快速找回全身状态</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">方案二</div>
+        <div class="phase-name">后侧链强化型</div>
+        <div class="phase-weeks">每周4天训练</div>
+        <div class="phase-desc">拉推比约2:1，强化背部、臀部、后束。对抗久坐圆肩和骨盆前倾，改善体态。<br><br><strong>适合：</strong>久坐工作、体态优化需求、希望加强核心底盘</div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">方案三</div>
+        <div class="phase-name">极简三天型</div>
+        <div class="phase-weeks">每周3天训练</div>
+        <div class="phase-desc">练1休1交替。超组方式压缩时间，第三天加入有氧代谢。适合项目冲刺期或时间受限阶段。<br><br><strong>适合：</strong>工作密集期、精力有限、保持基础机能</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 每日必修 -->
+  <div class="panel" id="tab-daily">
+    <div class="plan-header">
+      <h2>每日必修 · 固本培元</h2>
+      <p>训练计划之外，有两项<strong>每天必做</strong>的功课——撮谷道与八段锦。它们不占用额外器械，不消耗额外恢复资源，却能为你的训练打下坚实的底座。</p>
+      <div class="tags">
+        <span class="tag tag-rose">撮谷道 · 每日200次</span>
+        <span class="tag tag-blue">八段锦 · 练后必做</span>
+      </div>
+    </div>
+
+    <div class="daily-practice-grid">
+      <div class="daily-card daily-card-rose">
+        <div class="daily-card-title rose">撮谷道 · 提肛缩肾</div>
+        <div class="daily-card-body">
+          <strong>频率：</strong><span class="highlight-rose">每日200次，不分训练日/休息日</span><br><br>
+          <strong>什么是撮谷道？</strong><br>
+          "谷道"即肛门，"撮"即收缩。撮谷道就是有意识地收缩和放松盆底肌群，即提肛运动。古人称之为"回春术"，是道家养生与中医传统功法中的核心练习之一。<br><br>
+          <strong>动作要领：</strong><br>
+          ① 缓缓吸气，同时收缩盆底肌（类似憋尿/忍屁的感觉）<br>
+          ② 收缩至最强时保持 <span class="highlight-rose">3-5秒</span><br>
+          ③ 缓缓呼气，同时放松盆底肌，完全松开<br>
+          ④ 放松2-3秒后进入下一次<br><br>
+          <strong>分组方案：</strong><br>
+          200次分为 <span class="highlight-rose">4组 × 50次</span>，组间休息30秒<br><br>
+          <strong>最佳时段分配：</strong><br>
+          · 晨起洗漱后 — 50次（唤醒核心）<br>
+          · 午休前 — 50次（激活盆底）<br>
+          · 傍晚训练前 — 50次（预热核心稳定）<br>
+          · 睡前躺在床上 — 50次（收功固精）<br><br>
+          <strong>核心功效：</strong><br>
+          · 强化盆底肌群，提升核心稳定性<br>
+          · 改善前列腺血液循环，预防前列腺问题<br>
+          · 固精益肾，中医认为"肾主骨生髓"，肾气充盈则力量充沛<br>
+          · 增强骨盆底稳定性 → 直接提升深蹲、硬拉等大重量动作表现<br>
+          · 改善肛门括约肌功能，预防痔疮<br><br>
+          <strong>与训练的协同关系：</strong><br>
+          盆底肌是核心圆柱体的"底部封口"。深蹲、硬拉时的腹内压维持需要盆底肌与膈肌协同收缩。撮谷道训练的就是这个协同能力——<span class="highlight-rose">盆底肌越强，大重量时核心越稳，力量传导越高效</span>。<br><br>
+          <strong>注意事项：</strong><br>
+          · 刚开始可能找不到发力感，可以先在排尿时尝试中断尿流来体会盆底肌的位置<br>
+          · 不要同时收缩臀部或大腿，只收缩盆底肌<br>
+          · 不要憋气，保持自然呼吸<br>
+          · 4周后可以将保持时间延长至5-8秒
+        </div>
+      </div>
+
+      <div class="daily-card daily-card-blue">
+        <div class="daily-card-title blue">八段锦 · 练后收功</div>
+        <div class="daily-card-body">
+          <strong>时机：</strong><span class="highlight-blue">每次训练结束后立刻练习，约10-15分钟</span><br><br>
+          <strong>为什么练后要做八段锦？</strong><br>
+          训练时肌肉在强力收缩，筋膜紧绷，交感神经高度兴奋。练后直接结束，身体处于"战斗状态"的余波中，恢复启动慢。八段锦是传统导引术，通过缓慢舒展的动作配合深呼吸，能：<br>
+          · <span class="highlight-blue">激活副交感神经</span>，快速切换到"恢复模式"<br>
+          · 疏通经络，消解训练后的局部肌肉紧张<br>
+          · 调和气血，促进训练后的营养输送与废物代谢<br>
+          · 对抗力量训练造成的筋膜粘连，维持关节活动度<br><br>
+          <strong>八式详解与训练协同：</strong>
+          <div class="bdj-grid">
+            <div class="bdj-item"><div class="bdj-num">① 两手托天理三焦</div>双手上托，拉伸整个躯干。<div class="bdj-benefit">→ 缓解上肢训练后的肩颈紧绷，打开胸廓</div></div>
+            <div class="bdj-item"><div class="bdj-num">② 左右开弓似射雕</div>马步拉弓，扩展胸椎。<div class="bdj-benefit">→ 对抗圆肩，与推胸/划船形成拮抗平衡</div></div>
+            <div class="bdj-item"><div class="bdj-num">③ 调理脾胃须单举</div>单臂上撑，对侧下按。<div class="bdj-benefit">→ 疏通中焦，促进训练后的消化吸收</div></div>
+            <div class="bdj-item"><div class="bdj-num">④ 五劳七伤往后瞧</div>转头后看，旋转颈椎胸椎。<div class="bdj-benefit">→ 释放颈肩积累的张力，预防颈椎问题</div></div>
+            <div class="bdj-item"><div class="bdj-num">⑤ 摇头摆尾去心火</div>马步摇头摆尾。<div class="bdj-benefit">→ 释放核心训练后的腰部紧张，协调腰髋</div></div>
+            <div class="bdj-item"><div class="bdj-num">⑥ 两手攀足固肾腰</div>前屈攀足，拉伸后链。<div class="bdj-benefit">→ 拉伸腘绳肌和腰背，与硬拉/RDL完美互补</div></div>
+            <div class="bdj-item"><div class="bdj-num">⑦ 攒拳怒目增气力</div>马步冲拳，怒目圆睁。<div class="bdj-benefit">→ 发泄训练后的残余张力，提升精神气</div></div>
+            <div class="bdj-item"><div class="bdj-num">⑧ 背后七颠百病消</div>提踵颠足，震荡全身。<div class="bdj-benefit">→ 放松全身筋膜，促进血液循环回流</div></div>
+          </div>
+          <br>
+          <strong>执行规范：</strong><br>
+          · 每式重复 <span class="highlight-blue">6-8次</span>（左右交替的动作各做6-8次）<br>
+          · 呼吸配合：动作起/开时吸气，落/合时呼气，<span class="highlight-blue">切忌憋气</span><br>
+          · 节奏缓慢连贯，不追求幅度，追求舒展<br>
+          · 全程约10-15分钟<br>
+          · 练后可立即进行，不需要额外热身<br><br>
+          <strong>重点强化建议（根据你的训练特点）：</strong><br>
+          · 上肢训练日后 → 重点做 ①②④⑥（多花时间在开胸和拉伸上）<br>
+          · 下肢训练日后 → 重点做 ⑤⑥⑧（放松腰髋、拉伸后链、促进回流）<br>
+          · 休息日 → 完整做一遍即可，作为"主动恢复"<br><br>
+          <strong>与撮谷道的配合：</strong><br>
+          第⑥式"两手攀足固肾腰"本就有固肾之效。做此式时可同时轻微提肛，将撮谷道融入八段锦，<span class="highlight-blue">一举两得</span>。
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-block tip-rose" style="margin-top: 1rem;">
+      <strong>撮谷道 + 八段锦 + 力量训练 = 三位一体</strong><br>
+      力量训练练的是"外在筋骨"，撮谷道练的是"内在底座"，八段锦练的是"气血流通"。三者结合，才能真正做到外壮内强，避免"练出来一身肌肉但腰酸背痛前列腺不行"的窘境。
+    </div>
+  </div>
+
+  <!-- 方案一 -->
+  <div class="panel" id="tab-plan1">
+    <div class="plan-header">
+      <h2>方案一：四天均衡型（稳健底座重建）</h2>
+      <p>训练频率：练2天 → 休1天 → 练2天 → 休2天。A/B计划轮换，保证每块肌肉每周获得2次高质量刺激。</p>
+      <div class="tags">
+        <span class="tag tag-purple">每周4天</span>
+        <span class="tag tag-teal">胸背均衡</span>
+        <span class="tag tag-amber">A/B轮换</span>
+        <span class="tag tag-rose">每日撮谷道</span>
+        <span class="tag tag-blue">练后八段锦</span>
+      </div>
+    </div>
+
+    <div class="daily-banner">
+      <div class="daily-banner-icon">🧘</div>
+      <div class="daily-banner-text">
+        <strong>撮谷道 200次</strong>（每日必修，4组×50次） · <span class="ba-duan-jin">八段锦</span>（每次训练结束后必练10-15分钟）
+      </div>
+    </div>
+
+    <p class="section-title">一周安排示例</p>
+    <div class="week-grid">
+      <div class="day-card upper-card"><div class="day-label">Day 1</div><div class="day-type day-upper">上肢 A</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card lower-card"><div class="day-label">Day 2</div><div class="day-type day-lower">下肢 A</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 3</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card upper-card"><div class="day-label">Day 4</div><div class="day-type day-upper">上肢 B</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card lower-card"><div class="day-label">Day 5</div><div class="day-type day-lower">下肢 B</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 6</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 7</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+    </div>
+
+    <!-- Upper A -->
+    <div class="session-block open">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#534AB7"></div>
+        <div class="session-title">上肢 A — 胸 / 背 / 肩 / 手臂</div>
+        <div class="session-meta">5个动作 + 八段锦收功 · 约70分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>推力开局（胸），立刻配合拉力（背），形成拮抗超组节奏。有助于打开胸椎，缓解圆肩。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>节奏(离-底-向-顶)</th><th>要点</th></tr>
+          <tr><td>1</td><td>推胸</td><td>推胸机</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>3-1-1-0</td><td>底部停1秒感受胸肌拉伸，收紧肩胛骨再推</td></tr>
+          <tr><td>2</td><td>垂直拉</td><td>高位下拉</td><td>3 × 8-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>2-0-1-1</td><td>顶峰沉肩，感受背阔在腋下收缩，禁止耸肩</td></tr>
+          <tr><td>3</td><td>哑铃推举</td><td>哑铃</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>3-0-1-0</td><td>肘部不要完全锁死，保持肩部张力</td></tr>
+          <tr><td>4</td><td>单臂划船</td><td>哑铃</td><td>3 × 10-12/侧</td><td><span class="rpe-badge rpe-8">RPE 7-8</span></td><td>60秒/侧</td><td>2-0-1-1</td><td>拉至腰际，肘部后摆，肩胛骨充分收缩</td></tr>
+          <tr><td>5</td><td>夹胸孤立</td><td>蝴蝶机</td><td>2 × 12-15</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>60秒</td><td>2-0-1-2</td><td>顶峰挤压2秒，重量轻到可以控制节奏即可</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ①两手托天理三焦 ②左右开弓似射雕 ④五劳七伤往后瞧 ⑥两手攀足固肾腰，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lower A -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#0F6E56"></div>
+        <div class="session-title">下肢 A — 腿前侧 / 臀 / 小腿</div>
+        <div class="session-meta">5个动作 + 八段锦收功 · 约65分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>以哈克深蹲为核心，脚踏靠下侧重股四头肌，臀桥机孤立激活臀大肌。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>节奏</th><th>要点</th></tr>
+          <tr><td>1</td><td>哈克深蹲</td><td>哈克深蹲机</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 7-8</span></td><td>120秒</td><td>3-1-1-0</td><td>脚位靠下，蹲至大腿平行地面，膝盖跟随脚尖方向</td></tr>
+          <tr><td>2</td><td>臀桥</td><td>臀桥机</td><td>3 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>2-0-1-2</td><td>顶峰夹紧臀部停2秒，感受臀大肌的等长收缩</td></tr>
+          <tr><td>3</td><td>腿伸展</td><td>坐姿推屈伸</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>60秒</td><td>3-0-1-1</td><td>控制回放，保持股四头肌张力，避免膝盖过度锁死</td></tr>
+          <tr><td>4</td><td>髋外展</td><td>坐姿髋外展机</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>2-0-1-1</td><td>臀中肌是稳定骨盆的关键，动作可偏慢控制</td></tr>
+          <tr><td>5</td><td>提踵</td><td>哑铃站姿提踵</td><td>3 × 15-20</td><td><span class="rpe-badge rpe-9">RPE 9</span></td><td>45秒</td><td>2-1-1-1</td><td>踮起时充分拉伸跟腱，单脚单脚轮流效果更好</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ⑤摇头摆尾去心火 ⑥两手攀足固肾腰 ⑧背后七颠百病消，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Upper B -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#7F77DD"></div>
+        <div class="session-title">上肢 B — 背 / 胸 / 肩后束 / 整合</div>
+        <div class="session-meta">5个动作 + 八段锦收功 · 约70分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>B计划以拉力（背）开局，充分激活后链稳定性后，推力动作表现会更稳。加入肩后束专项，补强久坐弱点。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>引体向上（或辅助）</td><td>引体向上架</td><td>3 × 6-10（或力竭）</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>120秒</td><td>肩胛下沉发力，避免颈部代偿，完成不了可降到助力机器</td></tr>
+          <tr><td>2</td><td>哑铃平卧推</td><td>哑铃+平凳</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>肩胛骨收紧平贴凳面，底部停顿1秒</td></tr>
+          <tr><td>3</td><td>坐姿机器划船</td><td>划船机（坐姿）</td><td>3 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>保持躯干微后倾，拉至腰际时肩胛充分收缩</td></tr>
+          <tr><td>4</td><td>哑铃侧平举</td><td>哑铃</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>微微内旋手腕（小拇指略高），感受中束发力</td></tr>
+          <tr><td>5</td><td>反向飞鸟</td><td>蝴蝶机（反向）</td><td>2 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8-9</span></td><td>60秒</td><td>重量极轻，纯靠后束带动手臂后展，禁止甩臂</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ①两手托天理三焦 ②左右开弓似射雕 ④五劳七伤往后瞧 ⑥两手攀足固肾腰，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lower B -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#1D9E75"></div>
+        <div class="session-title">下肢 B — 腿后侧 / 臀 / 功能性</div>
+        <div class="session-meta">4个动作 + 有氧收尾 + 八段锦 · 约70分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>以罗马尼亚硬拉为核心，强化腘绳肌和臀大肌。哈克深蹲脚位靠上以偏向臀腿后侧。划船机有氧收尾，代谢乳酸，强化背部耐力。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>罗马尼亚硬拉</td><td>壶铃/哑铃</td><td>3 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>120秒</td><td>想象臀部向后推墙，保持脊柱中立，大腿后侧有明显拉伸感</td></tr>
+          <tr><td>2</td><td>哈克深蹲（宽距）</td><td>哈克深蹲机</td><td>3 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>120秒</td><td>脚位靠上，宽距，蹲到底部感受臀部的拉伸</td></tr>
+          <tr><td>3</td><td>器械腿弯举（若有）或单腿RDL</td><td>器械/哑铃</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>孤立刺激腘绳肌，平衡前后侧肌力差距</td></tr>
+          <tr><td>4</td><td>坐姿髋外展</td><td>髋外展机</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>身体可微前倾约20°，改变对臀中/小肌的刺激角度</td></tr>
+          <tr><td>有氧</td><td>划船机有氧</td><td>划船机</td><td>15分钟</td><td>—</td><td>—</td><td>中等阻力，恒定心率约130，代谢乳酸，同时强化背部耐力</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ⑤摇头摆尾去心火 ⑥两手攀足固肾腰 ⑧背后七颠百病消，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip-block tip-rose">
+      <strong>每日撮谷道 200次提醒：</strong>训练日可安排在训练前做50次（预热核心稳定），其余150次分散在晨起、午间、睡前。休息日则按晨50、午50、暮50、睡前50分配。
+    </div>
+  </div>
+
+  <!-- 方案二 -->
+  <div class="panel" id="tab-plan2">
+    <div class="plan-header">
+      <h2>方案二：后侧链强化型（体态优化 + 底盘强化）</h2>
+      <p>拉推比约 2:1，极度强化背部、臀部、肩后束。对抗长时间伏案工作导致的圆肩、骨盆前倾。</p>
+      <div class="tags">
+        <span class="tag tag-purple">每周4天</span>
+        <span class="tag tag-teal">拉:推 = 2:1</span>
+        <span class="tag tag-amber">体态优化核心</span>
+        <span class="tag tag-rose">每日撮谷道</span>
+        <span class="tag tag-blue">练后八段锦</span>
+      </div>
+    </div>
+
+    <div class="daily-banner">
+      <div class="daily-banner-icon">🧘</div>
+      <div class="daily-banner-text">
+        <strong>撮谷道 200次</strong>（每日必修，4组×50次） · <span class="ba-duan-jin">八段锦</span>（每次训练结束后必练10-15分钟）
+      </div>
+    </div>
+
+    <p class="section-title">一周安排示例</p>
+    <div class="week-grid">
+      <div class="day-card upper-card"><div class="day-label">Day 1</div><div class="day-type day-upper">上肢1</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card lower-card"><div class="day-label">Day 2</div><div class="day-type day-lower">下肢1</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 3</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card upper-card"><div class="day-label">Day 4</div><div class="day-type day-upper">上肢2</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card lower-card"><div class="day-label">Day 5</div><div class="day-type day-lower">下肢2</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 6</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 7</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+    </div>
+
+    <!-- Upper 1 -->
+    <div class="session-block open">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#534AB7"></div>
+        <div class="session-title">上肢1 — 上背部 / 肩胛稳定 / 辅助推力</div>
+        <div class="session-meta">5个动作 + 八段锦收功 · 约70分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>以水平拉（划船）开局，优先激活肩胛骨内收肌群。每次划船前做一个肩胛骨后缩的准备动作，能让背部的肌肉激活效率提升30%+。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>坐姿划船</td><td>坐姿划船机</td><td>4 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>躯干微后倾，不要弓腰代偿，肩胛骨充分内收</td></tr>
+          <tr><td>2</td><td>直臂下拉</td><td>高位下拉机（直臂）</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 7-8</span></td><td>60秒</td><td>核心锁紧，感受背阔肌在腋下主导拉动，手臂不弯</td></tr>
+          <tr><td>3</td><td>推胸</td><td>推胸机 / 哑铃卧推</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>收紧肩胛骨再推，胸部主导，避免肩前束代偿</td></tr>
+          <tr><td>4</td><td>反向飞鸟</td><td>蝴蝶机</td><td>3 × 15</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>60秒</td><td>极轻重量，纯靠肩后束带动手臂，禁止甩臂代偿</td></tr>
+          <tr><td>5</td><td>侧平举</td><td>哑铃</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>微微内旋手腕，"小拇指略高于大拇指"，感受中束</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ①两手托天理三焦 ②左右开弓似射雕 ④五劳七伤往后瞧 ⑥两手攀足固肾腰，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lower 1 -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#0F6E56"></div>
+        <div class="session-title">下肢1 — 髋铰链 / 臀大肌主导</div>
+        <div class="session-meta">4个动作 + 八段锦收功 · 约65分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>髋铰链（Hip Hinge）模式是训练臀大肌最高效的方式。罗马尼亚硬拉+臀桥机的组合能让臀大肌在伸展与收缩两端都得到极大刺激。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>罗马尼亚硬拉</td><td>壶铃/哑铃</td><td>4 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>120秒</td><td>臀部向后推，脊柱始终中立，大腿后侧绷紧拉伸是正确感受</td></tr>
+          <tr><td>2</td><td>臀桥</td><td>臀桥机</td><td>4 × 8-10</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>90秒</td><td>可使用较大重量，推起阶段爆发，顶峰夹紧臀部停2秒</td></tr>
+          <tr><td>3</td><td>哈克深蹲（中深度）</td><td>哈克深蹲机</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-7">RPE 7</span></td><td>120秒</td><td>作为辅助动作，中等重量，注重蹲至底部时的深度与稳定</td></tr>
+          <tr><td>4</td><td>坐姿髋外展</td><td>髋外展机</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-9">RPE 9</span></td><td>60秒</td><td>身体前倾约20°，加大对臀中肌的局部张力</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ⑤摇头摆尾去心火 ⑥两手攀足固肾腰 ⑧背后七颠百病消，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Upper 2 -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#7F77DD"></div>
+        <div class="session-title">上肢2 — 垂直拉 / 肩背整合 / 胸部辅助</div>
+        <div class="session-meta">5个动作 + 有氧 + 八段锦 · 约70分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>用引体向上（或高位下拉）打开背阔宽度，单臂划船弥补可能存在的左右肌力不平衡。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>高位下拉（宽握）</td><td>高位下拉</td><td>4 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>宽握强调背阔宽度，下拉至锁骨位置，顶峰沉肩收背</td></tr>
+          <tr><td>2</td><td>单臂哑铃划船</td><td>哑铃</td><td>3 × 10-12/侧</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒/侧</td><td>弱侧先练，补强左右差异，肘部高过背部才算完整收缩</td></tr>
+          <tr><td>3</td><td>推肩（竖向）</td><td>推肩机</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>不要完全锁死肘部，保持肩部持续张力</td></tr>
+          <tr><td>4</td><td>蝴蝶机夹胸</td><td>蝴蝶机</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>辅助推力动作，胸部顶峰挤压2秒，感受中缝收缩</td></tr>
+          <tr><td>有氧</td><td>划船机有氧</td><td>划船机</td><td>15分钟</td><td>—</td><td>—</td><td>心率约130，中等阻力，代谢乳酸，强化背部耐力</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ①两手托天理三焦 ②左右开弓似射雕 ④五劳七伤往后瞧 ⑥两手攀足固肾腰，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lower 2 -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#1D9E75"></div>
+        <div class="session-title">下肢2 — 前后侧均衡 / 力量突破</div>
+        <div class="session-meta">4个动作 + 八段锦收功 · 约65分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>哈克深蹲作为本周下肢的重量突破节点，可以尝试比上次多2.5kg。单腿分腿蹲/箭步蹲强化单侧稳定性，是长期力量发展的基础。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>要点</th></tr>
+          <tr><td>1</td><td>哈克深蹲（重量突破）</td><td>哈克深蹲机</td><td>4 × 6-8</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>180秒</td><td>本周力量测试节点，慢放快推，全程保持核心收紧</td></tr>
+          <tr><td>2</td><td>哑铃分腿蹲/箭步蹲</td><td>哑铃</td><td>3 × 10/侧</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒/侧</td><td>单侧稳定性训练，后腿膝盖不要接触地面，躯干保持竖直</td></tr>
+          <tr><td>3</td><td>臀桥（轻量高次数）</td><td>臀桥机</td><td>3 × 15-20</td><td><span class="rpe-badge rpe-9">RPE 8-9</span></td><td>60秒</td><td>泵感组，轻重量高次数，感受臀部血流充盈</td></tr>
+          <tr><td>4</td><td>腿伸展</td><td>坐姿推屈伸</td><td>3 × 12-15</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>60秒</td><td>孤立前侧，平衡下肢前后侧容量</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ⑤摇头摆尾去心火 ⑥两手攀足固肾腰 ⑧背后七颠百病消，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip-block tip-rose">
+      <strong>每日撮谷道 200次提醒：</strong>训练日可安排在训练前做50次（预热核心稳定），其余150次分散在晨起、午间、睡前。休息日则按晨50、午50、暮50、睡前50分配。
+    </div>
+  </div>
+
+  <!-- 方案三 -->
+  <div class="panel" id="tab-plan3">
+    <div class="plan-header">
+      <h2>方案三：极简三天型（高频次·低时间成本）</h2>
+      <p>练1天休1天交替，适合工作密集或精力有限阶段。超组压缩时间，第三天加入有氧代谢。</p>
+      <div class="tags">
+        <span class="tag tag-purple">每周3天</span>
+        <span class="tag tag-teal">超组提效</span>
+        <span class="tag tag-amber">含有氧代谢</span>
+        <span class="tag tag-rose">每日撮谷道</span>
+        <span class="tag tag-blue">练后八段锦</span>
+      </div>
+    </div>
+
+    <div class="daily-banner">
+      <div class="daily-banner-icon">🧘</div>
+      <div class="daily-banner-text">
+        <strong>撮谷道 200次</strong>（每日必修，4组×50次） · <span class="ba-duan-jin">八段锦</span>（每次训练结束后必练10-15分钟）
+      </div>
+    </div>
+
+    <p class="section-title">一周安排示例</p>
+    <div class="week-grid">
+      <div class="day-card upper-card"><div class="day-label">Day 1</div><div class="day-type day-upper">上肢</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 2</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card lower-card"><div class="day-label">Day 3</div><div class="day-type day-lower">下肢</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 4</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card full-card"><div class="day-label">Day 5</div><div class="day-type day-full">全身+有氧</div><div class="day-sub">+八段锦</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 6</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+      <div class="day-card rest-card"><div class="day-label">Day 7</div><div class="day-type day-rest">休息</div><div class="day-sub">撮谷道✓</div></div>
+    </div>
+
+    <!-- Day1 Upper -->
+    <div class="session-block open">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#534AB7"></div>
+        <div class="session-title">Day 1 — 上肢综合（力量与泵感）</div>
+        <div class="session-meta">超级组配对 + 有氧收尾 + 八段锦 · 约60分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>超级组说明：</strong>A1做完立刻做A2，中间不休息。一对做完后统一休息120秒。超组可节省约35%的时间，并增加代谢压力，是时间有限时的最优解。</div>
+        <table>
+          <tr><th>超组</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>超组间休</th></tr>
+          <tr><td rowspan="2" style="font-weight:500;color:#534AB7">超组 A</td><td>推胸机</td><td>推胸机</td><td>3 × 8</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td rowspan="2">120秒</td></tr>
+          <tr><td>高位下拉</td><td>高位下拉</td><td>3 × 8</td><td><span class="rpe-badge rpe-8">RPE 8</span></td></tr>
+          <tr><td rowspan="2" style="font-weight:500;color:#534AB7">超组 B</td><td>推肩机</td><td>推肩机</td><td>3 × 10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td rowspan="2">120秒</td></tr>
+          <tr><td>坐姿划船</td><td>坐姿划船机</td><td>3 × 10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td></tr>
+          <tr><td>有氧</td><td>划船机</td><td>划船机</td><td>15分钟 · 心率约130</td><td>—</td><td>—</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="6"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ①两手托天理三焦 ②左右开弓似射雕 ④五劳七伤往后瞧 ⑥两手攀足固肾腰，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Day3 Lower -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#0F6E56"></div>
+        <div class="session-title">Day 3 — 下肢综合（底盘强化）</div>
+        <div class="session-meta">3个主动作 + 1个超级组 + 八段锦 · 约60分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>哈克深蹲作为主力力量动作，后续动作通过超级组快速完成孤立训练，效率最大化。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>组间休</th><th>说明</th></tr>
+          <tr><td>1</td><td>哈克深蹲</td><td>哈克深蹲机</td><td>3 × 8-10</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>120秒</td><td>主力动作，保持标准动作节奏</td></tr>
+          <tr><td>2</td><td>壶铃硬拉 / 臀桥机</td><td>壶铃/臀桥机</td><td>3 × 10-12</td><td><span class="rpe-badge rpe-8">RPE 8</span></td><td>90秒</td><td>二选一，本次专注后侧链收缩感</td></tr>
+          <tr><td rowspan="2" style="font-weight:500;color:#0F6E56">超组</td><td>腿伸展</td><td>坐姿推屈伸</td><td>3 × 12</td><td><span class="rpe-badge rpe-9">RPE 9</span></td><td rowspan="2">90秒</td><td rowspan="2">大腿前侧做完立刻做髋外展，两个动作可互不干扰</td></tr>
+          <tr><td>髋外展</td><td>髋外展机</td><td>3 × 12</td><td><span class="rpe-badge rpe-9">RPE 9</span></td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="7"><span class="cooldown-label">🧘 八段锦</span> — 重点做 ⑤摇头摆尾去心火 ⑥两手攀足固肾腰 ⑧背后七颠百病消，每式6-8次，约10-15分钟</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Day5 Full -->
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#BA7517"></div>
+        <div class="session-title">Day 5 — 全身代谢 + 有氧恢复</div>
+        <div class="session-meta">轻量复合动作 + 有氧 + 八段锦 · 约55分钟</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <div class="tip-block"><strong>本次重点：</strong>这一天不是轰炸，而是"主动恢复"。轻量复合动作促进血液循环、加速乳酸代谢，有氧强化心肺和小腿韧性。RPE控制在7以下。</div>
+        <table>
+          <tr><th>顺序</th><th>动作</th><th>器械</th><th>组×次</th><th>RPE</th><th>目的</th></tr>
+          <tr><td>1</td><td>哑铃高脚杯深蹲</td><td>哑铃</td><td>3 × 12</td><td><span class="rpe-badge rpe-7">RPE 6-7</span></td><td>下肢活动，强化深蹲动作模式</td></tr>
+          <tr><td>2</td><td>单臂哑铃划船</td><td>哑铃</td><td>3 × 12/侧</td><td><span class="rpe-badge rpe-7">RPE 6-7</span></td><td>上肢拉力维持，补强单侧均衡</td></tr>
+          <tr><td>3</td><td>划船机</td><td>划船机</td><td>10分钟</td><td>—</td><td>心肺介入，心率约120-130</td></tr>
+          <tr><td>4</td><td>跑步机爬坡快走</td><td>跑步机</td><td>15分钟</td><td>—</td><td>坡度3-5%，强化小腿和脚踝韧性</td></tr>
+          <tr class="cooldown-row"><td>收功</td><td colspan="6"><span class="cooldown-label">🧘 八段锦</span> — 全套八式完整做一遍，每式6-8次，约10-15分钟（主动恢复日最适合完整八段锦）</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="tip-block tip-rose">
+      <strong>每日撮谷道 200次提醒：</strong>训练日可安排在训练前做50次（预热核心稳定），其余150次分散在晨起、午间、睡前。休息日则按晨50、午50、暮50、睡前50分配。
+    </div>
+  </div>
+
+  <!-- 三阶段进阶 -->
+  <div class="panel" id="tab-progress">
+    <div class="plan-header">
+      <h2>三个月分阶段进阶策略</h2>
+      <p>无论选择哪个方案，必须执行渐进超负荷（Progressive Overload）才能让身体产生实质性变化。三个月分三个阶段，每阶段有明确的执行目标和触发条件。</p>
+    </div>
+
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="phase-num">阶段一</div>
+        <div class="phase-name">神经唤醒期</div>
+        <div class="phase-weeks">第 1 - 3 周</div>
+        <div class="phase-desc">
+          <strong>核心目标：</strong>重建神经肌肉连接，找回各器械的正确发力感。<br><br>
+          <strong>执行规范：</strong><br>
+          · RPE 严格控制在 7（每组保留3次余力）<br>
+          · 绝对禁止力竭<br>
+          · 重量比"感觉应该用的"轻10-15%<br>
+          · 重点：感受肌肉收缩，不是冲重量<br><br>
+          <strong>撮谷道 & 八段锦：</strong>撮谷道可从100次/日开始，每周+25次，第3周达到200次；八段锦前两周只做5-8分钟/次（学习动作模式），第3周起完整做<br><br>
+          <strong>渐进方式：</strong>本阶段不加重，只把每组次数逐渐做到目标区间上限
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">阶段二</div>
+        <div class="phase-name">容量积累期</div>
+        <div class="phase-weeks">第 4 - 8 周</div>
+        <div class="phase-desc">
+          <strong>核心目标：</strong>通过增加容量（次数/组数）累积训练总量，刺激肌肥大。<br><br>
+          <strong>执行规范：</strong><br>
+          · RPE 提升至 8（保留2次余力）<br>
+          · 重量维持，次数提升<br>
+          · 例：上周30kg做3×8，本周30kg做3×10<br>
+          · 每2周评估一次：次数轻松达上限才考虑加重<br><br>
+          <strong>撮谷道 & 八段锦：</strong>撮谷道稳定在200次/日，可将保持时间从3秒延长至5秒；八段锦完整执行，每式8次<br><br>
+          <strong>触发加重条件：</strong>某动作能轻松完成次数上限且 RPE &lt; 7
+        </div>
+      </div>
+      <div class="phase-card">
+        <div class="phase-num">阶段三</div>
+        <div class="phase-name">强度突破期</div>
+        <div class="phase-weeks">第 9 - 12 周</div>
+        <div class="phase-desc">
+          <strong>核心目标：</strong>通过加重突破力量天花板，进入新的容量循环。<br><br>
+          <strong>执行规范：</strong><br>
+          · RPE 可提升至 8-9<br>
+          · 每次加重幅度：哑铃/壶铃 +2kg，器械 +2.5-5kg<br>
+          · 加重后次数回落到下限（如+2kg后，10次→8次），重新积累<br>
+          · 可引入1组顶级强度的测试组（RPE 9-10）<br><br>
+          <strong>撮谷道 & 八段锦：</strong>撮谷道保持时间可延长至5-8秒，或增加至250次/日；八段锦可在第⑥式时配合提肛，融合撮谷道与八段锦<br><br>
+          <strong>注意：</strong>加重后若动作节奏明显变形，立刻减回来
+        </div>
+      </div>
+    </div>
+
+    <p class="section-title">两个硬性执行规范</p>
+
+    <div class="session-block open">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#534AB7"></div>
+        <div class="session-title">组间歇的神经恢复法</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <p style="font-size:13px;line-height:1.8;padding-top:8px;">在 90-120 秒的组间休息时，<strong>不要看手机或随意走动</strong>。尝试：闭目、舌顶上颚、将呼吸放缓放长（4秒吸 - 2秒停 - 6秒呼）。</p>
+        <p style="font-size:13px;line-height:1.8;margin-top:8px;">这能极其快速地激活副交感神经，压低心率，让下一组输出更纯粹的力量。这个方法和站桩调息的原理完全一致——都是通过呼吸调节神经系统状态。</p>
+      </div>
+    </div>
+
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#0F6E56"></div>
+        <div class="session-title">渐进超负荷的唯一触发条件</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <p style="font-size:13px;line-height:1.8;padding-top:8px;">记录每次训练的重量和次数。<strong>只有满足以下全部条件</strong>，才允许在下次训练增重：</p>
+        <ul style="font-size:13px;line-height:2;padding-left:18px;margin-top:6px;">
+          <li>在保持标准动作节奏的前提下</li>
+          <li>完成了规定的最高次数上限（例如要求8-10次，完成了10次）</li>
+          <li>做完后感觉 RPE ≤ 7（还能轻松再做3次以上）</li>
+        </ul>
+        <p style="font-size:13px;line-height:1.8;margin-top:8px;">满足上述条件 → 下次增加 2-2.5kg → 次数降回下限 → 重新积累。这个循环就是自然健身者突破的核心机制。</p>
+      </div>
+    </div>
+
+    <p class="section-title">有氧训练规范</p>
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#BA7517"></div>
+        <div class="session-title">有氧器械使用指南（划船机 · 跑步机）</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <table>
+          <tr><th>器械</th><th>推荐方式</th><th>时长</th><th>心率目标</th><th>使用时机</th></tr>
+          <tr><td>划船机</td><td>中等阻力，恒定节奏</td><td>10-15分钟</td><td>约125-135</td><td>力量训练结束后收尾，代谢乳酸，同时强化背部耐力</td></tr>
+          <tr><td>跑步机</td><td>爬坡快走（坡度3-5%，速度5-6km/h）</td><td>15-20分钟</td><td>约120-130</td><td>全身代谢日（方案三Day5），强化小腿和脚踝韧性</td></tr>
+        </table>
+        <div class="tip-block" style="margin-top:12px;"><strong>提醒：</strong>有氧不要单独安排在大重量腿日之后，下肢重训后立刻跑步会加剧腘绳肌和膝关节的疲劳。首选跟在上肢训练日后面进行。</div>
+      </div>
+    </div>
+
+    <p class="section-title">撮谷道 & 八段锦 · 进阶节奏</p>
+    <div class="session-block">
+      <div class="session-header" onclick="toggleSession(this)">
+        <div class="session-dot" style="background:#C73866"></div>
+        <div class="session-title">固本培元三阶段进阶</div>
+        <div class="session-arrow">▶</div>
+      </div>
+      <div class="session-body">
+        <table>
+          <tr><th>阶段</th><th>撮谷道</th><th>八段锦</th><th>融合要点</th></tr>
+          <tr><td>第1-3周<br>神经唤醒期</td><td>从100次/日起步<br>每周+25次<br>第3周达200次</td><td>5-8分钟/次<br>重点学动作模式<br>不追求幅度</td><td>建立习惯比加量重要<br>撮谷道找不到发力感可先在排尿时体会</td></tr>
+          <tr><td>第4-8周<br>容量积累期</td><td>稳定200次/日<br>保持时间3→5秒</td><td>10-15分钟/次<br>每式8次<br>完整执行</td><td>第⑥式"攀足固肾腰"时<br>可轻微提肛，融合两功</td></tr>
+          <tr><td>第9-12周<br>强度突破期</td><td>保持时间5→8秒<br>或增至250次/日</td><td>10-15分钟/次<br>可加深动作幅度<br>呼吸更深长</td><td>大重量训练日，撮谷道<br>在训练前做50次预热核心</td></tr>
+        </table>
+        <div class="tip-block tip-rose" style="margin-top:12px;"><strong>关键原则：</strong>撮谷道和八段锦是"养"的功法，力量训练是"练"的功法。养练结合，才能外壮内强。宁可力量训练少做一组，撮谷道和八段锦不可跳过。</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
+  const panels = {'overview':'tab-overview','daily':'tab-daily','plan1':'tab-plan1','plan2':'tab-plan2','plan3':'tab-plan3','progress':'tab-progress'};
+  const tabs = ['overview','daily','plan1','plan2','plan3','progress'];
+  const idx = tabs.indexOf(id);
+  if (idx >= 0) document.querySelectorAll('.tab')[idx].classList.add('active');
+  const panel = document.getElementById(panels[id]);
+  if (panel) { panel.classList.add('active'); panel.style.display = 'block'; }
+}
+document.querySelectorAll('.panel').forEach((p,i) => { if(i > 0) p.style.display='none'; });
+
+function toggleSession(header) {
+  const block = header.parentElement;
+  block.classList.toggle('open');
+}
+</script>
+</body>
+</html>
