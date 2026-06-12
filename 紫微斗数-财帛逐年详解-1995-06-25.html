@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>财帛宫逐年详解 · 1995-06-25 女</title>
+<style>
+:root {
+  --bg: #0a0e2a; --bg-card: #0d1238; --bg-card-alt: #111845;
+  --purple: #a890ff; --gold: #ffd66e; --gold-bright: #ffe8a0;
+  --cyan: #6ee0d6; --rose: #ff8eb8; --green: #7ee090;
+  --red-soft: #ff7070; --gray-dim: #666688; --silver: #b8b8d0;
+  --border: #1a1f4a; --border-light: #2a2f5a;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'PingFang SC','Hiragino Sans GB','Microsoft YaHei',serif;
+  background:var(--bg); color:var(--silver); line-height:1.8;
+}
+body::before {
+  content:''; position:fixed; top:0; left:0; width:100%; height:100%;
+  background:
+    radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,0.4),transparent),
+    radial-gradient(1px 1px at 25% 35%,rgba(255,255,255,0.3),transparent),
+    radial-gradient(1.5px 1.5px at 40% 10%,rgba(255,255,255,0.5),transparent),
+    radial-gradient(1px 1px at 55% 45%,rgba(255,255,255,0.3),transparent),
+    radial-gradient(1px 1px at 70% 25%,rgba(255,255,255,0.4),transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%,rgba(255,255,255,0.35),transparent);
+  pointer-events:none; z-index:0;
+}
+.container { max-width:1200px; margin:0 auto; padding:20px; position:relative; z-index:1; }
+
+.header { text-align:center; padding:40px 20px 20px; border-bottom:1px solid var(--border); margin-bottom:24px; }
+.header h1 { font-size:2.2em; color:var(--gold); letter-spacing:0.06em; }
+.header .sub { font-size:1em; color:var(--gray-dim); margin-top:8px; }
+
+.back-link { display:block; text-align:center; margin-bottom:20px; }
+.back-link a { color:var(--purple); text-decoration:none; font-size:0.9em; padding:6px 16px; border:1px solid var(--border); border-radius:16px; display:inline-block; }
+.back-link a:hover { border-color:var(--gold); color:var(--gold); }
+
+.decadal-section { margin:36px 0; }
+.decadal-header {
+  background:linear-gradient(135deg,var(--bg-card),var(--bg-card-alt));
+  border:1px solid var(--border-light); border-radius:10px; padding:16px 20px; margin-bottom:12px;
+}
+.decadal-header h2 { color:var(--gold); font-size:1.3em; margin-bottom:6px; }
+.decadal-header .meta { font-size:0.85em; color:var(--gray-dim); margin-bottom:8px; }
+.decadal-header .summary { font-size:0.88em; color:var(--silver); line-height:1.8; }
+
+.year-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(180px,1fr)); gap:8px; }
+.year-card {
+  background:var(--bg-card); border:1px solid var(--border); border-radius:8px;
+  padding:10px 12px; font-size:0.82em; transition:border-color 0.2s;
+}
+.year-card:hover { border-color:var(--gold); }
+.year-card .age-year { display:flex; justify-content:space-between; margin-bottom:4px; }
+.year-card .age { color:var(--gold-bright); font-weight:bold; font-size:1.05em; }
+.year-card .year { color:var(--gray-dim); font-size:0.9em; }
+.year-card .flow-palace { color:var(--purple); font-size:0.9em; margin-bottom:2px; }
+.year-card .wealth-palace { color:var(--cyan); font-size:0.9em; margin:2px 0; }
+.year-card .wealth-stars { font-size:0.85em; color:var(--silver); margin:4px 0 6px; }
+.year-card .tag { display:inline-block; font-size:0.7em; padding:2px 8px; border-radius:8px; }
+.tag-good { background:rgba(126,224,144,0.15); color:var(--green); border:1px solid rgba(126,224,144,0.3); }
+.tag-warn { background:rgba(255,112,112,0.12); color:var(--red-soft); border:1px solid rgba(255,112,112,0.25); }
+.tag-peak { background:rgba(255,214,110,0.18); color:var(--gold); border:1px solid rgba(255,214,110,0.35); font-weight:bold; }
+
+.nav { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; margin:20px 0; }
+.nav a { color:var(--purple); text-decoration:none; font-size:0.85em; padding:4px 12px; border:1px solid var(--border); border-radius:16px; }
+.nav a:hover { border-color:var(--gold); color:var(--gold); }
+
+.info-box { background:var(--bg-card); border:1px solid var(--border); border-radius:10px; padding:16px 20px; margin-bottom:24px; font-size:0.88em; line-height:1.8; }
+.info-box h3 { color:var(--gold); margin-bottom:8px; }
+
+.summary-box {
+  background:linear-gradient(135deg,rgba(168,144,255,0.08),rgba(255,214,110,0.06));
+  border:1px solid rgba(255,214,110,0.25); border-radius:12px;
+  padding:24px 28px; margin:36px 0;
+}
+.summary-box h3 { color:var(--gold); font-size:1.25em; margin-bottom:12px; text-align:center; }
+.summary-box ol { color:var(--silver-bright); font-size:1.02em; line-height:2; padding-left:24px; }
+.summary-box ol li { margin-bottom:6px; }
+.summary-box ol li strong { color:var(--gold-bright); }
+
+.disclaimer { margin-top:40px; padding:16px; border:1px dashed #442222; border-radius:8px; font-size:0.8em; color:#886666; text-align:center; line-height:1.6; }
+
+@media(max-width:720px){
+  .year-grid { grid-template-columns:repeat(2,1fr); }
+  .header h1 { font-size:1.6em; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="back-link"><a href="紫微斗数-终极详解-1995-06-25.html">← 返回主命盘</a></div>
+
+<div class="header">
+  <h1>💰 财帛宫逐年详解</h1>
+  <div class="sub">1995-06-25 申时 · 女 · 土五局 · 终身财运走势（0-94岁）</div>
+  <div class="sub" style="margin-top:6px;font-size:0.85em;">☀️ 日丽中天格（太阳旺在财帛壬午） · 算法引擎：iztro-py</div>
+</div>
+
+<div class="nav">
+  <a href="#d1">5-14岁</a>
+  <a href="#d2">15-24岁</a>
+  <a href="#d3">25-34岁</a>
+  <a href="#d4">35-44岁</a>
+  <a href="#d5">45-54岁</a>
+  <a href="#d6">55-64岁</a>
+  <a href="#d7">65-74岁</a>
+  <a href="#d8">75-84岁</a>
+  <a href="#d9">85-94岁</a>
+</div>
+
+<div class="info-box">
+  <h3 style="color:#ffd66e;margin-bottom:8px;">📖 如何读取此表</h3>
+  <p>每年您的<b style="color:#a890ff;">流年命宫</b>在移动，流年财帛宫 = 流年命宫顺时针第5宫（紫微斗数定规）。</p>
+  <p>财帛宫落在哪座（本命12宫之一），那年财运就受那座星曜的影响。<b style="color:#ffe8a0;">太阳旺</b>在您的本命财帛宫（壬午），当流年财帛宫落回此地时（如2026年），为财运巅峰年。</p>
+  <p style="color:#666688;font-size:0.9em;margin-top:6px;">🌟 旺年（太阳照财帛）⚪ 平年（普通星曜）🔴 波动年（忌星或空宫财帛）</p>
+</div>
+<div class="decadal-section" id="d1">
+  <div class="decadal-header">
+    <h2>🌱 第一大限 5-14岁（命宫大限）</h2>
+    <div class="meta">大限宫：命宫（丙戌）· 巨门（平） + 天喜·封诰·寡宿</div>
+    <div class="summary">此期间尚幼，财运主要体现在家庭供给和早年天赋显露。命宫巨门主聪明善思，14岁前若有才艺表现，可为日后变现铺路。财帛宫触发年份：2000年（5岁起运）、2006年、2012年等，流年财帛宫落父母宫或大限命宫时，家境对财运影响较大。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">5岁</span><span class="year">2000年</span></div>
+    <div class="flow-palace">流年迁移宫 (庚辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">6岁</span><span class="year">2001年</span></div>
+    <div class="flow-palace">流年疾厄宫 (辛巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">7岁</span><span class="year">2002年</span></div>
+    <div class="flow-palace">流年财帛宫 (壬午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">8岁</span><span class="year">2003年</span></div>
+    <div class="flow-palace">流年子女宫 (癸未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">9岁</span><span class="year">2004年</span></div>
+    <div class="flow-palace">流年夫妻宫 (甲申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">10岁</span><span class="year">2005年</span></div>
+    <div class="flow-palace">流年兄弟宫 (乙酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">11岁</span><span class="year">2006年</span></div>
+    <div class="flow-palace">流年命宫 (丙戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">12岁</span><span class="year">2007年</span></div>
+    <div class="flow-palace">流年父母宫 (丁亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">13岁</span><span class="year">2008年</span></div>
+    <div class="flow-palace">流年福德宫 (戊子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">14岁</span><span class="year">2009年</span></div>
+    <div class="flow-palace">流年田宅宫 (己丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d2">
+  <div class="decadal-header">
+    <h2>📚 第二大限 15-24岁（父母宫大限）</h2>
+    <div class="meta">大限宫：父母宫（丁亥）· 天相 + 三台·凤阁·年解</div>
+    <div class="summary">此期间以学业为主，财运多来自家庭支持、兼职或奖学金。<b>大限在父母宫</b>意味着此十年资源基础来自家庭背景和长辈助力。财运高峰：2010年（15岁）流年财帛入官禄宫，学业运佳；2016年（21岁）流年财帛入夫妻宫，可能因感情或合作有小额财运。注意：2018-2019年（23-24岁）流年财帛逢忌星年份，开销较大。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">15岁</span><span class="year">2010年</span></div>
+    <div class="flow-palace">流年官禄宫 (庚寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">16岁</span><span class="year">2011年</span></div>
+    <div class="flow-palace">流年交友宫 (辛卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">17岁</span><span class="year">2012年</span></div>
+    <div class="flow-palace">流年迁移宫 (壬辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">18岁</span><span class="year">2013年</span></div>
+    <div class="flow-palace">流年疾厄宫 (癸巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">19岁</span><span class="year">2014年</span></div>
+    <div class="flow-palace">流年财帛宫 (甲午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">20岁</span><span class="year">2015年</span></div>
+    <div class="flow-palace">流年子女宫 (乙未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">21岁</span><span class="year">2016年</span></div>
+    <div class="flow-palace">流年夫妻宫 (丙申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">22岁</span><span class="year">2017年</span></div>
+    <div class="flow-palace">流年兄弟宫 (丁酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">23岁</span><span class="year">2018年</span></div>
+    <div class="flow-palace">流年命宫 (戊戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">24岁</span><span class="year">2019年</span></div>
+    <div class="flow-palace">流年父母宫 (己亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d3">
+  <div class="decadal-header">
+    <h2>🔥 第三大限 25-34岁（福德宫大限）← 当前</h2>
+    <div class="meta">大限宫：福德宫（戊子）· 天梁·权 + 文曲·天魁 · 咸池·解神</div>
+    <div class="summary"><b style="color:#ffe8a0;">这是您人生最关键的财运十年！</b>大限落在福德宫（天梁权），内心定海神针+贵人星拱照，赚钱能力在此时段发生质的飞跃。<br><span style="color:#7ee090;">财运高峰年：</span>2026年（31岁）流年命宫入财帛宫（<b>太阳旺</b>），<span style="color:#ffd66e;">🌟 全年财运最强年！</span>；2027年（32岁）流年财帛入财帛宫（太阳旺），连续第二年财运极强；2030年（35岁）流年财帛入交友宫（空宫+禄存），人脉变现金年。<br><span style="color:#ff8eb8;">注意年份：</span>2024年（29岁）流年财帛入兄弟宫，可能因朋友/合作产生财务纠纷；2029年（34岁）流年财帛入命宫（巨门），容易因口舌是非破财。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">25岁</span><span class="year">2020年</span></div>
+    <div class="flow-palace">流年福德宫 (庚子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">26岁</span><span class="year">2021年</span></div>
+    <div class="flow-palace">流年田宅宫 (辛丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">27岁</span><span class="year">2022年</span></div>
+    <div class="flow-palace">流年官禄宫 (壬寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">28岁</span><span class="year">2023年</span></div>
+    <div class="flow-palace">流年交友宫 (癸卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">29岁</span><span class="year">2024年</span></div>
+    <div class="flow-palace">流年迁移宫 (甲辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">30岁</span><span class="year">2025年</span></div>
+    <div class="flow-palace">流年疾厄宫 (乙巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">31岁</span><span class="year">2026年</span></div>
+    <div class="flow-palace">流年财帛宫 (丙午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">32岁</span><span class="year">2027年</span></div>
+    <div class="flow-palace">流年子女宫 (丁未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">33岁</span><span class="year">2028年</span></div>
+    <div class="flow-palace">流年夫妻宫 (戊申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">34岁</span><span class="year">2029年</span></div>
+    <div class="flow-palace">流年兄弟宫 (己酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d4">
+  <div class="decadal-header">
+    <h2>🏡 第四大限 35-44岁（田宅宫大限）</h2>
+    <div class="meta">大限宫：田宅宫（己丑）· 廉贞 + 七杀 · 天寿·蜚廉·天刑</div>
+    <div class="summary">此期间财运与<b>房产、家庭资产、根基建设</b>深度绑定。大限在田宅意味着此十年财富积累方式从"现金流"转向"资产沉淀"。<br><span style="color:#ffd66e;">财运高峰：</span>2032年（37岁）流年财帛入子女宫（天府），投资运佳；2035年（40岁）流年财帛入疾厄宫（武曲破军+火星天马），赚钱动力极强，但注意健康透支。<br><span style="color:#ff8eb8;">注意：</span>廉贞七杀在田宅大限，房产投资需谨慎，2033-2034年（38-39岁）流年财帛逢忌星，避免高风险投资。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">35岁</span><span class="year">2030年</span></div>
+    <div class="flow-palace">流年命宫 (庚戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">36岁</span><span class="year">2031年</span></div>
+    <div class="flow-palace">流年父母宫 (辛亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">37岁</span><span class="year">2032年</span></div>
+    <div class="flow-palace">流年福德宫 (壬子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">38岁</span><span class="year">2033年</span></div>
+    <div class="flow-palace">流年田宅宫 (癸丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">39岁</span><span class="year">2034年</span></div>
+    <div class="flow-palace">流年官禄宫 (甲寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">40岁</span><span class="year">2035年</span></div>
+    <div class="flow-palace">流年交友宫 (乙卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">41岁</span><span class="year">2036年</span></div>
+    <div class="flow-palace">流年迁移宫 (丙辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">42岁</span><span class="year">2037年</span></div>
+    <div class="flow-palace">流年疾厄宫 (丁巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">43岁</span><span class="year">2038年</span></div>
+    <div class="flow-palace">流年财帛宫 (戊午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">44岁</span><span class="year">2039年</span></div>
+    <div class="flow-palace">流年子女宫 (己未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d5">
+  <div class="decadal-header">
+    <h2>💼 第五大限 45-54岁（官禄宫大限 · 身宫到位）</h2>
+    <div class="meta">大限宫：官禄宫（戊寅）【身宫】· 空宫借天机太阴 · 文昌·陀罗·天贵·台辅</div>
+    <div class="summary"><b style="color:#ffe8a0;">身宫大限到位——这是您事业的巅峰十年！</b>身宫在官禄，45岁后事业将进入最稳定、最受认可的阶段。大限在官禄，财运直接与事业成就挂钩。<br><span style="color:#7ee090;">财运高峰：</span>2040年（45岁）流年财帛入疾厄宫（武曲破军），收入跃升；2043年（48岁）流年财帛入财帛宫（<b>太阳旺</b>），资产整理和变现的最佳窗口。<br><span style="color:#a890ff;">备注：</span>此期间宜做好资产传承规划，官禄宫文昌天贵在，晚年名声和财富双收。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">45岁</span><span class="year">2040年</span></div>
+    <div class="flow-palace">流年夫妻宫 (庚申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">46岁</span><span class="year">2041年</span></div>
+    <div class="flow-palace">流年兄弟宫 (辛酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">47岁</span><span class="year">2042年</span></div>
+    <div class="flow-palace">流年命宫 (壬戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">48岁</span><span class="year">2043年</span></div>
+    <div class="flow-palace">流年父母宫 (癸亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">49岁</span><span class="year">2044年</span></div>
+    <div class="flow-palace">流年福德宫 (甲子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">50岁</span><span class="year">2045年</span></div>
+    <div class="flow-palace">流年田宅宫 (乙丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">51岁</span><span class="year">2046年</span></div>
+    <div class="flow-palace">流年官禄宫 (丙寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">52岁</span><span class="year">2047年</span></div>
+    <div class="flow-palace">流年交友宫 (丁卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">53岁</span><span class="year">2048年</span></div>
+    <div class="flow-palace">流年迁移宫 (戊辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">54岁</span><span class="year">2049年</span></div>
+    <div class="flow-palace">流年疾厄宫 (己巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d6">
+  <div class="decadal-header">
+    <h2>🤝 第六大限 55-64岁（交友宫大限）</h2>
+    <div class="meta">大限宫：交友宫（己卯）· 空宫+禄存 · 地空·八座·龙池</div>
+    <div class="summary">此期间财运来自<b>人脉网络、团队分红、学生/晚辈回馈</b>。交友宫有禄存，暗示此十年有隐性财富（如社保、养老金、长期投资分红）。<br><span style="color:#ffd66e;">财运高峰：</span>2050年（55岁）起大限入交友，流年财帛逢太阳旺之年仍有高峰；2055年（60岁）前后为退休财务规划关键期。<br><span style="color:#6ee0d6;">建议：</span>此期间财运以被动收入为主，提前做好退休规划。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">55岁</span><span class="year">2050年</span></div>
+    <div class="flow-palace">流年财帛宫 (庚午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">56岁</span><span class="year">2051年</span></div>
+    <div class="flow-palace">流年子女宫 (辛未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">57岁</span><span class="year">2052年</span></div>
+    <div class="flow-palace">流年夫妻宫 (壬申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">58岁</span><span class="year">2053年</span></div>
+    <div class="flow-palace">流年兄弟宫 (癸酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">59岁</span><span class="year">2054年</span></div>
+    <div class="flow-palace">流年命宫 (甲戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">60岁</span><span class="year">2055年</span></div>
+    <div class="flow-palace">流年父母宫 (乙亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">61岁</span><span class="year">2056年</span></div>
+    <div class="flow-palace">流年福德宫 (丙子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">62岁</span><span class="year">2057年</span></div>
+    <div class="flow-palace">流年田宅宫 (丁丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">63岁</span><span class="year">2058年</span></div>
+    <div class="flow-palace">流年官禄宫 (戊寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">64岁</span><span class="year">2059年</span></div>
+    <div class="flow-palace">流年交友宫 (己卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d7">
+  <div class="decadal-header">
+    <h2>✈️ 第七大限 65-74岁（迁移宫大限）</h2>
+    <div class="meta">大限宫：迁移宫（庚辰）· 天同（陷）+擎羊 · 红鸾·月德·恩光·天官</div>
+    <div class="summary">此期间适合<b>旅居、游学、跨地域生活</b>。迁移宫天同陷+擎羊，出行需注意安全，但红鸾月德恩光天官四吉星同宫，外出贵人运强。<br>财运以被动收入为主，太阳旺之年（约每6年一次）仍有小额偏财。此期间重在享受人生，财运"够用"即可。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">65岁</span><span class="year">2060年</span></div>
+    <div class="flow-palace">流年迁移宫 (庚辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">66岁</span><span class="year">2061年</span></div>
+    <div class="flow-palace">流年疾厄宫 (辛巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">67岁</span><span class="year">2062年</span></div>
+    <div class="flow-palace">流年财帛宫 (壬午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">68岁</span><span class="year">2063年</span></div>
+    <div class="flow-palace">流年子女宫 (癸未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">69岁</span><span class="year">2064年</span></div>
+    <div class="flow-palace">流年夫妻宫 (甲申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">70岁</span><span class="year">2065年</span></div>
+    <div class="flow-palace">流年兄弟宫 (乙酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">71岁</span><span class="year">2066年</span></div>
+    <div class="flow-palace">流年命宫 (丙戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">72岁</span><span class="year">2067年</span></div>
+    <div class="flow-palace">流年父母宫 (丁亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">73岁</span><span class="year">2068年</span></div>
+    <div class="flow-palace">流年福德宫 (戊子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">74岁</span><span class="year">2069年</span></div>
+    <div class="flow-palace">流年田宅宫 (己丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d8">
+  <div class="decadal-header">
+    <h2>🏥 第八大限 75-84岁（疾厄宫大限）</h2>
+    <div class="meta">大限宫：疾厄宫（辛巳）· 武曲+破军+火星+天马 · 天姚·天巫</div>
+    <div class="summary">此期间健康为主题，财运主要用于<b>医疗、养生、家庭支持</b>。武曲破军+火星天马在疾厄大限，若有积蓄则晚年无忧；若无积蓄则需提前规划。<br><span style="color:#ff8eb8;">注意：</span>此期间武曲忌（本命财帛飞化）可能被触发，健康支出较大，建议75岁前完成全面财务规划。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">75岁</span><span class="year">2070年</span></div>
+    <div class="flow-palace">流年官禄宫 (庚寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">76岁</span><span class="year">2071年</span></div>
+    <div class="flow-palace">流年交友宫 (辛卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">77岁</span><span class="year">2072年</span></div>
+    <div class="flow-palace">流年迁移宫 (壬辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">78岁</span><span class="year">2073年</span></div>
+    <div class="flow-palace">流年疾厄宫 (癸巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">79岁</span><span class="year">2074年</span></div>
+    <div class="flow-palace">流年财帛宫 (甲午)</div>
+    <div class="wealth-palace">💰 财帛＝父母宫</div>
+    <div class="wealth-stars">天相 [三台,凤阁,年解]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">80岁</span><span class="year">2075年</span></div>
+    <div class="flow-palace">流年子女宫 (乙未)</div>
+    <div class="wealth-palace">💰 财帛＝福德宫</div>
+    <div class="wealth-stars">天梁 [文曲,天魁,咸池,解神,天空]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">81岁</span><span class="year">2076年</span></div>
+    <div class="flow-palace">流年夫妻宫 (丙申)</div>
+    <div class="wealth-palace">💰 财帛＝田宅宫</div>
+    <div class="wealth-stars">廉贞,七杀 [天寿,蜚廉,天刑]</div>
+    <span class="tag tag-warn">波动</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">82岁</span><span class="year">2077年</span></div>
+    <div class="flow-palace">流年兄弟宫 (丁酉)</div>
+    <div class="wealth-palace">💰 财帛＝官禄宫</div>
+    <div class="wealth-stars">空宫 [文昌,陀罗,天贵,台辅,孤辰]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">83岁</span><span class="year">2078年</span></div>
+    <div class="flow-palace">流年命宫 (戊戌)</div>
+    <div class="wealth-palace">💰 财帛＝交友宫</div>
+    <div class="wealth-stars">空宫 [地空,禄存,八座,龙池,天伤]</div>
+    <span class="tag tag-warn">注意</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">84岁</span><span class="year">2079年</span></div>
+    <div class="flow-palace">流年父母宫 (己亥)</div>
+    <div class="wealth-palace">💰 财帛＝迁移宫</div>
+    <div class="wealth-stars">天同 [擎羊,红鸾,恩光,天官,月德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="decadal-section" id="d9">
+  <div class="decadal-header">
+    <h2>🌅 第九大限 85-94岁（财帛宫大限）</h2>
+    <div class="meta">大限宫：财帛宫（壬午）· 太阳（旺）+右弼+铃星 · 天厨·截路·阴煞</div>
+    <div class="summary"><b style="color:#ffe8a0;">大限入财帛宫——晚年财运归位！</b>此期间您的财富格局回到本命最强位置（太阳旺在财帛），晚年物质生活宽裕，有"老来福"之象。<br><span style="color:#7ee090;">特点：</span>太阳旺在财帛大限，晚年有光环，可能有养老金、长期投资回报、子女回馈等多重收入来源。右弼同宫，有伴侣或贵人协助管理财务。</div>
+  </div>
+  <div class="year-grid">
+  <div class="year-card">
+    <div class="age-year"><span class="age">85岁</span><span class="year">2080年</span></div>
+    <div class="flow-palace">流年福德宫 (庚子)</div>
+    <div class="wealth-palace">💰 财帛＝疾厄宫</div>
+    <div class="wealth-stars">武曲,破军 [火星,天马,天姚,天巫,天虚,天使]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">86岁</span><span class="year">2081年</span></div>
+    <div class="flow-palace">流年田宅宫 (辛丑)</div>
+    <div class="wealth-palace">💰 财帛＝财帛宫</div>
+    <div class="wealth-stars">太阳 [右弼,铃星,天厨,截路,阴煞]</div>
+    <span class="tag tag-peak">🌟 旺</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">87岁</span><span class="year">2082年</span></div>
+    <div class="flow-palace">流年官禄宫 (壬寅)</div>
+    <div class="wealth-palace">💰 财帛＝子女宫</div>
+    <div class="wealth-stars">天府 [地劫,华盖,天月,空亡,天哭]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">88岁</span><span class="year">2083年</span></div>
+    <div class="flow-palace">流年交友宫 (癸卯)</div>
+    <div class="wealth-palace">💰 财帛＝夫妻宫</div>
+    <div class="wealth-stars">天机,太阴 [左辅,天钺,天福,天德]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">89岁</span><span class="year">2084年</span></div>
+    <div class="flow-palace">流年迁移宫 (甲辰)</div>
+    <div class="wealth-palace">💰 财帛＝兄弟宫</div>
+    <div class="wealth-stars">紫微,贪狼 [天才,旬空,破碎]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  <div class="year-card">
+    <div class="age-year"><span class="age">90岁</span><span class="year">2085年</span></div>
+    <div class="flow-palace">流年疾厄宫 (乙巳)</div>
+    <div class="wealth-palace">💰 财帛＝命宫</div>
+    <div class="wealth-stars">巨门 [天喜,封诰,寡宿]</div>
+    <span class="tag tag-good">平</span>
+  </div>
+  </div>
+</div><div class="summary-box">
+  <h3>💫 终身财运四句话</h3>
+  <ol>
+    <li><b>太阳旺坐财帛，您天生不是省钱型</b>——您的财格是"越被看见越有钱"，越早建立个人品牌/专业影响力，财运越旺。</li>
+    <li><b>25-34岁是财运火箭期</b>——天梁权在福德大限+太阳在原局财帛，这十年若不趁势而起，后续需多花一倍力气。</li>
+    <li><b>2026-2027是此生财运最强窗口</b>——流年财帛连两年入太阳旺宫，错过再等6年（2032年）。</li>
+    <li><b>晚年（85岁后）财运归位，老来福</b>——大限入财帛宫，太阳旺再次被激活，一生财运画圆。</li>
+  </ol>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本回复由 AI 生成，基于紫微斗数传统算法的象征推演，仅供娱乐与自我反思参考。<br>
+  不构成医疗、法律、财务或投资建议。命理是参考，不是定数。<br>
+  涉及健康、法律、重大财务决策请咨询相应专业人士。<br>
+  <span style="font-size:0.85em;margin-top:4px;display:inline-block">算法引擎：iztro-py · 命盘：1995-06-25 申时 女 · 生成于2026-06-12</span>
+</div>
+</div>
+</body>
+</html>
