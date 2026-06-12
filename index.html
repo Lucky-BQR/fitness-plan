@@ -111,7 +111,7 @@
   .bdj-benefit { color: #C73866; font-size: 10px; }
 
   /* 命理探索卡片 */
-  .fortune-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 1.5rem 0; }
+  .fortune-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 1.5rem 0; }
   .fortune-card {
     display: block; text-decoration: none; color: inherit;
     background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 14px;
@@ -132,6 +132,23 @@
   .fortune-tag-purple { background: #EEEDFE; color: #534AB7; }
   .fortune-arrow { display: inline-block; margin-left: 6px; transition: transform 0.2s; }
   .fortune-card:hover .fortune-arrow { transform: translateX(3px); }
+
+  /* 验证弹窗 */
+  .modal-overlay { display: none; position: fixed; z-index: 9999; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
+  .modal-overlay.active { display: flex; }
+  .modal-box { background: #fff; border-radius: 16px; padding: 2rem 1.75rem 1.5rem; max-width: 380px; width: 90%; text-align: center; box-shadow: 0 20px 48px rgba(0,0,0,0.2); animation: modalIn 0.25s ease; }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(20px) scale(0.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  .modal-box h3 { font-size: 17px; font-weight: 500; margin-bottom: 6px; }
+  .modal-box .modal-sub { font-size: 12px; color: #888780; margin-bottom: 18px; }
+  .modal-box input { width: 100%; padding: 10px 14px; border: 1px solid rgba(44,44,42,0.2); border-radius: 10px; font-size: 15px; font-family: inherit; text-align: center; outline: none; transition: border 0.2s; }
+  .modal-box input:focus { border-color: #534AB7; box-shadow: 0 0 0 3px rgba(83,74,183,0.1); }
+  .modal-box .modal-error { font-size: 12px; color: #C73866; margin-top: 8px; min-height: 18px; }
+  .modal-box .modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+  .modal-box .modal-btns button { flex: 1; padding: 10px 0; border-radius: 10px; font-size: 14px; font-family: inherit; cursor: pointer; border: none; font-weight: 500; transition: all 0.2s; }
+  .btn-confirm { background: #534AB7; color: #fff; }
+  .btn-confirm:hover { background: #423AA0; }
+  .btn-cancel { background: #F1EFE8; color: #5F5E5A; }
+  .btn-cancel:hover { background: #E5E3DA; }
 
   @media (max-width: 600px) {
     .phase-grid { grid-template-columns: 1fr; }
@@ -863,7 +880,7 @@
   <div class="panel" id="tab-fortune">
     <div class="plan-header">
       <h2>命理探索 · 玄学命盘</h2>
-      <p>八字推命、紫微斗数——探索先天命局，洞察人生轨迹。以下四份命盘深度解析，点击即可跳转查看。</p>
+      <p>八字推命、紫微斗数——探索先天命局，洞察人生轨迹。以下五份命盘深度解析，点击即可跳转查看。</p>
       <div class="tags">
         <span class="tag tag-purple">八字命理</span>
         <span class="tag tag-amber">紫微斗数</span>
@@ -873,35 +890,55 @@
     </div>
 
     <div class="fortune-grid">
-      <a href="八字命盘-终极版-1995-06-25.html" class="fortune-card fortune-card-1">
+      <div class="fortune-card fortune-card-1" data-href="八字命盘-终极版-1995-06-25.html" data-name="莲莲莲" onclick="openFortuneModal(this)">
         <span class="fortune-icon">☯️</span>
         <h3>八字命盘 · 莲莲莲</h3>
         <p class="fortune-desc">乙亥 壬午 xx xx · 深度推演五行生克制化，大运流年全解析，涵盖事业、财运、婚姻、健康等维度。</p>
         <span class="fortune-tag fortune-tag-gold">八字命理 <span class="fortune-arrow">→</span></span>
-      </a>
-      <a href="八字命盘-详细解析-1995-06-26.html" class="fortune-card fortune-card-2">
+      </div>
+      <div class="fortune-card fortune-card-2" data-href="八字命盘-详细解析-1995-06-26.html" data-name="YTT" onclick="openFortuneModal(this)">
         <span class="fortune-icon">🔮</span>
         <h3>八字命盘 · YTT</h3>
         <p class="fortune-desc">乙亥 壬午 xx xx · 五行能量分布、十神格局研判，细致入微的命局拆解与运势推演。</p>
         <span class="fortune-tag fortune-tag-fire">日柱精析 <span class="fortune-arrow">→</span></span>
-      </a>
-      <a href="紫微斗数-深度详解-1995-06-25.html" class="fortune-card fortune-card-3">
+      </div>
+      <div class="fortune-card fortune-card-3" data-href="紫微斗数-深度详解-1995-06-25.html" data-name="莲莲莲" onclick="openFortuneModal(this)">
         <span class="fortune-icon">🌟</span>
         <h3>紫微斗数 · 深度详解</h3>
         <p class="fortune-desc">十二宫位完整排盘 · 星曜庙旺落陷剖析 · 四化飞星流转 · 三方四正吉凶判断。</p>
         <span class="fortune-tag fortune-tag-purple">紫微斗数 · 莲莲莲 <span class="fortune-arrow">→</span></span>
-      </a>
-      <a href="紫微斗数-深度详解-1995-06-26.html" class="fortune-card fortune-card-3" style="border-left: 3px solid #7ee090;">
+      </div>
+      <div class="fortune-card fortune-card-3" style="border-left: 3px solid #7ee090;" data-href="紫微斗数-深度详解-1995-06-26.html" data-name="YTT" onclick="openFortuneModal(this)">
         <span class="fortune-icon">✨</span>
         <h3>紫微斗数 · 深度详解</h3>
         <p class="fortune-desc">十二宫位完整排盘 · 星曜庙旺落陷剖析 · 四化飞星流转 · 三方四正吉凶判断。</p>
         <span class="fortune-tag fortune-tag-purple">紫微斗数 · YTT <span class="fortune-arrow">→</span></span>
-      </a>
+      </div>
+      <div class="fortune-card fortune-card-3" style="border-left: 3px solid #ff8eb8;" data-href="紫微斗数-终极详解-1995-06-25.html" data-name="白清如" onclick="openFortuneModal(this)">
+        <span class="fortune-icon">💫</span>
+        <h3>紫微斗数 · 终极详解</h3>
+        <p class="fortune-desc">含四化飞宫全盘推演 · 十二宫精微论断 · 流年大运深度剖解，最完整的紫微斗数命盘。</p>
+        <span class="fortune-tag fortune-tag-purple">紫微斗数 · 终极 <span class="fortune-arrow">→</span></span>
+      </div>
     </div>
 
     <div class="tip-block tip-blue" style="margin-top:1.5rem;">
       <strong>免责声明：</strong>命理之术贵在自知，不在迷信。以上内容仅供娱乐参考，切勿以此作为人生重大决策的唯一依据。命运由自我认知与行动塑造，命盘只是参考系，真正的力量在于你的选择与坚持。<br><br>
       <strong>有趣的小知识：</strong>力量训练与命理有异曲同工之妙——八字讲"身强身弱"决定用神，健身讲"强弱项"决定训练侧重。了解自己的"命盘"，和了解自己的"体能结构"，本质上都是在做同一件事：<strong>知己，然后对症下药</strong>。
+    </div>
+  </div>
+
+  <!-- 命盘验证弹窗 -->
+  <div class="modal-overlay" id="fortuneModal">
+    <div class="modal-box">
+      <h3 id="modalTitle">请输入名称验证</h3>
+      <p class="modal-sub">输入正确的名称才能查看命盘</p>
+      <input type="text" id="modalInput" placeholder="请输入名称..." autocomplete="off" onkeydown="if(event.key==='Enter')confirmFortune()">
+      <p class="modal-error" id="modalError"></p>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeFortuneModal()">取消</button>
+        <button class="btn-confirm" onclick="confirmFortune()">确认查看 →</button>
+      </div>
     </div>
   </div>
 
@@ -923,6 +960,39 @@ function toggleSession(header) {
   const block = header.parentElement;
   block.classList.toggle('open');
 }
+
+// 命盘验证
+let fortuneTarget = '';
+function openFortuneModal(card) {
+  fortuneTarget = card.dataset.href;
+  const name = card.dataset.name;
+  document.getElementById('modalTitle').textContent = name + ' · 身份验证';
+  document.getElementById('modalInput').value = '';
+  document.getElementById('modalError').textContent = '';
+  document.getElementById('fortuneModal').classList.add('active');
+  setTimeout(() => document.getElementById('modalInput').focus(), 150);
+}
+function closeFortuneModal() {
+  document.getElementById('fortuneModal').classList.remove('active');
+  fortuneTarget = '';
+}
+function confirmFortune() {
+  const input = document.getElementById('modalInput').value.trim();
+  const card = document.querySelector(`[data-href="${fortuneTarget}"]`);
+  if (!card) return;
+  const expected = card.dataset.name;
+  if (input === expected) {
+    window.location.href = fortuneTarget;
+  } else {
+    document.getElementById('modalError').textContent = '名称不正确，请重试';
+    document.getElementById('modalInput').value = '';
+    document.getElementById('modalInput').focus();
+  }
+}
+// 点击遮罩关闭
+document.getElementById('fortuneModal').addEventListener('click', function(e) {
+  if (e.target === this) closeFortuneModal();
+});
 </script>
 </body>
 </html>
