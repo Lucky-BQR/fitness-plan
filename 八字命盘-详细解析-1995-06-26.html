@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>八字命盘 · 乙亥 壬午 戊子 壬戌</title>
+<style>
+:root {
+  --bg-primary: #0a0a0f;
+  --bg-card: #14141f;
+  --bg-card-alt: #1a1a28;
+  --bg-highlight: #1e1e30;
+  --color-fire: #e74c3c;
+  --color-fire-soft: #ff6b4a;
+  --color-wood: #27ae60;
+  --color-wood-soft: #2ecc71;
+  --color-water: #3498db;
+  --color-water-soft: #5dade2;
+  --color-metal: #d4a017;
+  --color-metal-soft: #f39c12;
+  --color-earth: #8e6e3e;
+  --color-earth-soft: #c9a96e;
+  --text-primary: #e0d6c2;
+  --text-secondary: #8a8a9a;
+  --text-muted: #5a5a6e;
+  --text-highlight: #ffd700;
+  --color-danger: #e74c3c;
+  --color-success: #27ae60;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+  --border-subtle: #2a2a3a;
+  --border-active: #3a3a4a;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-card: 0 4px 20px rgba(0,0,0,0.4);
+  --shadow-glow-fire: 0 0 20px rgba(231,76,60,0.15);
+  --shadow-glow-gold: 0 0 16px rgba(212,175,110,0.12);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: "PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  line-height: 1.7;
+  min-height: 100vh;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 60px;
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 40px 20px 32px;
+  position: relative;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg,transparent,var(--color-metal-soft),transparent);
+}
+.hero h1 {
+  font-family: "Noto Serif SC","STSong","SimSun",serif;
+  font-size: 30px;
+  color: var(--text-highlight);
+  letter-spacing: 4px;
+  margin-bottom: 6px;
+}
+.hero .subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero .meta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.hero .meta span {
+  background: var(--bg-card);
+  padding: 4px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--border-subtle);
+}
+
+/* Section */
+.section {
+  margin-bottom: 32px;
+}
+.section-title {
+  font-family: "Noto Serif SC","STSong","SimSun",serif;
+  font-size: 20px;
+  color: var(--text-highlight);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+  letter-spacing: 2px;
+}
+
+/* Pillars Grid */
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.pillar-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 20px 14px;
+  text-align: center;
+  border: 1px solid var(--border-subtle);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.pillar-card:hover { border-color: var(--border-active); }
+.pillar-card .pillar-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.pillar-card .gan {
+  font-family: "Noto Serif SC","STSong","SimSun",serif;
+  font-size: 36px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.pillar-card .zhi {
+  font-family: "Noto Serif SC","STSong","SimSun",serif;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 6px;
+}
+.pillar-card .nayin {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+.pillar-card .shishen {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+.pillar-card .canggan {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Color accents for pillars */
+.pillar-card.year { border-top: 3px solid var(--color-wood); }
+.pillar-card.year .gan { color: var(--color-wood-soft); }
+.pillar-card.year .zhi { color: var(--color-water-soft); }
+.pillar-card.month { border-top: 3px solid var(--color-water); }
+.pillar-card.month .gan { color: var(--color-water-soft); }
+.pillar-card.month .zhi { color: var(--color-fire-soft); }
+.pillar-card.day { border-top: 3px solid var(--color-earth); }
+.pillar-card.day .gan { color: var(--color-earth-soft); }
+.pillar-card.day .zhi { color: var(--color-water-soft); }
+.pillar-card.hour { border-top: 3px solid var(--color-water); }
+.pillar-card.hour .gan { color: var(--color-water-soft); }
+.pillar-card.hour .zhi { color: var(--color-earth-soft); }
+
+/* Supplementary Palace */
+.supp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.supp-card {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  text-align: center;
+  border: 1px solid var(--border-subtle);
+}
+.supp-card .supp-label { font-size: 11px; color: var(--text-muted); margin-bottom: 6px; }
+.supp-card .supp-val { font-size: 18px; font-weight: bold; color: var(--text-primary); }
+
+/* Info Cards */
+.info-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  border: 1px solid var(--border-subtle);
+  margin-bottom: 12px;
+}
+.info-card h3 {
+  font-size: 15px;
+  color: var(--text-highlight);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+th, td {
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+th {
+  color: var(--text-secondary);
+  font-weight: 600;
+  background: var(--bg-card-alt);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+td { color: var(--text-primary); }
+
+/* Five Elements Bar */
+.elem-bars { display: flex; flex-direction: column; gap: 10px; }
+.elem-row { display: flex; align-items: center; gap: 10px; }
+.elem-label {
+  width: 32px; text-align: right;
+  font-size: 13px; font-weight: bold;
+}
+.elem-bar-bg {
+  flex: 1; height: 20px;
+  background: var(--bg-card-alt);
+  border-radius: 10px; overflow: hidden;
+}
+.elem-bar-fill {
+  height: 100%; border-radius: 10px;
+  transition: width 0.6s;
+}
+.elem-pct { width: 42px; font-size: 12px; color: var(--text-secondary); text-align: left; }
+
+/* Clash Grid */
+.clash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.clash-item {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 13px;
+  border-left: 3px solid var(--color-danger);
+}
+
+/* Fortune Timeline */
+.fortune-list { display: flex; flex-direction: column; gap: 8px; }
+.fortune-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 10px 16px;
+  border: 1px solid var(--border-subtle);
+}
+.fortune-row.current {
+  border-color: var(--color-fire);
+  background: rgba(231,76,60,0.08);
+}
+.fortune-row .ft-age {
+  width: 64px; font-size: 12px; color: var(--text-muted); text-align: center;
+}
+.fortune-row .ft-ganzhi {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 16px; font-weight: bold; color: var(--text-primary);
+  width: 48px; text-align: center;
+}
+.fortune-row .ft-shishen {
+  flex: 1; font-size: 12px; color: var(--text-secondary);
+}
+.fortune-row .ft-years {
+  font-size: 11px; color: var(--text-muted); text-align: right;
+}
+
+/* Monthly Cards */
+.month-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+.month-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-sm);
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  text-align: center;
+  font-size: 12px;
+}
+.month-card.current {
+  border-color: var(--color-fire);
+  box-shadow: var(--shadow-glow-fire);
+}
+.month-card .mc-month { font-size: 11px; color: var(--text-muted); }
+.month-card .mc-ganzhi {
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 17px; font-weight: bold; margin: 4px 0;
+}
+.month-card .mc-shishen { font-size: 11px; color: var(--text-secondary); }
+.month-card .mc-indicator {
+  display: inline-block; width: 8px; height: 8px;
+  border-radius: 50%; margin-top: 4px;
+}
+.mc-indicator.good { background: var(--color-success); }
+.mc-indicator.caution { background: var(--color-warning); }
+.mc-indicator.alert { background: var(--color-danger); }
+
+/* Daily Calendar */
+.daily-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.daily-cell {
+  background: var(--bg-card-alt);
+  border-radius: var(--radius-sm);
+  padding: 8px 4px;
+  text-align: center;
+  font-size: 11px;
+  border: 1px solid var(--border-subtle);
+}
+.daily-cell.today {
+  border-color: var(--color-fire);
+  background: rgba(231,76,60,0.1);
+  box-shadow: var(--shadow-glow-fire);
+}
+.daily-cell .dc-date { font-size: 10px; color: var(--text-muted); }
+.daily-cell .dc-ganzhi { font-family: "Noto Serif SC","STSong",serif; font-size: 13px; font-weight: bold; margin: 2px 0; }
+.daily-cell .dc-shishen { font-size: 10px; color: var(--text-secondary); }
+.daily-cell .dc-dot {
+  display: inline-block; width: 6px; height: 6px;
+  border-radius: 50%;
+}
+
+/* Insight block */
+.insight-block {
+  background: var(--bg-card);
+  border-left: 3px solid var(--text-highlight);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 18px;
+  margin: 16px 0;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+/* Summary card */
+.summary-card {
+  background: linear-gradient(135deg, rgba(212,175,110,0.08), rgba(212,175,110,0.02));
+  border: 1px solid rgba(212,175,110,0.25);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  margin-top: 20px;
+}
+.summary-card h3 {
+  color: var(--text-highlight);
+  font-family: "Noto Serif SC","STSong",serif;
+  font-size: 18px;
+  margin-bottom: 12px;
+  letter-spacing: 2px;
+}
+.summary-card ol { padding-left: 20px; }
+.summary-card li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+.summary-card li strong { color: var(--text-highlight); }
+
+/* Disclaimer */
+.disclaimer {
+  margin-top: 40px;
+  padding: 16px 20px;
+  border: 1px dashed var(--color-danger);
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* Domain Cards */
+.domain-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.domain-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+}
+.domain-card h4 {
+  font-size: 15px;
+  color: var(--text-highlight);
+  margin-bottom: 10px;
+  letter-spacing: 1px;
+}
+.domain-card p {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+.domain-card .domain-grade {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: bold;
+  margin-left: 8px;
+}
+.grade-good { background: rgba(39,174,96,0.15); color: var(--color-success); }
+.grade-caution { background: rgba(243,156,18,0.15); color: var(--color-warning); }
+.grade-alert { background: rgba(231,76,60,0.15); color: var(--color-danger); }
+
+/* Upcoming */
+.upcoming-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+  .pillars-grid { grid-template-columns: repeat(2, 1fr); }
+  .month-grid { grid-template-columns: repeat(2, 1fr); }
+  .daily-grid { grid-template-columns: repeat(4, 1fr); }
+  .domain-grid { grid-template-columns: 1fr; }
+  .upcoming-grid { grid-template-columns: 1fr; }
+  .clash-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 24px; }
+  .pillar-card .gan { font-size: 28px; }
+  .pillar-card .zhi { font-size: 24px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- ========== HERO ========== -->
+<div class="hero">
+  <h1>八 字 命 盘</h1>
+  <div class="subtitle">Four Pillars · Destiny Chart</div>
+  <div class="meta">
+    <span>🐷 乙亥年生 · 生肖猪</span>
+    <span>⚧ 女</span>
+    <span>☀️ 日主戊土</span>
+    <span>📅 1995.06.26 19:00</span>
+  </div>
+</div>
+
+<!-- ========== 一、四柱天盘 ========== -->
+<div class="section">
+  <div class="section-title">🏛️ 一、四柱天盘 · 全维度展开</div>
+  <div class="pillars-grid">
+    <div class="pillar-card year">
+      <div class="pillar-label">年 柱</div>
+      <div class="gan">乙</div>
+      <div class="zhi">亥</div>
+      <div class="nayin">🏔️ 山头火</div>
+      <div class="shishen">正官坐偏财</div>
+      <div class="canggan">藏：壬(偏财) 甲(七杀)</div>
+    </div>
+    <div class="pillar-card month">
+      <div class="pillar-label">月 柱</div>
+      <div class="gan">壬</div>
+      <div class="zhi">午</div>
+      <div class="nayin">🌿 杨柳木</div>
+      <div class="shishen">偏财坐正印</div>
+      <div class="canggan">藏：丁(正印) 己(劫财)</div>
+    </div>
+    <div class="pillar-card day">
+      <div class="pillar-label">日 柱</div>
+      <div class="gan">戊</div>
+      <div class="zhi">子</div>
+      <div class="nayin">⚡ 霹雳火</div>
+      <div class="shishen">⚜️ 日主 · 阳土</div>
+      <div class="canggan">藏：癸(正财)</div>
+    </div>
+    <div class="pillar-card hour">
+      <div class="pillar-label">时 柱</div>
+      <div class="gan">壬</div>
+      <div class="zhi">戌</div>
+      <div class="nayin">🌊 大海水</div>
+      <div class="shishen">偏财坐比肩</div>
+      <div class="canggan">藏：戊(比肩) 辛(伤官) 丁(正印)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 二、胎元 · 命宫 · 身宫 ========== -->
+<div class="section">
+  <div class="section-title">🌱 二、胎元 · 命宫 · 身宫</div>
+  <div class="supp-grid">
+    <div class="supp-card">
+      <div class="supp-label">胎 元</div>
+      <div class="supp-val">癸酉</div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-label">命 宫</div>
+      <div class="supp-val">己丑</div>
+    </div>
+    <div class="supp-card">
+      <div class="supp-label">身 宫</div>
+      <div class="supp-val">辛巳</div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 三、十神关系全表 ========== -->
+<div class="section">
+  <div class="section-title">📊 三、十神关系全表</div>
+  <div class="info-card">
+    <table>
+      <thead>
+        <tr><th>柱位</th><th>天干</th><th>天干十神</th><th>地支</th><th>地支十神（主气）</th><th>藏干全貌</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color:var(--color-wood-soft)">年</td>
+          <td style="font-weight:bold;color:var(--color-wood-soft)">乙</td>
+          <td><span style="color:var(--color-wood-soft)">正官</span></td>
+          <td style="font-weight:bold;color:var(--color-water-soft)">亥</td>
+          <td>偏财</td>
+          <td style="font-size:11px;color:var(--text-muted)">壬(偏财) · 甲(七杀)</td>
+        </tr>
+        <tr>
+          <td style="color:var(--color-water-soft)">月</td>
+          <td style="font-weight:bold;color:var(--color-water-soft)">壬</td>
+          <td><span style="color:var(--color-water-soft)">偏财</span></td>
+          <td style="font-weight:bold;color:var(--color-fire-soft)">午</td>
+          <td>正印</td>
+          <td style="font-size:11px;color:var(--text-muted)">丁(正印) · 己(劫财)</td>
+        </tr>
+        <tr>
+          <td style="color:var(--color-earth-soft)">日</td>
+          <td style="font-weight:bold;color:var(--text-highlight)">戊</td>
+          <td style="color:var(--text-highlight);font-weight:bold">日主（阳土）</td>
+          <td style="font-weight:bold;color:var(--color-water-soft)">子</td>
+          <td>正财</td>
+          <td style="font-size:11px;color:var(--text-muted)">癸(正财)</td>
+        </tr>
+        <tr>
+          <td style="color:var(--color-water-soft)">时</td>
+          <td style="font-weight:bold;color:var(--color-water-soft)">壬</td>
+          <td><span style="color:var(--color-water-soft)">偏财</span></td>
+          <td style="font-weight:bold;color:var(--color-earth-soft)">戌</td>
+          <td>比肩</td>
+          <td style="font-size:11px;color:var(--text-muted)">戊(比肩) · 辛(伤官) · 丁(正印)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========== 四、五行量化分析 ========== -->
+<div class="section">
+  <div class="section-title">⚖️ 四、五行量化分析</div>
+  <div class="info-card">
+    <p style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;">
+      日主 <strong style="color:var(--text-highlight);">戊土</strong>，全局天干见 <strong style="color:var(--color-water-soft);">二壬水（偏财）</strong> + <strong style="color:var(--color-wood-soft);">乙木（正官）</strong>，地支水势不弱（亥子），
+      土仅日主与时支戌。整体 <strong style="color:var(--color-danger);">身偏弱</strong>，喜 <strong style="color:var(--color-fire-soft);">🔥 火（印星）</strong> 与 <strong style="color:var(--color-earth-soft);">⛰️ 土（比劫）</strong> 帮身。
+    </p>
+    <div class="elem-bars">
+      <div class="elem-row">
+        <span class="elem-label" style="color:var(--color-fire-soft)">🔥 火</span>
+        <div class="elem-bar-bg"><div class="elem-bar-fill" style="width:22%;background:var(--color-fire)"></div></div>
+        <span class="elem-pct">22%</span>
+      </div>
+      <div class="elem-row">
+        <span class="elem-label" style="color:var(--color-wood-soft)">🌳 木</span>
+        <div class="elem-bar-bg"><div class="elem-bar-fill" style="width:6%;background:var(--color-wood)"></div></div>
+        <span class="elem-pct">6%</span>
+      </div>
+      <div class="elem-row">
+        <span class="elem-label" style="color:var(--color-water-soft)">💧 水</span>
+        <div class="elem-bar-bg"><div class="elem-bar-fill" style="width:37%;background:var(--color-water)"></div></div>
+        <span class="elem-pct">37%</span>
+      </div>
+      <div class="elem-row">
+        <span class="elem-label" style="color:var(--color-metal-soft)">⚔️ 金</span>
+        <div class="elem-bar-bg"><div class="elem-bar-fill" style="width:5%;background:var(--color-metal)"></div></div>
+        <span class="elem-pct">5%</span>
+      </div>
+      <div class="elem-row">
+        <span class="elem-label" style="color:var(--color-earth-soft)">⛰️ 土</span>
+        <div class="elem-bar-bg"><div class="elem-bar-fill" style="width:30%;background:var(--color-earth)"></div></div>
+        <span class="elem-pct">30%</span>
+      </div>
+    </div>
+    <div style="margin-top:14px;font-size:12px;color:var(--text-muted);">
+      💡 身弱财旺格局。水势过旺（财多身弱），需火土帮身。印星（火）为第一用神，比劫（土）为第二用神。
+    </div>
+  </div>
+</div>
+
+<!-- ========== 五、刑冲合害全景图 ========== -->
+<div class="section">
+  <div class="section-title">⚡ 五、刑冲合害全景图</div>
+  <div class="clash-grid">
+    <div class="clash-item">
+      <strong style="color:var(--color-danger);">🔴 月日双冲（午↔子）</strong><br>
+      <span style="font-size:12px;color:var(--text-secondary);">原局最核心矛盾。月支午火（印星）与日支子水（正财）正面冲突，印星被冲——早年与长辈关系摩擦、内心安全感不足。</span>
+    </div>
+    <div class="clash-item" style="border-left-color:var(--color-success);">
+      <strong style="color:var(--color-success);">🟢 月时半合火（午戌半合）</strong><br>
+      <span style="font-size:12px;color:var(--text-secondary);">火局半成，印星得助——晚年有靠、团队支持力强，对日主弱土有暗帮扶作用。</span>
+    </div>
+    <div class="clash-item" style="border-left-color:var(--color-warning);">
+      <strong style="color:var(--color-warning);">🟡 年与月暗合（亥午暗合）</strong><br>
+      <span style="font-size:12px;color:var(--text-secondary);">水与火暗中牵制。家庭与事业之间存在微妙张力，表面和谐，内有拉扯。</span>
+    </div>
+    <div class="clash-item" style="border-left-color:var(--color-danger);">
+      <strong style="color:var(--color-danger);">🔴 天干双壬尅戊</strong><br>
+      <span style="font-size:12px;color:var(--text-secondary);">月干壬水 + 时干壬水，两偏财联手耗日主戊土。财星过旺，身心易疲，求财辛苦。</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 六、神煞全录 ========== -->
+<div class="section">
+  <div class="section-title">✨ 六、神煞全录</div>
+  <div class="info-card">
+    <table>
+      <thead>
+        <tr><th>柱位</th><th>贵人 / 吉神</th><th>凶煞 / 注意</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>年柱</td>
+          <td style="color:var(--color-success);">天德贵人、国印</td>
+          <td style="color:var(--color-danger);">亡神</td>
+        </tr>
+        <tr>
+          <td>月柱</td>
+          <td style="color:var(--color-success);">太极贵人、文昌贵人、天厨贵人</td>
+          <td style="color:var(--color-danger);">羊刃、元辰、披头、空亡</td>
+        </tr>
+        <tr>
+          <td>日柱</td>
+          <td style="color:var(--color-success);">天乙贵人、太极贵人、德秀贵人、六秀</td>
+          <td style="color:var(--color-danger);">飞刃、桃花、九丑</td>
+        </tr>
+        <tr>
+          <td>时柱</td>
+          <td style="color:var(--color-success);">太极贵人、天官贵人、天喜</td>
+          <td style="color:var(--color-danger);">寡宿、天罗地网、童子煞</td>
+        </tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;font-size:12px;color:var(--text-muted);">
+      💡 <strong style="color:var(--color-success);">天乙贵人</strong>落日柱——终身有贵人扶持；<strong style="color:var(--color-success);">天德贵人</strong>在年——祖上积德；<br>
+      ⚠️ <strong style="color:var(--color-danger);">羊刃</strong>在月、<strong style="color:var(--color-danger);">寡宿</strong>在时——中年需注意情绪波动与孤独感。
+    </div>
+  </div>
+</div>
+
+<!-- ========== 七、十轮大运 ========== -->
+<div class="section">
+  <div class="section-title">🔄 七、十轮大运 · 一生轨迹</div>
+  <div class="info-card">
+    <p style="font-size:12px;color:var(--text-muted);margin-bottom:12px;">起运：1999年3月13日 · 5岁起运 · 每10年一换</p>
+    <div class="fortune-list">
+      <div class="fortune-row"><span class="ft-age">5–14</span><span class="ft-ganzhi">癸未</span><span class="ft-shishen">正财 · 劫财+正印+正官</span><span class="ft-years">1999–2008</span></div>
+      <div class="fortune-row"><span class="ft-age">15–24</span><span class="ft-ganzhi">甲申</span><span class="ft-shishen">七杀 · 食神+偏财+比肩</span><span class="ft-years">2009–2018</span></div>
+      <div class="fortune-row current"><span class="ft-age">25–34</span><span class="ft-ganzhi">乙酉</span><span class="ft-shishen">正官 · 伤官</span><span class="ft-years">2019–2028</span><span style="font-size:10px;color:var(--color-fire-soft);margin-left:8px;">◀ 当前大运</span></div>
+      <div class="fortune-row"><span class="ft-age">35–44</span><span class="ft-ganzhi">丙戌</span><span class="ft-shishen">偏印 · 比肩+伤官+正印</span><span class="ft-years">2029–2038</span><span style="font-size:10px;color:var(--color-success);margin-left:8px;">⬆ 即将进入</span></div>
+      <div class="fortune-row"><span class="ft-age">45–54</span><span class="ft-ganzhi">丁亥</span><span class="ft-shishen">正印 · 偏财+七杀</span><span class="ft-years">2039–2048</span></div>
+      <div class="fortune-row"><span class="ft-age">55–64</span><span class="ft-ganzhi">戊子</span><span class="ft-shishen">比肩 · 正财</span><span class="ft-years">2049–2058</span></div>
+      <div class="fortune-row"><span class="ft-age">65–74</span><span class="ft-ganzhi">己丑</span><span class="ft-shishen">劫财 · 劫财+正财+伤官</span><span class="ft-years">2059–2068</span></div>
+      <div class="fortune-row"><span class="ft-age">75–84</span><span class="ft-ganzhi">庚寅</span><span class="ft-shishen">食神 · 七杀+偏印+比肩</span><span class="ft-years">2069–2078</span></div>
+      <div class="fortune-row"><span class="ft-age">85–94</span><span class="ft-ganzhi">辛卯</span><span class="ft-shishen">伤官 · 正官</span><span class="ft-years">2079–2088</span></div>
+      <div class="fortune-row"><span class="ft-age">95–104</span><span class="ft-ganzhi">壬辰</span><span class="ft-shishen">偏财 · 比肩+正官+正财</span><span class="ft-years">2089–2098</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 八、2026丙午流年深度解析 ========== -->
+<div class="section">
+  <div class="section-title">🔥 八、2026 丙午流年 · 深度解析</div>
+  
+  <div class="info-card">
+    <h3>流年干支：丙午（偏印 + 正印/劫财）</h3>
+    <table>
+      <thead><tr><th>维度</th><th>详情</th></tr></thead>
+      <tbody>
+        <tr><td>天干十神</td><td style="color:var(--color-fire-soft);">丙火 · 偏印</td></tr>
+        <tr><td>地支十神</td><td style="color:var(--color-fire-soft);">丁(正印) · 己(劫财)</td></tr>
+        <tr><td>纳音</td><td>天河水</td></tr>
+        <tr><td>流年神煞</td><td style="color:var(--color-success);">月德贵人、太极贵人、文昌贵人、德秀贵人</td></tr>
+        <tr><td>关键冲合</td><td>
+          🔴 <span style="color:var(--color-danger);">子午冲</span>（流年冲日支，内心动荡）<br>
+          🔴 <span style="color:var(--color-danger);">壬丙冲</span>（流年天干冲月时双壬，印星破财）<br>
+          🟢 <span style="color:var(--color-success);">戌午半合火</span>（时支合流年，印星大旺）
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="insight-block">
+    <strong>💡 2026年核心判断：</strong>丙午年印星大旺，是身弱戊土日主的 <strong style="color:var(--color-success);">大吉之年</strong>。
+    印星帮身，贵人运强，学习进修、考证升职的大好窗口。但子午冲动日支夫妻宫，感情家庭方面需多加包容。
+    偏印透干——思维活跃，适合跨界尝试和知识拓展。
+  </div>
+
+  <!-- Monthly Cards -->
+  <h3 style="font-size:14px;color:var(--text-secondary);margin-bottom:12px;">📅 2026 流月一览（12月分段）</h3>
+  <div class="month-grid">
+    <div class="month-card"><div class="mc-month">1/1-1/4</div><div class="mc-ganzhi" style="color:var(--color-earth-soft)">戊子</div><div class="mc-shishen">比肩 · 正财</div><div class="mc-indicator alert"></div></div>
+    <div class="month-card"><div class="mc-month">1/5-2/3</div><div class="mc-ganzhi" style="color:var(--color-earth-soft)">己丑</div><div class="mc-shishen">劫财 · 劫财</div><div class="mc-indicator caution"></div></div>
+    <div class="month-card"><div class="mc-month">2/4-3/4</div><div class="mc-ganzhi" style="color:var(--color-metal-soft)">庚寅</div><div class="mc-shishen">食神 · 七杀</div><div class="mc-indicator good"></div></div>
+    <div class="month-card"><div class="mc-month">3/5-4/4</div><div class="mc-ganzhi" style="color:var(--color-metal-soft)">辛卯</div><div class="mc-shishen">伤官 · 正官</div><div class="mc-indicator caution"></div></div>
+    <div class="month-card"><div class="mc-month">4/5-5/4</div><div class="mc-ganzhi" style="color:var(--color-water-soft)">壬辰</div><div class="mc-shishen">偏财 · 比肩</div><div class="mc-indicator caution"></div></div>
+    <div class="month-card"><div class="mc-month">5/5-6/4</div><div class="mc-ganzhi" style="color:var(--color-water-soft)">癸巳</div><div class="mc-shishen">正财 · 偏印</div><div class="mc-indicator good"></div></div>
+    <div class="month-card current"><div class="mc-month">6/5-7/6</div><div class="mc-ganzhi" style="color:var(--color-wood-soft)">甲午</div><div class="mc-shishen">七杀 · 正印</div><div class="mc-indicator good"></div><span style="font-size:9px;color:var(--color-fire-soft);">◀ 当前</span></div>
+    <div class="month-card"><div class="mc-month">7/7-8/6</div><div class="mc-ganzhi" style="color:var(--color-wood-soft)">乙未</div><div class="mc-shishen">正官 · 劫财</div><div class="mc-indicator good"></div></div>
+    <div class="month-card"><div class="mc-month">8/7-9/6</div><div class="mc-ganzhi" style="color:var(--color-fire-soft)">丙申</div><div class="mc-shishen">偏印 · 食神</div><div class="mc-indicator good"></div></div>
+    <div class="month-card"><div class="mc-month">9/7-10/7</div><div class="mc-ganzhi" style="color:var(--color-fire-soft)">丁酉</div><div class="mc-shishen">正印 · 伤官</div><div class="mc-indicator good"></div></div>
+    <div class="month-card"><div class="mc-month">10/8-11/6</div><div class="mc-ganzhi" style="color:var(--color-earth-soft)">戊戌</div><div class="mc-shishen">比肩 · 比肩</div><div class="mc-indicator good"></div></div>
+    <div class="month-card"><div class="mc-month">11/7-12/6</div><div class="mc-ganzhi" style="color:var(--color-earth-soft)">己亥</div><div class="mc-shishen">劫财 · 偏财</div><div class="mc-indicator caution"></div></div>
+    <div class="month-card"><div class="mc-month">12/7-12/31</div><div class="mc-ganzhi" style="color:var(--color-metal-soft)">庚子</div><div class="mc-shishen">食神 · 正财</div><div class="mc-indicator alert"></div></div>
+  </div>
+</div>
+
+<!-- ========== 九、2026年6月流日 ========== -->
+<div class="section">
+  <div class="section-title">📆 九、庚午月（6/5-7/6）流日日历 · 丁巳日今日</div>
+  
+  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">
+    当前流月：<strong style="color:var(--color-wood-soft);">甲午</strong>（七杀 + 正印）— 压力与机遇并存，印星护身，虽有挑战但能化解。
+  </div>
+
+  <div class="daily-grid">
+    <div class="daily-cell"><div class="dc-date">6/1 一</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丙午</div><div class="dc-shishen">偏印</div></div>
+    <div class="daily-cell"><div class="dc-date">6/2 二</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丁未</div><div class="dc-shishen">正印</div></div>
+    <div class="daily-cell"><div class="dc-date">6/3 三</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">戊申</div><div class="dc-shishen">比肩</div></div>
+    <div class="daily-cell"><div class="dc-date">6/4 四</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">己酉</div><div class="dc-shishen">劫财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/5 五</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">庚戌</div><div class="dc-shishen">食神</div></div>
+    <div class="daily-cell"><div class="dc-date">6/6 六</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">辛亥</div><div class="dc-shishen">伤官</div></div>
+    <div class="daily-cell"><div class="dc-date">6/7 日</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">壬子</div><div class="dc-shishen">偏财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/8 一</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">癸丑</div><div class="dc-shishen">正财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/9 二</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">甲寅</div><div class="dc-shishen">七杀</div></div>
+    <div class="daily-cell"><div class="dc-date">6/10 三</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">乙卯</div><div class="dc-shishen">正官</div></div>
+    <div class="daily-cell"><div class="dc-date">6/11 四</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丙辰</div><div class="dc-shishen">偏印</div></div>
+    <div class="daily-cell today"><div class="dc-date">6/12 五</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丁巳</div><div class="dc-shishen">正印</div><span style="font-size:9px;color:var(--color-fire-soft);">今日</span></div>
+    <div class="daily-cell"><div class="dc-date">6/13 六</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">戊午</div><div class="dc-shishen">比肩</div></div>
+    <div class="daily-cell"><div class="dc-date">6/14 日</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">己未</div><div class="dc-shishen">劫财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/15 一</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">庚申</div><div class="dc-shishen">食神</div></div>
+    <div class="daily-cell"><div class="dc-date">6/16 二</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">辛酉</div><div class="dc-shishen">伤官</div></div>
+    <div class="daily-cell"><div class="dc-date">6/17 三</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">壬戌</div><div class="dc-shishen">偏财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/18 四</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">癸亥</div><div class="dc-shishen">正财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/19 五</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">甲子</div><div class="dc-shishen">七杀</div></div>
+    <div class="daily-cell"><div class="dc-date">6/20 六</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">乙丑</div><div class="dc-shishen">正官</div></div>
+    <div class="daily-cell"><div class="dc-date">6/21 日</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丙寅</div><div class="dc-shishen">偏印</div></div>
+    <div class="daily-cell"><div class="dc-date">6/22 一</div><div class="dc-ganzhi" style="color:var(--color-fire-soft)">丁卯</div><div class="dc-shishen">正印</div></div>
+    <div class="daily-cell"><div class="dc-date">6/23 二</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">戊辰</div><div class="dc-shishen">比肩</div></div>
+    <div class="daily-cell"><div class="dc-date">6/24 三</div><div class="dc-ganzhi" style="color:var(--color-earth-soft)">己巳</div><div class="dc-shishen">劫财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/25 四</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">庚午</div><div class="dc-shishen">食神</div></div>
+    <div class="daily-cell"><div class="dc-date">6/26 五</div><div class="dc-ganzhi" style="color:var(--color-metal-soft)">辛未</div><div class="dc-shishen">伤官</div></div>
+    <div class="daily-cell"><div class="dc-date">6/27 六</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">壬申</div><div class="dc-shishen">偏财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/28 日</div><div class="dc-ganzhi" style="color:var(--color-water-soft)">癸酉</div><div class="dc-shishen">正财</div></div>
+    <div class="daily-cell"><div class="dc-date">6/29 一</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">甲戌</div><div class="dc-shishen">七杀</div></div>
+    <div class="daily-cell"><div class="dc-date">6/30 二</div><div class="dc-ganzhi" style="color:var(--color-wood-soft)">乙亥</div><div class="dc-shishen">正官</div></div>
+  </div>
+  
+  <div style="margin-top:10px;font-size:11px;color:var(--text-muted);text-align:center;">
+    🟢=平稳 · 🟡=注意 · 🔴=动荡 &nbsp;|&nbsp; 
+    <span style="color:var(--color-fire-soft);">今日丁巳：正印日，贵人运旺，利学习沟通</span>
+  </div>
+</div>
+
+<!-- ========== 十、分领域深度解读 ========== -->
+<div class="section">
+  <div class="section-title">🔍 十、分领域深度解读</div>
+  <div class="domain-grid">
+    <div class="domain-card">
+      <h4>💼 事业 <span class="domain-grade grade-good">吉</span></h4>
+      <p>
+        <strong>2026丙午年事业运极佳。</strong>偏印丙火透干，印星大旺帮身——
+        利考证、升职、学术研究、团队扩展。当前大运乙酉（正官+伤官），官星有根，管理能力被看见。
+        但伤官在运中需防言语锋芒过露。<br><br>
+        <strong>关键窗口：</strong>8-10月（丙申、丁酉、戊戌月）印比齐来，是全年事业高峰。
+        2027丁未年正印继续发力，可趁势升级。
+      </p>
+    </div>
+    <div class="domain-card">
+      <h4>💕 感情 <span class="domain-grade grade-caution">注意</span></h4>
+      <p>
+        日支子水为夫妻宫，藏癸水正财。<strong>2026子午冲</strong>直捣夫妻宫——
+        感情关系面临考验，沟通容易擦枪走火。午中丁火正印与子中癸水正财相冲，
+        家事与事业拉扯明显。<br><br>
+        <strong>建议：</strong>下半年的7-8月（乙未月）午未合火缓和矛盾，是修复关系的好时机。
+        时柱寡宿暗示晚婚倾向，不必焦虑。
+      </p>
+    </div>
+    <div class="domain-card">
+      <h4>💰 财运 <span class="domain-grade grade-caution">注意</span></h4>
+      <p>
+        原局<strong>财多身弱</strong>（双壬一癸水财星），求财辛苦，易财来财去。
+        2026丙午年印星大旺化财——<strong>以知识和能力变现</strong>是正途，
+        不可冒进投资。<br><br>
+        流年壬丙相冲（财印交战），花销大、为学习/家庭/长辈支出多。
+        2027丁未年（正印+劫财），合作求财可行，但需防合伙人纠纷。
+      </p>
+    </div>
+    <div class="domain-card">
+      <h4>🏥 健康 <span class="domain-grade grade-caution">中等</span></h4>
+      <p>
+        戊土日主，脾胃为先天薄弱环节。水火交战（子午冲），
+        2026年注意<strong>心血管、睡眠质量、内分泌</strong>方面。
+        羊刃在月支午——火过旺时易头痛、心烦。<br><br>
+        进入2029年丙戌大运（偏印+比肩），火土帮身，整体体质会明显提升。
+        当前宜保持规律作息，避免熬夜伤阴。
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 十一、2027-2028前瞻 ========== -->
+<div class="section">
+  <div class="section-title">🔮 十一、2027-2028 前瞻</div>
+  <div class="upcoming-grid">
+    <div class="info-card">
+      <h3>2027 丁未年 · 正印+劫财</h3>
+      <table>
+        <tr><td>天干</td><td style="color:var(--color-fire-soft);">丁火 · 正印</td></tr>
+        <tr><td>地支</td><td style="color:var(--color-earth-soft);">己丁乙 · 劫财+正印+正官</td></tr>
+        <tr><td>亮点</td><td style="color:var(--color-success);">壬丁合木（月时与流年天干合）、午未合火（印星叠旺）</td></tr>
+        <tr><td>注意</td><td style="color:var(--color-danger);">子未相害（日支被害）、戌未刑破（时柱动荡）</td></tr>
+        <tr><td>总评</td><td>印星继续发力，是丙午年的延续年。但地支"害"与"刑"增多，人际关系暗流涌动。</td></tr>
+      </table>
+    </div>
+    <div class="info-card">
+      <h3>2028 戊申年 · 比肩+食神</h3>
+      <table>
+        <tr><td>天干</td><td style="color:var(--color-earth-soft);">戊土 · 比肩</td></tr>
+        <tr><td>地支</td><td style="color:var(--color-metal-soft);">庚壬戊 · 食神+偏财+比肩</td></tr>
+        <tr><td>亮点</td><td style="color:var(--color-success);">子申半合水（日支得合）、比肩帮身</td></tr>
+        <tr><td>注意</td><td style="color:var(--color-danger);">亥申相害（年柱被害）、壬戊相尅（月时天干与流年尅）</td></tr>
+        <tr><td>总评</td><td>比肩帮身力量增强，食神生财——适合开拓新项目。但年柱受损，注意家人健康。</td></tr>
+      </table>
+    </div>
+  </div>
+  <div style="margin-top:12px;font-size:12px;color:var(--text-secondary);text-align:center;">
+    ⚡ <strong>关键转折：2029年进入丙戌大运</strong>（偏印+比肩，35-44岁），火土齐来，是从"财多身弱"到"身强能担财"的十年黄金期。
+  </div>
+</div>
+
+<!-- ========== 十二、纳音五行 ========== -->
+<div class="section">
+  <div class="section-title">🎵 十二、纳音五行 · 生克制化</div>
+  <div class="info-card" style="text-align:center;">
+    <div style="font-size:18px;letter-spacing:4px;margin-bottom:8px;">
+      <span style="color:var(--color-fire-soft);">🏔️ 山头火</span>
+      <span style="color:var(--text-muted);margin:0 8px;">→</span>
+      <span style="color:var(--color-wood-soft);">🌿 杨柳木</span>
+      <span style="color:var(--text-muted);margin:0 8px;">→</span>
+      <span style="color:var(--color-fire-soft);">⚡ 霹雳火</span>
+      <span style="color:var(--text-muted);margin:0 8px;">→</span>
+      <span style="color:var(--color-water-soft);">🌊 大海水</span>
+    </div>
+    <p style="font-size:13px;color:var(--text-secondary);max-width:600px;margin:0 auto;">
+      火 → 木 → 火 → 水。纳音火旺，增印星之力；大海水在时柱，晚年智慧深沉。
+      霹雳火（日柱）遇山头火（年柱）——爆发力强，有雷霆手段。整体纳音链条以火为主，对身弱戊土是天然补益。
+    </p>
+  </div>
+</div>
+
+<!-- ========== 十三、三句话总结 ========== -->
+<div class="section">
+  <div class="summary-card">
+    <h3>✨ 三句话 · 点透全局</h3>
+    <ol>
+      <li>
+        <strong>身弱财旺格局，喜火土帮身。</strong>
+        你天生具备吸引资源的能力（财星旺盛），但戊土日主偏弱，扛财辛苦。核心策略不是"赚更多"，而是<strong>用印星（知识、贵人、品牌）放大自己的能力，让财自动来找你。</strong>
+      </li>
+      <li>
+        <strong>2026-2028是三年上升窗口，抓紧丙午的印星红利。</strong>
+        丙午年偏印帮身 + 丁未年正印续力 + 戊申年比肩接手——连续三年火土助力，是你35岁前最好的积累期。2029年进入丙戌大运后，格局质的飞跃。
+      </li>
+      <li>
+        <strong>管好内心那场"火水之战"。</strong>
+        原局午子冲、天干壬戊尅，你的内在永远在"安全感 vs 冒险欲"之间拉锯。不是要消灭哪一方，而是学会让火（印星=定力）驯服水（财星=欲望），让它们为你所用而非消耗你。
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+  ⚠️ 本回复由 AI 生成，以上为八字命理的传统解读与象征推演，仅供娱乐参考。<br>
+  不构成医疗、法律、财务或投资建议；命理是参考，不是定数。<br>
+  涉及健康、法律、重大财务决策请咨询相应专业人士。
+</div>
+
+</div>
+</body>
+</html>

@@ -110,12 +110,36 @@
   .bdj-num { font-weight: 500; color: #1565C0; margin-bottom: 2px; }
   .bdj-benefit { color: #C73866; font-size: 10px; }
 
+  /* 命理探索卡片 */
+  .fortune-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 1.5rem 0; }
+  .fortune-card {
+    display: block; text-decoration: none; color: inherit;
+    background: #fff; border: 0.5px solid rgba(44,44,42,0.15); border-radius: 14px;
+    padding: 1.5rem 1.25rem; transition: all 0.25s ease; cursor: pointer;
+    position: relative; overflow: hidden;
+  }
+  .fortune-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.1); }
+  .fortune-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 14px 14px 0 0; }
+  .fortune-card-1::before { background: linear-gradient(90deg, #d4af6e, #f3d99c, #8a6aa8); }
+  .fortune-card-2::before { background: linear-gradient(90deg, #e74c3c, #f39c12, #2ecc71, #3498db); }
+  .fortune-card-3::before { background: linear-gradient(90deg, #a890ff, #6ee0d6, #ff8eb8); }
+  .fortune-icon { font-size: 36px; margin-bottom: 10px; display: block; }
+  .fortune-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .fortune-card .fortune-desc { font-size: 12px; color: #888780; line-height: 1.6; }
+  .fortune-card .fortune-tag { display: inline-block; font-size: 11px; padding: 3px 10px; border-radius: 20px; margin-top: 10px; font-weight: 500; }
+  .fortune-tag-gold { background: #FFF8E1; color: #B8860B; }
+  .fortune-tag-fire { background: #FDE8E8; color: #C0392B; }
+  .fortune-tag-purple { background: #EEEDFE; color: #534AB7; }
+  .fortune-arrow { display: inline-block; margin-left: 6px; transition: transform 0.2s; }
+  .fortune-card:hover .fortune-arrow { transform: translateX(3px); }
+
   @media (max-width: 600px) {
     .phase-grid { grid-template-columns: 1fr; }
     .daily-practice-grid { grid-template-columns: 1fr; }
     .equip-grid { grid-template-columns: repeat(2, 1fr); }
     .week-grid { grid-template-columns: repeat(4, 1fr); }
     .bdj-grid { grid-template-columns: repeat(2, 1fr); }
+    .fortune-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -131,6 +155,7 @@
     <button class="tab" onclick="switchTab('plan2')">方案二 · 后侧链强化</button>
     <button class="tab" onclick="switchTab('plan3')">方案三 · 极简三天</button>
     <button class="tab" onclick="switchTab('progress')">三阶段进阶</button>
+    <button class="tab" onclick="switchTab('fortune')">命理探索</button>
   </div>
 
   <!-- 总览 -->
@@ -834,13 +859,53 @@
     </div>
   </div>
 
+  <!-- 命理探索 -->
+  <div class="panel" id="tab-fortune">
+    <div class="plan-header">
+      <h2>命理探索 · 玄学命盘</h2>
+      <p>八字推命、紫微斗数——探索先天命局，洞察人生轨迹。以下三份命盘深度解析，点击即可跳转查看。</p>
+      <div class="tags">
+        <span class="tag tag-purple">八字命理</span>
+        <span class="tag tag-amber">紫微斗数</span>
+        <span class="tag tag-teal">深度解析</span>
+        <span class="tag tag-rose">仅供娱乐</span>
+      </div>
+    </div>
+
+    <div class="fortune-grid">
+      <a href="八字命盘-终极版-1995-06-25.html" class="fortune-card fortune-card-1">
+        <span class="fortune-icon">☯️</span>
+        <h3>八字命盘 · 终极版</h3>
+        <p class="fortune-desc">乙亥 壬午 丁亥 戊申 · 深度推演五行生克制化，大运流年全解析，涵盖事业、财运、婚姻、健康等维度。</p>
+        <span class="fortune-tag fortune-tag-gold">八字命理 <span class="fortune-arrow">→</span></span>
+      </a>
+      <a href="八字命盘-详细解析-1995-06-26.html" class="fortune-card fortune-card-2">
+        <span class="fortune-icon">🔮</span>
+        <h3>八字命盘 · 详细解析</h3>
+        <p class="fortune-desc">乙亥 壬午 戊子 壬戌 · 五行能量分布、十神格局研判，细致入微的命局拆解与运势推演。</p>
+        <span class="fortune-tag fortune-tag-fire">日柱精析 <span class="fortune-arrow">→</span></span>
+      </a>
+      <a href="紫微斗数-深度详解-1995-06-25.html" class="fortune-card fortune-card-3">
+        <span class="fortune-icon">🌟</span>
+        <h3>紫微斗数 · 深度详解</h3>
+        <p class="fortune-desc">十二宫位完整排盘 · 星曜庙旺落陷剖析 · 四化飞星流转 · 三方四正吉凶判断。</p>
+        <span class="fortune-tag fortune-tag-purple">紫微斗数 <span class="fortune-arrow">→</span></span>
+      </a>
+    </div>
+
+    <div class="tip-block tip-blue" style="margin-top:1.5rem;">
+      <strong>免责声明：</strong>命理之术贵在自知，不在迷信。以上内容仅供娱乐参考，切勿以此作为人生重大决策的唯一依据。命运由自我认知与行动塑造，命盘只是参考系，真正的力量在于你的选择与坚持。<br><br>
+      <strong>有趣的小知识：</strong>力量训练与命理有异曲同工之妙——八字讲"身强身弱"决定用神，健身讲"强弱项"决定训练侧重。了解自己的"命盘"，和了解自己的"体能结构"，本质上都是在做同一件事：<strong>知己，然后对症下药</strong>。
+    </div>
+  </div>
+
 </div>
 <script>
 function switchTab(id) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => { p.classList.remove('active'); p.style.display='none'; });
-  const panels = {'overview':'tab-overview','daily':'tab-daily','plan1':'tab-plan1','plan2':'tab-plan2','plan3':'tab-plan3','progress':'tab-progress'};
-  const tabs = ['overview','daily','plan1','plan2','plan3','progress'];
+  const panels = {'overview':'tab-overview','daily':'tab-daily','plan1':'tab-plan1','plan2':'tab-plan2','plan3':'tab-plan3','progress':'tab-progress','fortune':'tab-fortune'};
+  const tabs = ['overview','daily','plan1','plan2','plan3','progress','fortune'];
   const idx = tabs.indexOf(id);
   if (idx >= 0) document.querySelectorAll('.tab')[idx].classList.add('active');
   const panel = document.getElementById(panels[id]);

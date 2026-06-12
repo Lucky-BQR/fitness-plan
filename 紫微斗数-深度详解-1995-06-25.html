@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>紫微斗数 · 深度命盘详解</title>
+<style>
+:root {
+  --bg: #0a0e2a;
+  --bg-card: #0d1238;
+  --bg-card-alt: #111845;
+  --purple: #a890ff;
+  --purple-light: #c8b8ff;
+  --silver: #b8b8d0;
+  --silver-bright: #e8e4ff;
+  --gold: #ffd66e;
+  --gold-bright: #ffe8a0;
+  --cyan: #6ee0d6;
+  --cyan-bright: #90f8ee;
+  --rose: #ff8eb8;
+  --rose-soft: #ffb0d0;
+  --green: #7ee090;
+  --green-bright: #a0f8b0;
+  --red-soft: #ff7070;
+  --gray-dim: #666688;
+  --border: #1a1f4a;
+  --border-light: #2a2f5a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'STSong', serif;
+  background: var(--bg);
+  color: var(--silver);
+  line-height: 1.8;
+  overflow-x: hidden;
+}
+/* Starfield */
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: 
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 25% 35%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 40% 10%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 55% 45%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 70% 25%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 85% 55%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 15% 65%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 90% 80%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 30% 85%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 75% 12%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1.5px 1.5px at 48% 58%, rgba(255,255,255,0.3), transparent);
+  pointer-events: none; z-index: 0;
+}
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+/* Header */
+.header {
+  text-align: center; padding: 50px 20px 30px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 30px;
+}
+.header h1 {
+  font-size: 2.6em; color: var(--purple-light);
+  letter-spacing: 0.08em; margin-bottom: 6px;
+}
+.header .subtitle {
+  font-size: 1.1em; color: var(--silver); margin-bottom: 12px;
+  font-style: italic;
+}
+.header .meta {
+  display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+  font-size: 0.92em; color: var(--gray-dim); margin-top: 12px;
+}
+.header .meta span { 
+  background: var(--bg-card); padding: 4px 14px; border-radius: 20px;
+  border: 1px solid var(--border);
+}
+
+/* Section Titles */
+.section-title {
+  font-size: 1.6em; color: var(--gold);
+  margin: 40px 0 20px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--border-light);
+  letter-spacing: 0.05em;
+}
+.section-title .en { font-size: 0.55em; color: var(--gray-dim); margin-left: 10px; font-style: italic; }
+
+/* 12 Palace Grid */
+.palace-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+.palace-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 10px;
+  position: relative;
+  transition: border-color 0.3s;
+}
+.palace-card:hover { border-color: var(--purple); }
+.palace-card.soul { border-color: var(--gold); box-shadow: 0 0 12px rgba(255,214,110,0.15); }
+.palace-card.body { border-color: var(--rose); box-shadow: 0 0 12px rgba(255,142,184,0.15); }
+.palace-card .palace-header {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 6px;
+}
+.palace-card .palace-name {
+  font-size: 1.05em; font-weight: bold; color: var(--silver-bright);
+}
+.palace-card .stem-branch {
+  font-size: 0.8em; color: var(--gray-dim);
+}
+.palace-card .badge {
+  display: inline-block; font-size: 0.65em; padding: 1px 7px; border-radius: 10px;
+  font-weight: bold; letter-spacing: 0.05em;
+}
+.badge-soul { background: var(--gold); color: #0a0e2a; }
+.badge-body { background: var(--rose); color: #0a0e2a; }
+.badge-decadal { background: var(--cyan); color: #0a0e2a; }
+.badge-yearly { background: var(--green); color: #0a0e2a; }
+.palace-stars { font-size: 0.78em; line-height: 1.5; }
+.star-major { color: var(--gold-bright); font-weight: bold; }
+.star-minor { color: var(--purple-light); }
+.star-adj { color: var(--gray-dim); font-size: 0.9em; }
+.star-brightness { font-size: 0.72em; margin-left: 3px; }
+.bright-wang { color: var(--gold); }
+.bright-ping { color: var(--silver); }
+.bright-xian { color: var(--red-soft); }
+.star-row { margin: 1px 0; }
+
+/* Highlights */
+.highlight-box {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-card-alt));
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin: 16px 0;
+}
+.highlight-box.gold { border-color: rgba(255,214,110,0.3); }
+.highlight-box.rose { border-color: rgba(255,142,184,0.3); }
+.highlight-box h3 {
+  color: var(--gold); font-size: 1.2em; margin-bottom: 10px;
+}
+
+/* Insight Cards */
+.insight-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 14px;
+  margin: 16px 0;
+}
+.insight-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+}
+.insight-card h4 {
+  font-size: 1em; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.insight-card h4 .icon { font-size: 1.3em; }
+.insight-card p { font-size: 0.88em; color: var(--silver); line-height: 1.7; }
+
+/* Timeline */
+.timeline {
+  position: relative; padding-left: 30px; margin: 16px 0;
+}
+.timeline::before {
+  content: ''; position: absolute; left: 8px; top: 0; bottom: 0;
+  width: 2px; background: var(--border-light);
+}
+.timeline-item {
+  position: relative; margin-bottom: 20px;
+}
+.timeline-item::before {
+  content: ''; position: absolute; left: -26px; top: 6px;
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--purple); border: 2px solid var(--bg);
+}
+.timeline-item.current::before {
+  background: var(--gold); box-shadow: 0 0 8px var(--gold);
+}
+.timeline-item .tl-age {
+  font-size: 0.8em; color: var(--gray-dim); margin-bottom: 2px;
+}
+.timeline-item .tl-palace {
+  font-size: 1em; font-weight: bold; color: var(--silver-bright);
+}
+.timeline-item .tl-stars {
+  font-size: 0.82em; color: var(--purple-light);
+}
+.timeline-item .tl-note {
+  font-size: 0.78em; color: var(--gray-dim); font-style: italic; margin-top: 2px;
+}
+
+/* Mutagen Section */
+.mutagen-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;
+  margin: 16px 0;
+}
+.mutagen-card {
+  text-align: center; padding: 14px 8px; border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.mutagen-card.lu { border-color: var(--gold); }
+.mutagen-card.quan { border-color: var(--rose); }
+.mutagen-card.ke { border-color: var(--cyan); }
+.mutagen-card.ji { border-color: var(--gray-dim); }
+.mutagen-card .mu-star { font-size: 1.2em; font-weight: bold; }
+.mutagen-card .mu-type { font-size: 0.85em; margin-top: 4px; }
+.mutagen-card .mu-palace { font-size: 0.75em; color: var(--gray-dim); margin-top: 2px; }
+.lu .mu-star { color: var(--gold-bright); }
+.quan .mu-star { color: var(--rose); }
+.ke .mu-star { color: var(--cyan-bright); }
+.ji .mu-star { color: var(--gray-dim); }
+
+/* Three Sentences Summary */
+.summary-box {
+  background: linear-gradient(135deg, rgba(168,144,255,0.08), rgba(255,214,110,0.06));
+  border: 1px solid rgba(255,214,110,0.25);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 30px 0;
+}
+.summary-box h3 {
+  color: var(--gold); font-size: 1.25em; margin-bottom: 12px;
+  text-align: center;
+}
+.summary-box ol {
+  color: var(--silver-bright); font-size: 1.05em; line-height: 2;
+  padding-left: 24px;
+}
+.summary-box ol li { margin-bottom: 6px; }
+.summary-box ol li strong { color: var(--gold-bright); }
+
+/* 2026 Detail Table */
+.flow-table {
+  width: 100%; border-collapse: collapse; margin: 16px 0;
+  font-size: 0.88em;
+}
+.flow-table th {
+  background: var(--bg-card-alt); color: var(--gold);
+  padding: 10px 8px; text-align: left; border-bottom: 2px solid var(--border-light);
+  font-size: 0.9em;
+}
+.flow-table td {
+  padding: 8px; border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.flow-table tr:hover td { background: rgba(168,144,255,0.04); }
+.flow-table .good { color: var(--green-bright); }
+.flow-table .warn { color: var(--rose-soft); }
+.flow-table .neutral { color: var(--silver); }
+
+/* Disclaimer */
+.disclaimer {
+  margin-top: 40px; padding: 16px 20px;
+  border: 1px dashed #442222; border-radius: 8px;
+  font-size: 0.8em; color: #886666; text-align: center;
+  line-height: 1.6;
+}
+
+/* Four-Change tab */
+.tab-nav {
+  display: flex; gap: 4px; margin-bottom: 0;
+}
+.tab-btn {
+  background: var(--bg-card); border: 1px solid var(--border);
+  color: var(--gray-dim); padding: 8px 18px; cursor: pointer;
+  border-radius: 8px 8px 0 0; font-size: 0.88em;
+  transition: all 0.2s;
+}
+.tab-btn.active { 
+  background: var(--bg-card-alt); color: var(--gold);
+  border-bottom-color: transparent;
+}
+.tab-content {
+  background: var(--bg-card-alt); border: 1px solid var(--border);
+  border-radius: 0 8px 8px 8px; padding: 16px;
+  display: none;
+}
+.tab-content.active { display: block; }
+
+@media (max-width: 720px) {
+  .palace-grid { grid-template-columns: repeat(2, 1fr); }
+  .mutagen-grid { grid-template-columns: repeat(2, 1fr); }
+  .insight-cards { grid-template-columns: 1fr; }
+  .header h1 { font-size: 1.8em; }
+  .flow-table { font-size: 0.75em; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- Header -->
+<div class="header">
+  <h1>🔮 紫微斗数 · 深度命盘详解</h1>
+  <div class="subtitle">Ziwei Doushu · Comprehensive Natal Chart Analysis</div>
+  <div class="meta">
+    <span>📅 1995年6月25日 申时</span>
+    <span>♀ 女</span>
+    <span>🪐 土五局</span>
+    <span>🐷 乙亥猪</span>
+    <span>♋ 巨蟹座</span>
+    <span>🔬 iztro-py 引擎</span>
+  </div>
+  <div class="meta" style="margin-top:8px">
+    <span>🌿 农历：一九九五年五月廿八</span>
+    <span>🀄 八字：乙亥 壬午 丁亥 戊申</span>
+    <span>🌟 命主：禄存</span>
+    <span>🌙 身主：天机</span>
+  </div>
+</div>
+
+<!-- ==================== SECTION 1: 十二宫全景 ==================== -->
+<div class="section-title">🏰 十二宫全景 <span class="en">Twelve Palaces Overview</span></div>
+
+<div class="palace-grid">
+  <!-- 0. 官禄宫【身宫】 -->
+  <div class="palace-card body">
+    <div class="palace-header">
+      <span class="palace-name">官禄宫</span>
+      <span class="stem-branch">戊寅</span>
+      <span class="badge badge-body">身宫</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">—空宫—</span></div>
+      <div class="star-row"><span class="star-minor">文昌</span> <span class="star-minor">陀罗</span></div>
+      <div class="star-row"><span class="star-adj">天贵 · 台辅 · 孤辰</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:病 | 博士:官府</div>
+    </div>
+  </div>
+  <!-- 1. 交友宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">交友宫</span>
+      <span class="stem-branch">己卯</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">—空宫—</span></div>
+      <div class="star-row"><span class="star-minor">地空</span> <span class="star-minor" style="color:var(--gold-bright)">禄存</span></div>
+      <div class="star-row"><span class="star-adj">八座 · 龙池 · 天伤</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:死 | 博士:博士</div>
+    </div>
+  </div>
+  <!-- 2. 迁移宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">迁移宫</span>
+      <span class="stem-branch">庚辰</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">天同</span><span class="star-brightness bright-xian">陷</span></div>
+      <div class="star-row"><span class="star-minor">擎羊</span></div>
+      <div class="star-row"><span class="star-adj">红鸾 · 恩光 · 天官 · 月德</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:墓 | 博士:力士</div>
+    </div>
+  </div>
+  <!-- 3. 疾厄宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">疾厄宫</span>
+      <span class="stem-branch">辛巳</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">武曲</span> <span class="star-major">破军</span></div>
+      <div class="star-row"><span class="star-minor">火星</span> <span class="star-minor">天马</span></div>
+      <div class="star-row"><span class="star-adj">天姚 · 天巫 · 天虚 · 天使</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:绝 | 博士:青龙</div>
+    </div>
+  </div>
+  <!-- 4. 财帛宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">财帛宫</span>
+      <span class="stem-branch">壬午</span>
+      <span class="badge badge-yearly">流年·小限</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">太阳</span><span class="star-brightness bright-wang">旺</span></div>
+      <div class="star-row"><span class="star-minor">右弼</span> <span class="star-minor" style="color:var(--red-soft)">铃星</span></div>
+      <div class="star-row"><span class="star-adj">天厨 · 截路 · 阴煞</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:胎 | 博士:小耗</div>
+    </div>
+  </div>
+  <!-- 5. 子女宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">子女宫</span>
+      <span class="stem-branch">癸未</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">天府</span></div>
+      <div class="star-row"><span class="star-minor">地劫</span></div>
+      <div class="star-row"><span class="star-adj">华盖 · 天月 · 空亡 · 天哭</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:养 | 博士:将军</div>
+    </div>
+  </div>
+  <!-- 6. 夫妻宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">夫妻宫</span>
+      <span class="stem-branch">甲申</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major" style="color:var(--gold-bright)">天机·禄</span> <span class="star-major" style="color:var(--gray-dim)">太阴·忌</span></div>
+      <div class="star-row"><span class="star-minor">左辅</span> <span class="star-minor">天钺</span></div>
+      <div class="star-row"><span class="star-adj">天福 · 天德</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:长生 | 博士:奏书</div>
+    </div>
+  </div>
+  <!-- 7. 兄弟宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">兄弟宫</span>
+      <span class="stem-branch">乙酉</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">紫微</span> <span class="star-major">贪狼</span></div>
+      <div class="star-row"><span class="star-minor">—</span></div>
+      <div class="star-row"><span class="star-adj">天才 · 旬空 · 破碎</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:沐浴 | 博士:飞廉</div>
+    </div>
+  </div>
+  <!-- 8. 命宫 -->
+  <div class="palace-card soul">
+    <div class="palace-header">
+      <span class="palace-name">命 宫</span>
+      <span class="stem-branch">丙戌</span>
+      <span class="badge badge-soul">命宫</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">巨门</span><span class="star-brightness bright-ping">平</span></div>
+      <div class="star-row"><span class="star-minor">—</span></div>
+      <div class="star-row"><span class="star-adj">天喜 · 封诰 · 寡宿</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:冠带 | 博士:喜神</div>
+    </div>
+  </div>
+  <!-- 9. 父母宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">父母宫</span>
+      <span class="stem-branch">丁亥</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">天相</span></div>
+      <div class="star-row"><span class="star-minor">—</span></div>
+      <div class="star-row"><span class="star-adj">三台 · 凤阁 · 年解</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:临官 | 博士:病符</div>
+    </div>
+  </div>
+  <!-- 10. 福德宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">福德宫</span>
+      <span class="stem-branch">戊子</span>
+      <span class="badge badge-decadal">大限25-34</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major" style="color:var(--rose)">天梁·权</span></div>
+      <div class="star-row"><span class="star-minor">文曲</span> <span class="star-minor">天魁</span></div>
+      <div class="star-row"><span class="star-adj">咸池 · 解神 · 天空</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:帝旺 | 博士:大耗</div>
+    </div>
+  </div>
+  <!-- 11. 田宅宫 -->
+  <div class="palace-card">
+    <div class="palace-header">
+      <span class="palace-name">田宅宫</span>
+      <span class="stem-branch">己丑</span>
+    </div>
+    <div class="palace-stars">
+      <div class="star-row"><span class="star-major">廉贞</span> <span class="star-major">七杀</span></div>
+      <div class="star-row"><span class="star-minor">—</span></div>
+      <div class="star-row"><span class="star-adj">天寿 · 蜚廉 · 天刑</span></div>
+      <div class="star-row" style="font-size:0.7em;color:var(--gray-dim)">长生:衰 | 博士:伏兵</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 2: 命格总断 ==================== -->
+<div class="section-title">📜 命格总断 <span class="en">Destiny Blueprint</span></div>
+
+<div class="highlight-box gold">
+  <h3>🗡️ 巨门坐命 · 暗曜思辨者</h3>
+  <p>命宫 <strong style="color:var(--gold-bright)">巨门（平）</strong> 独坐戌宫，戌为火库，巨门属水，水火相激而生智。巨门为"暗曜"，代表怀疑、思辨、口才与深度洞察。你不是那种阳光外放的人，而是<strong style="color:var(--silver-bright)">表面沉静、内心翻涌</strong>的类型——想得多、看得深、说得准。寡宿同宫，天性中带一份孤独气质，但这不是缺陷，而是你能静心深耕的优势。</p>
+  <p>身宫落在 <strong style="color:var(--rose)">官禄宫（空宫）</strong>，说明你此生的价值感与成就感，绝大多数来自事业和公众角色。身宫空宫借对宫之力——对宫夫妻宫天机太阴，意味着你的<strong style="color:var(--silver-bright)">事业机遇往往通过伴侣、合作方、或感知他人需求的能力</strong>而来。</p>
+</div>
+
+<div class="highlight-box gold">
+  <h3>🌟 全局四化（生年四化）· 乙干</h3>
+  <div class="mutagen-grid">
+    <div class="mutagen-card lu">
+      <div class="mu-star">天机·禄</div>
+      <div class="mu-type">化禄</div>
+      <div class="mu-palace">入 夫妻宫</div>
+    </div>
+    <div class="mutagen-card quan">
+      <div class="mu-star">天梁·权</div>
+      <div class="mu-type">化权</div>
+      <div class="mu-palace">入 福德宫</div>
+    </div>
+    <div class="mutagen-card ke">
+      <div class="mu-star">紫微·科</div>
+      <div class="mu-type">化科</div>
+      <div class="mu-palace">入 兄弟宫</div>
+    </div>
+    <div class="mutagen-card ji">
+      <div class="mu-star">太阴·忌</div>
+      <div class="mu-type">化忌</div>
+      <div class="mu-palace">入 夫妻宫</div>
+    </div>
+  </div>
+  <p style="margin-top:12px;font-size:0.9em;">⚠️ <strong>关键看点：天机禄 + 太阴忌同入夫妻宫</strong>——禄忌同宫，福祸相依。感情是你人生中最大的福报来源，也是最深的功课所在。天机禄让你在亲密关系中思维敏捷、善解人意；太阴忌则暗示情感上的敏感、隐忍、甚至牺牲倾向。这不是坏事，而是说你的感情必须<strong style="color:var(--gold-bright)">"从磨难中升华"</strong>。</p>
+</div>
+
+<!-- ==================== SECTION 3: 命宫三方四正 ==================== -->
+<div class="section-title">🔺 命宫三方四正 <span class="en">Core Trine Analysis</span></div>
+
+<div class="insight-cards">
+  <div class="insight-card">
+    <h4><span class="icon">🏠</span> 命宫 · 丙戌</h4>
+    <p><strong style="color:var(--gold-bright)">巨门（平）</strong> — 口舌之星，也是智慧之星。寡宿暗示你习惯独处思考。封诰+天喜意味着你的表达（写作/演说/分析）可能带来名声和机遇。一生需要警惕"话少时被人误解，话多时被人利用"。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">↔️</span> 对宫 · 迁移宫 · 庚辰</h4>
+    <p><strong style="color:var(--gold-bright)">天同（陷）</strong> + 擎羊 — 天同为福星但落陷，外出虽有福缘但常伴随波折。擎羊为刑刃，提示外出时需注意冲突和小人。但红鸾+月德也在，说明你的贵人和机缘，<strong style="color:var(--silver-bright)">恰恰藏在"走出去"的过程中</strong>。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">💰</span> 财帛宫 · 壬午</h4>
+    <p><strong style="color:var(--gold-bright)">太阳（旺）</strong> + 右弼 + 铃星 — 太阳旺在午宫，是为"日丽中天"，财运明亮。你的钱来自于<strong style="color:var(--silver-bright)">曝光度、知名度、影响力</strong>。右弼助你得人脉财，但铃星提示暗耗——赚钱容易，守住需要纪律。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">💼</span> 官禄宫 · 戊寅【身宫】</h4>
+    <p><strong style="color:var(--gold-bright)">空宫</strong> + 文昌 + 陀罗 — 身宫落空宫，没有固定的职业形态。文昌加持让你适合<strong style="color:var(--silver-bright)">文教、策划、咨询、技术</strong>类工作。陀罗暗示事业上的反复与打磨——你的事业不是一蹴而就型，而是厚积薄发型。借对宫天机太阴之力，适合需要洞察和沟通的领域。</p>
+  </div>
+</div>
+
+<!-- ==================== SECTION 4: 十二宫深度解读 ==================== -->
+<div class="section-title">🔍 十二宫逐宫详解 <span class="en">Palace-by-Palace Deep Dive</span></div>
+
+<table class="flow-table">
+  <tr><th style="width:10%">宫位</th><th style="width:14%">干支</th><th style="width:20%">主星</th><th style="width:14%">辅杂曜</th><th>解读</th></tr>
+  <tr>
+    <td><strong>命宫</strong></td>
+    <td>丙戌</td>
+    <td>巨门（平）</td>
+    <td>天喜·封诰·寡宿</td>
+    <td>暗曜入命，思辨力强、口才佳。寡宿让你享受独处，适合研究、写作、分析类工作。封诰暗示未来有"封名"之机——你的见解值得被听见。</td>
+  </tr>
+  <tr>
+    <td><strong>兄弟宫</strong></td>
+    <td>乙酉</td>
+    <td><span style="color:var(--cyan-bright)">紫微·科</span> + 贪狼</td>
+    <td>天才·旬空·破碎</td>
+    <td>朋友圈层不俗，紫微化科意味着你的社交圈有贵人、有资源。贪狼加持人脉广阔，但旬空+破碎提醒：泛泛之交多、知心者少，谨防利益驱动的"朋友"。</td>
+  </tr>
+  <tr>
+    <td><strong>夫妻宫</strong></td>
+    <td>甲申</td>
+    <td><span style="color:var(--gold-bright)">天机·禄</span> + <span style="color:var(--gray-dim)">太阴·忌</span></td>
+    <td>左辅·天钺·天福·天德</td>
+    <td class="warn">禄忌同宫——这是命盘中最复杂的配置。天机禄让你在感情中灵动机敏，太阴忌让你敏感多思。左辅+天钺双贵人在感情宫，对象条件不差，但你自己容易想太多。天福+天德缓冲了忌的压力，结局不坏，但过程有波折。关键：<strong>学会"放下头脑，用心感受"</strong>。</td>
+  </tr>
+  <tr>
+    <td><strong>子女宫</strong></td>
+    <td>癸未</td>
+    <td>天府</td>
+    <td>地劫·华盖·天哭</td>
+    <td>天府为库星，子女缘不差但来得偏晚。地劫+天哭提示在生育或与晚辈关系上可能有波折或延迟。华盖加持，孩子可能偏内向、有艺术气质。</td>
+  </tr>
+  <tr>
+    <td><strong>财帛宫</strong></td>
+    <td>壬午</td>
+    <td>太阳（旺）</td>
+    <td>右弼·铃星·天厨</td>
+    <td class="good">日丽中天，财运格局极佳。太阳旺在午宫是全书中最强的财帛配置之一。你的钱靠"被看见"——知名度、个人品牌、公众形象直接转化为财富。右弼助你得人脉财、合作财。铃星提醒暗耗，需注意冲动消费或投资陷阱。</td>
+  </tr>
+  <tr>
+    <td><strong>疾厄宫</strong></td>
+    <td>辛巳</td>
+    <td>武曲 + 破军</td>
+    <td>火星·天马·天姚·天巫</td>
+    <td class="warn">武曲属金主肺与骨骼，破军属水主消耗。火星+天马=急症风险，需关注呼吸系统、牙齿、骨骼和意外伤害。天姚+天巫暗示女性生殖系统需定期检查。整体而言：<strong>别逞强、别过劳</strong>，你的身体不是铁打的。</td>
+  </tr>
+  <tr>
+    <td><strong>迁移宫</strong></td>
+    <td>庚辰</td>
+    <td>天同（陷）</td>
+    <td>擎羊·红鸾·月德</td>
+    <td>天同陷落说明外出不是你的舒适区，但红鸾+月德意味着贵人、机缘恰恰在外面。擎羊提醒外出谨防冲突。矛盾之处在于：<strong>不出去没机会，出去又不安逸</strong>——这正是你需要突破的舒适区。</td>
+  </tr>
+  <tr>
+    <td><strong>交友宫</strong></td>
+    <td>己卯</td>
+    <td>空宫</td>
+    <td>地空·禄存·八座·龙池</td>
+    <td>交友宫空宫但禄存在此，说明你的下属/同事中有"隐形资源"。地空让你不太擅长主动社交，但八座+龙池又给了你吸引高端人脉的潜质。策略：<strong>不追求人脉广度，专注质量</strong>。</td>
+  </tr>
+  <tr>
+    <td><strong>官禄宫</strong></td>
+    <td>戊寅</td>
+    <td><span style="color:var(--rose)">【身宫】</span>空宫</td>
+    <td>文昌·陀罗·天贵·台辅·孤辰</td>
+    <td>身宫在事业，一生为事业而活。空宫意味着没有固定模板——你不是螺丝钉，而是需要"自定义"职业路径的人。文昌+天贵+台辅三吉星汇聚，适合<strong>文化、教育、咨询、传媒、策划</strong>类方向。陀罗暗示事业上的螺旋式上升——不要跟别人比速度。</td>
+  </tr>
+  <tr>
+    <td><strong>田宅宫</strong></td>
+    <td>己丑</td>
+    <td>廉贞 + 七杀</td>
+    <td>天寿·蜚廉·天刑</td>
+    <td class="warn">廉贞七杀在田宅，家庭环境不平静——可能涉及房产纠纷、家庭矛盾、或频繁搬家。天刑增加了法律/合约风险。但天寿也在，意味着晚年安居无忧。早期房产投资需格外谨慎合约条款。</td>
+  </tr>
+  <tr>
+    <td><strong>福德宫</strong></td>
+    <td>戊子</td>
+    <td><span style="color:var(--rose)">天梁·权</span></td>
+    <td>文曲·天魁·咸池·解神</td>
+    <td class="good">这是盘中最漂亮的宫！天梁化权=内心有原则、有权威感、有定力。文曲+天魁=才华有贵人赏识。咸池让你懂得享受生活情趣，解神化解烦恼。你内心的底盘非常稳——外面再乱，你心里有数。</td>
+  </tr>
+  <tr>
+    <td><strong>父母宫</strong></td>
+    <td>丁亥</td>
+    <td>天相</td>
+    <td>三台·凤阁·年解</td>
+    <td>天相坐父母宫，家庭教养良好，父母可能是规矩感和秩序感比较强的人。三台+凤阁暗示家中有一定的社会地位或文化传承。与父母的关系整体和睦，但也可能偏传统和拘谨。</td>
+  </tr>
+</table>
+
+<!-- ==================== SECTION 5: 大限时间线 ==================== -->
+<div class="section-title">⏳ 大限流转 <span class="en">Decadal Fortune Timeline</span></div>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="tl-age">5 – 14 岁</div>
+    <div class="tl-palace">命宫（丙戌）· 巨门</div>
+    <div class="tl-stars">巨门入大限，童年内向、爱思考</div>
+    <div class="tl-note">口才与思辨能力萌芽期，可能偏安静、话不多但心里有数</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">15 – 24 岁</div>
+    <div class="tl-palace">父母宫（丁亥）· 天相</div>
+    <div class="tl-stars">天相主文书、规矩、学业</div>
+    <div class="tl-note">求学阶段受家庭影响大，学业表现中上，循规蹈矩中成长</div>
+  </div>
+  <div class="timeline-item current">
+    <div class="tl-age">25 – 34 岁 ⬅ 当前</div>
+    <div class="tl-palace">福德宫（戊子）· 天梁·权 + 文曲 + 天魁</div>
+    <div class="tl-stars">天梁化权 + 文曲 + 天魁 · 三吉会合</div>
+    <div class="tl-note">✨ 黄金十年！内心沉淀、建立专业权威、贵人频现。决定你人生高度的关键期</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">35 – 44 岁</div>
+    <div class="tl-palace">田宅宫（己丑）· 廉贞 + 七杀</div>
+    <div class="tl-stars">廉贞七杀 · 变动与挑战</div>
+    <div class="tl-note">家庭/房产/根基层面的大调整期，可能置业、搬迁、或家庭结构变化</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">45 – 54 岁</div>
+    <div class="tl-palace">官禄宫（戊寅）【身宫】· 空宫借对宫</div>
+    <div class="tl-stars">文昌·天贵·台辅 · 身宫发力</div>
+    <div class="tl-note">事业巅峰期！身宫大限开启，之前的积累在此爆发</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">55 – 64 岁</div>
+    <div class="tl-palace">交友宫（己卯）· 禄存 + 地空</div>
+    <div class="tl-stars">禄存守交友 · 人际收割期</div>
+    <div class="tl-note">人脉变现、资源整合，前期播下的种子此时收获</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">65 – 74 岁</div>
+    <div class="tl-palace">迁移宫（庚辰）· 天同</div>
+    <div class="tl-stars">天同晚年福星 · 红鸾月德</div>
+    <div class="tl-note">晚年外游运佳，适合旅居、移居、享受生活</div>
+  </div>
+  <div class="timeline-item">
+    <div class="tl-age">75 – 84 岁</div>
+    <div class="tl-palace">疾厄宫（辛巳）· 武曲破军</div>
+    <div class="tl-stars">健康需关注</div>
+    <div class="tl-note">养生为第一要务，前期积累的健康问题此时显现</div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 6: 2026流年深度 ==================== -->
+<div class="section-title">🔥 2026年（丙午）流年深度解析 <span class="en">Year 2026 In-Depth Forecast</span></div>
+
+<div class="highlight-box gold">
+  <h3>📊 2026 流年关键指标</h3>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;font-size:0.9em;">
+    <div><strong style="color:var(--gold)">大限宫：</strong>福德宫（戊子）· 天梁权 · 25-34岁</div>
+    <div><strong style="color:var(--gold)">流年宫：</strong>财帛宫（壬午）· 太阳旺 · 丙午年</div>
+    <div><strong style="color:var(--gold)">小限宫：</strong>财帛宫（壬午）· 与流年重叠</div>
+    <div><strong style="color:var(--gold)">流月宫：</strong>官禄宫（戊寅）【身宫】</div>
+    <div><strong style="color:var(--gold)">流日宫：</strong>福德宫（戊子）· 与大限重叠</div>
+    <div><strong style="color:var(--gold)">流时宫：</strong>福德宫（戊子）</div>
+    <div><strong style="color:var(--gold)">命主虚岁：</strong>32岁</div>
+  </div>
+</div>
+
+<!-- 2026 四化 -->
+<div class="highlight-box rose">
+  <h3>🔄 2026流年四化 · 丙干</h3>
+  <div class="mutagen-grid">
+    <div class="mutagen-card lu">
+      <div class="mu-star">天同·禄</div>
+      <div class="mu-type">流年化禄</div>
+      <div class="mu-palace">入 迁移宫</div>
+    </div>
+    <div class="mutagen-card quan">
+      <div class="mu-star">天机·权</div>
+      <div class="mu-type">流年化权</div>
+      <div class="mu-palace">入 夫妻宫</div>
+    </div>
+    <div class="mutagen-card ke">
+      <div class="mu-star">文昌·科</div>
+      <div class="mu-type">流年化科</div>
+      <div class="mu-palace">入 官禄宫【身宫】</div>
+    </div>
+    <div class="mutagen-card ji">
+      <div class="mu-star">廉贞·忌</div>
+      <div class="mu-type">流年化忌</div>
+      <div class="mu-palace">入 田宅宫</div>
+    </div>
+  </div>
+  <p style="margin-top:12px;font-size:0.9em;">
+    <strong>天同禄在迁移</strong> → 外出、旅行、变动带来意外福气。今年适合多走动、出差、学习。<br>
+    <strong>天机权在夫妻</strong> → 感情中有主动权，但要避免"过度分析"把简单问题复杂化。<br>
+    <strong>文昌科在官禄</strong> → 🎯 事业上有利文书、考试、证书、职称评审——这是你今年最亮的点！<br>
+    <strong>廉贞忌在田宅</strong> → 家庭琐事、房产问题、或与家人关系成为今年的情绪消耗点。
+  </p>
+</div>
+
+<!-- 2026大限四化 -->
+<div class="highlight-box" style="border-color:rgba(110,224,214,0.3)">
+  <h3>🔮 大限四化（25-34岁·福德宫大限）</h3>
+  <div class="mutagen-grid">
+    <div class="mutagen-card lu">
+      <div class="mu-star">贪狼·禄</div>
+      <div class="mu-type">大限化禄</div>
+      <div class="mu-palace">入 兄弟宫</div>
+    </div>
+    <div class="mutagen-card quan">
+      <div class="mu-star">太阴·权</div>
+      <div class="mu-type">大限化权</div>
+      <div class="mu-palace">入 夫妻宫</div>
+    </div>
+    <div class="mutagen-card ke">
+      <div class="mu-star">右弼·科</div>
+      <div class="mu-type">大限化科</div>
+      <div class="mu-palace">入 财帛宫</div>
+    </div>
+    <div class="mutagen-card ji">
+      <div class="mu-star">天机·忌</div>
+      <div class="mu-type">大限化忌</div>
+      <div class="mu-palace">入 夫妻宫</div>
+    </div>
+  </div>
+  <p style="margin-top:12px;font-size:0.9em;">
+    大限四化叠加在流年之上，形成了<strong>夫妻宫三化交汇</strong>（生年禄+生年忌+大限权+大限忌+流年权）——感情是你这十年避不开的主题，也是你成长最快的领域。
+  </p>
+</div>
+
+<!-- 2026 各领域 -->
+<div class="section-title" style="font-size:1.3em">📋 2026年十二领域逐月走势</div>
+
+<div style="overflow-x:auto;">
+<table class="flow-table">
+  <tr><th>领域</th><th>上半年（春·夏）</th><th>下半年（秋·冬）</th><th>关键提示</th></tr>
+  <tr>
+    <td><strong>💰 财运</strong></td>
+    <td class="good">太阳旺+右弼科发力，正财运亮眼。适合展示自己、争取曝光、建立个人品牌</td>
+    <td class="neutral">铃星暗耗渐显，注意冲动消费和不必要的社交开支</td>
+    <td>收入增长但花钱的地方也多，做好预算</td>
+  </tr>
+  <tr>
+    <td><strong>💼 事业</strong></td>
+    <td>文昌科入官禄，利考试、证书、职称、发表——知识型投入回报率高</td>
+    <td class="good">陀罗周期结束，前期积累的专业成果开始被看见</td>
+    <td>🎯 今年事业关键词：<strong>考证、学习、提升专业壁垒</strong></td>
+  </tr>
+  <tr>
+    <td><strong>💕 感情</strong></td>
+    <td>天机权让你在关系中掌握主动，但容易想太多</td>
+    <td class="warn">天机忌+太阴忌叠加，情绪波动大，注意沟通</td>
+    <td>有话直说，别让人猜——巨门本来就会说话</td>
+  </tr>
+  <tr>
+    <td><strong>🏠 家庭</strong></td>
+    <td>廉贞忌初显，注意与家人的小摩擦</td>
+    <td class="warn">廉贞忌加重，可能涉及房产、装修、或家庭事务纠纷</td>
+    <td>提前沟通家庭重大决策，避免年底被动</td>
+  </tr>
+  <tr>
+    <td><strong>🫂 人际</strong></td>
+    <td>贪狼禄在兄弟宫，社交圈活跃，认识新朋友</td>
+    <td class="good">紫微科加持，贵人运强，有地位的人可能施以援手</td>
+    <td>高质量的社交 > 数量</td>
+  </tr>
+  <tr>
+    <td><strong>🧘 健康</strong></td>
+    <td>相对平稳，注意消化系统</td>
+    <td>火星+天马在疾厄，注意急性问题和意外</td>
+    <td>规律作息，别熬夜逞强</td>
+  </tr>
+  <tr>
+    <td><strong>✈️ 出行</strong></td>
+    <td class="good">天同禄在迁移，上半年出行运极佳，越动越有福</td>
+    <td>擎羊显现，外出多注意安全和口舌冲突</td>
+    <td>上半年多走动，下半年谨慎出行</td>
+  </tr>
+  <tr>
+    <td><strong>📚 学习</strong></td>
+    <td class="good">文昌科发力，学习效率高、考试运佳</td>
+    <td>天梁权加持，系统性深度学习的好时机</td>
+    <td>今年是"投资自己"的最佳年份</td>
+  </tr>
+</table>
+</div>
+
+<!-- ==================== SECTION 7: 格局与特殊组合 ==================== -->
+<div class="section-title">⚡ 特殊格局与星曜组合 <span class="en">Special Patterns</span></div>
+
+<div class="insight-cards">
+  <div class="insight-card">
+    <h4><span class="icon">🌓</span> 禄忌同宫格（夫妻宫）</h4>
+    <p>天机禄 + 太阴忌同入夫妻宫，形成"禄忌交战"。这在紫微斗数中称为"禄逢冲破"——福气在，但总伴随着代价。感情中你得到很多，也付出很多。这个格局的人往往晚婚更好，因为需要时间"消化"这种福祸交织的能量。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">☀️</span> 日丽中天格（财帛宫）</h4>
+    <p>太阳在午宫为"日丽中天"，是紫微斗数中最显赫的财帛宫格局之一。太阳为官禄主，入财帛宫，说明你的财富与事业、名望、社会地位深度绑定。你赚的不是"辛苦钱"，而是"影响力变现"——越被看见、越有钱。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">🛡️</span> 天梁护福德</h4>
+    <p>天梁在福德宫化权，且文曲天魁左右护卫。天梁是"荫星"，化权后不仅护自己还能护别人。你的内心结构非常坚固，外面再大的风浪，你心里始终有一根"定海神针"。这是你这一生最重要的心理资产。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">⚔️</span> 廉贞七杀守田宅</h4>
+    <p>廉贞七杀在田宅宫，属于"杀破狼"格局的一部分。家庭层面不平静，可能经历房产纠纷、家庭矛盾或频繁搬迁。天刑在旁边加重了法律风险。但天寿也在——最后会安稳下来的，过程会比较折腾。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">🎭</span> 武破在疾厄</h4>
+    <p>武曲破军在疾厄宫，加上火星天马——这是"冲动消耗型"的身体配置。你的身体像一个高性能的引擎，但也容易过载。天姚暗示需要关注妇科健康。关键不是"不要拼"，而是"拼完要休息"。</p>
+  </div>
+  <div class="insight-card">
+    <h4><span class="icon">👑</span> 紫微贪狼在兄弟</h4>
+    <p>紫微化科+贪狼在兄弟宫，你的朋友圈层天然有"贵人基因"。紫微是帝王星，贪狼是交际花——你在社交中既有身份感又懂人情，是很高级的社交配置。旬空提醒你不要太当真，有些关系来得快去得也快。</p>
+  </div>
+</div>
+
+<!-- ==================== SECTION 8: 实操建议 ==================== -->
+<div class="section-title">🎯 行动指南 <span class="en">Actionable Guidance</span></div>
+
+<div class="insight-cards">
+  <div class="insight-card" style="border-left:3px solid var(--gold)">
+    <h4><span class="icon">💡</span> 2026年最该做的三件事</h4>
+    <p>① <strong style="color:var(--gold-bright)">投资学习/考证</strong>——文昌科入官禄，知识类投入回报率最高；<br>② <strong style="color:var(--gold-bright)">主动曝光自己</strong>——太阳旺在财帛，越多人认识你越好赚钱；<br>③ <strong style="color:var(--gold-bright)">上半年多走动</strong>——天同禄在迁移，上半年出行带福气。</p>
+  </div>
+  <div class="insight-card" style="border-left:3px solid var(--rose)">
+    <h4><span class="icon">⚠️</span> 2026年需要警惕的事</h4>
+    <p>① <strong style="color:var(--rose-soft)">家庭/房产纠纷</strong>——廉贞忌在田宅，重大房产决策务必审合同；<br>② <strong style="color:var(--rose-soft)">感情中的过度分析</strong>——天机权+忌叠加，别把感情当逻辑题；<br>③ <strong style="color:var(--rose-soft)">身体健康透支</strong>——火星天马在疾厄，注意急症和过劳。</p>
+  </div>
+  <div class="insight-card" style="border-left:3px solid var(--cyan)">
+    <h4><span class="icon">🛤️</span> 长期战略（25-34岁黄金期）</h4>
+    <p>① <strong style="color:var(--cyan-bright)">建立专业权威</strong>——天梁权在福德大限，这是你"立名"的十年；<br>② <strong style="color:var(--cyan-bright)">积累高质量人脉</strong>——紫微科+贪狼禄在兄弟宫；<br>③ <strong style="color:var(--cyan-bright)">为45岁事业爆发蓄力</strong>——身宫官禄大限在45-54岁到来。</p>
+  </div>
+  <div class="insight-card" style="border-left:3px solid var(--green)">
+    <h4><span class="icon">🧩</span> 性格优化方向</h4>
+    <p>① <strong style="color:var(--green-bright)">巨门寡宿 → 练习主动表达</strong>——你有想法，不说出来等于没有；<br>② <strong style="color:var(--green-bright)">太阴忌 → 管理情绪敏感</strong>——感受力是天赋，但要学会不被感受淹没；<br>③ <strong style="color:var(--green-bright)">天同陷 → 突破舒适区</strong>——福气藏在你不想去的地方。</p>
+  </div>
+</div>
+
+<!-- ==================== SUMMARY ==================== -->
+<div class="summary-box">
+  <h3>💫 三句话总结你的命盘</h3>
+  <ol>
+    <li><strong>你是一个"暗处发光"的人</strong>——巨门在命让你不张扬，但太阳旺在财帛意味着你的价值终究会被看见。不要急，先把自己打磨到不能被忽视。</li>
+    <li><strong>感情是你最大的福气也是最大的学费</strong>——禄忌同宫不是诅咒，而是一条"通过关系认识自己"的必经之路。你越早学会在亲密关系中保持自我，越早享受天机禄带来的甜蜜。</li>
+    <li><strong>25-34岁是你的黄金十年</strong>——天梁权+文曲+天魁在福德大限，你正在建立人生最重要的根基。2026年太阳照财宫、文昌科入官禄，是你放大影响力的最佳窗口期。别等了，就是现在。</li>
+  </ol>
+</div>
+
+<!-- Disclaimer -->
+<div class="disclaimer">
+  ⚠️ 本回复由 AI 生成，基于紫微斗数传统算法的象征推演，仅供娱乐与自我反思参考。<br>
+  不构成医疗、法律、财务或投资建议。命理是参考，不是定数。<br>
+  涉及健康、法律、重大财务决策请咨询相应专业人士。<br>
+  <span style="font-size:0.85em;margin-top:4px;display:inline-block">算法引擎：iztro-py · 命盘生成时间：2026-06-12 · 传统框架：紫微斗数全书</span>
+</div>
+
+</div>
+</body>
+</html>

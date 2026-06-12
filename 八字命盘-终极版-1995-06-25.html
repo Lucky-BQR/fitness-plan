@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>八字命盘 · 终极解析 · 乙亥 壬午 丁亥 戊申</title>
+<style>
+  :root {
+    --bg:#0e0b08; --bg-card:rgba(255,248,230,0.035); --border:rgba(212,175,110,0.2);
+    --border-str:rgba(212,175,110,0.5); --gold:#d4af6e; --gold-b:#f3d99c;
+    --ink:#ece4d3; --ink-s:#b8ad95; --ink-d:#877d6a;
+    --red:#c44a3c; --green:#6b9a5c; --blue:#4a7a9c; --purple:#8a6aa8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:var(--bg);color:var(--ink);font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei","STSong",serif;line-height:1.75}
+  .container{max-width:920px;margin:0 auto;padding:24px 20px 70px}
+  header{text-align:center;padding:44px 0 36px;border-bottom:1px solid var(--border);margin-bottom:36px}
+  header h1{font-size:30px;color:var(--gold-b);letter-spacing:3px}
+  header .sub{font-size:13px;color:var(--ink-d);margin-top:8px;letter-spacing:1px}
+  header .meta{font-size:14px;color:var(--ink-s);margin-top:14px}
+  header .meta b{color:var(--gold);margin:0 12px}
+
+  .sec{margin-bottom:44px}
+  .sec-title{font-size:19px;color:var(--gold);border-left:3px solid var(--gold);padding-left:14px;margin-bottom:18px;letter-spacing:2px}
+  .sec-sub{font-size:13px;color:var(--ink-s);margin-bottom:14px;margin-left:17px}
+
+  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .pil{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:16px 8px;text-align:center}
+  .pil .pos{font-size:11px;color:var(--ink-d);letter-spacing:2px;margin-bottom:4px}
+  .pil .stem{font-size:36px;color:var(--gold-b);font-weight:bold}
+  .pil .branch{font-size:30px;color:var(--ink);margin:2px 0}
+  .pil .nayin{font-size:11px;color:var(--ink-d)}
+  .pil .cang{font-size:10px;color:var(--blue);margin-top:2px}
+  .pil .tengod{font-size:11px;color:var(--ink-s);margin-top:3px}
+  .pil .sheng{font-size:10px;color:var(--ink-d)}
+
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:10px;padding:20px;margin-bottom:14px}
+  .card h3{font-size:15px;color:var(--gold);margin-bottom:12px}
+  .card p,.card li{font-size:14px;color:var(--ink-s)}
+  .card ul{padding-left:18px}
+  .card li{margin-bottom:6px}
+
+  .t2{width:100%;border-collapse:collapse}
+  .t2 th,.t2 td{padding:7px 10px;text-align:left;font-size:13px;border-bottom:1px solid var(--border)}
+  .t2 th{color:var(--gold);font-weight:normal;white-space:nowrap}
+  .t2 td{color:var(--ink-s)}
+
+  .tag{display:inline-block;padding:1px 7px;border-radius:3px;font-size:10px;margin:1px 2px}
+  .t-he{background:rgba(107,154,92,0.18);color:#7eb86c}
+  .t-ch{background:rgba(196,74,60,0.18);color:#e07060}
+  .t-x{background:rgba(196,100,70,0.15);color:#e8a070}
+  .t-ha{background:rgba(138,106,168,0.18);color:#b898d0}
+  .t-ah{background:rgba(74,122,156,0.18);color:#7ab8d8}
+  .t-ke{background:rgba(196,164,74,0.18);color:#e0c060}
+
+  .badge{display:inline-block;padding:2px 8px;border-radius:3px;font-size:10px;margin-left:4px;vertical-align:middle}
+  .bd-g{background:rgba(107,154,92,0.18);color:#6b9a5c}
+  .bd-w{background:rgba(196,74,60,0.15);color:#e08070}
+  .bd-i{background:rgba(74,122,156,0.18);color:#6aaacc}
+  .bd-gold{background:rgba(212,175,110,0.15);color:#d4af6e}
+
+  .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+
+  .wx-item{text-align:center}
+  .wx-item .lbl{font-size:12px;color:var(--ink-s);margin-bottom:4px}
+  .wx-item .barw{height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden}
+  .wx-item .bar{height:100%;border-radius:4px}
+  .wx-item .cnt{font-size:11px;color:var(--ink-d);margin-top:3px}
+  .b-wood{background:#6b9a5c}.b-fire{background:#c44a3c}.b-earth{background:#c4a44a}.b-metal{background:#d4af6e}.b-water{background:#4a7a9c}
+
+  .tl{position:relative;padding-left:30px}
+  .tl::before{content:'';position:absolute;left:9px;top:0;bottom:0;width:1px;background:var(--border)}
+  .tl-i{position:relative;margin-bottom:16px}
+  .tl-i::before{content:'';position:absolute;left:-21px;top:6px;width:10px;height:10px;border-radius:50%}
+  .tl-i.high::before{background:var(--gold);box-shadow:0 0 8px var(--gold)}
+  .tl-i.mid::before{background:var(--blue)}
+  .tl-i.low::before{background:var(--ink-d)}
+  .tl-i .d{font-size:11px;color:var(--ink-d)}
+  .tl-i .t{font-size:14px;color:var(--gold-b);font-weight:bold}
+  .tl-i .c{font-size:12px;color:var(--ink-s);margin-top:2px}
+
+  .day-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+  .day-c{background:var(--bg-card);border:1px solid var(--border);border-radius:6px;padding:7px 4px;text-align:center;font-size:11px}
+  .day-c.rd{border-color:rgba(196,74,60,0.45);background:rgba(196,74,60,0.06)}
+  .day-c.gd{border-color:rgba(107,154,92,0.45);background:rgba(107,154,92,0.06)}
+  .day-c .n{font-size:16px;color:var(--gold-b);font-weight:bold}
+  .day-c .gz{font-size:10px;color:var(--ink-s)}
+  .day-c .tg{font-size:9px;margin-top:2px}
+
+  .highlight,.card.hl{background:rgba(212,175,110,0.07);border-color:var(--border-str)}
+  .highlight p,.card.hl p{font-size:15px;color:var(--gold-b)}
+
+  .disclaimer{margin-top:36px;padding:16px;border:1px dashed rgba(196,74,60,0.25);border-radius:8px;font-size:12px;color:var(--ink-d);text-align:center}
+
+  .cross{position:relative;padding:14px 18px;border-left:2px solid var(--border)}
+  .cross.green{border-left-color:rgba(107,154,92,0.5)}
+
+  .shensha-inline{font-size:12px;color:var(--ink-s);line-height:2}
+
+  .fate-palace{background:linear-gradient(135deg,rgba(212,175,110,0.06),rgba(212,175,110,0.02));border:1px solid var(--border-str);border-radius:10px;padding:20px;margin-bottom:14px}
+  .fate-palace h3{font-size:16px;color:var(--gold-b);margin-bottom:10px}
+  .fate-palace p{font-size:14px;color:var(--ink-s)}
+
+  @media(max-width:720px){
+    .pillars{grid-template-columns:repeat(2,1fr)}
+    .grid2,.grid3{grid-template-columns:1fr}
+    .grid4{grid-template-columns:repeat(2,1fr)}
+    .day-g{grid-template-columns:repeat(4,1fr)}
+    header h1{font-size:22px}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>八字命盘 · 终极解析</h1>
+  <div class="sub">ULTIMATE BĀ ZÌ — 纳音·神煞·胎命·刑冲合害·三年流变 · 全维度拆解</div>
+  <div class="meta">
+    <b>1995年6月25日 16:00</b> <b>♀ 女</b> <b>🐷 乙亥猪</b><br>
+    <span style="font-size:13px">日主丁火 · 身偏弱 · 喜木火 · 忌金水</span>
+  </div>
+</header>
+
+<!-- ====== 1. 四柱天盘 ====== -->
+<div class="sec">
+  <div class="sec-title">一、四柱天盘 · 全维度展开</div>
+  <div class="sec-sub">— 每柱含天干·地支·纳音·藏干·十神·十二长生·星运·空亡 —</div>
+  <div class="pillars">
+    <div class="pil">
+      <div class="pos">年 柱</div>
+      <div class="stem">乙</div>
+      <div class="branch">亥</div>
+      <div class="nayin">🏔️ 山头火</div>
+      <div class="tengod">偏印坐正官</div>
+      <div class="cang">藏：壬(正官) 甲(正印)</div>
+      <div class="sheng">天干长生：午·病 | 地支：亥·临官</div>
+      <div style="font-size:10px;color:var(--ink-d)">星运：胎 | 空亡：申酉</div>
+    </div>
+    <div class="pil">
+      <div class="pos">月 柱</div>
+      <div class="stem">壬</div>
+      <div class="branch">午</div>
+      <div class="nayin">🌿 杨柳木</div>
+      <div class="tengod">正官坐比肩</div>
+      <div class="cang">藏：丁(比肩) 己(食神)</div>
+      <div class="sheng">天干长生：申·长生 | 地支：午·帝旺</div>
+      <div style="font-size:10px;color:var(--ink-d)">星运：临官 | 空亡：申酉</div>
+    </div>
+    <div class="pil">
+      <div class="pos">日 柱</div>
+      <div class="stem">丁</div>
+      <div class="branch">亥</div>
+      <div class="nayin">🏠 屋上土</div>
+      <div class="tengod">日元坐正官</div>
+      <div class="cang">藏：壬(正官) 甲(正印)</div>
+      <div class="sheng">天干长生：酉·长生 | 地支：亥·临官</div>
+      <div style="font-size:10px;color:var(--ink-d)">星运：胎 | 空亡：午未</div>
+    </div>
+    <div class="pil">
+      <div class="pos">时 柱</div>
+      <div class="stem">戊</div>
+      <div class="branch">申</div>
+      <div class="nayin">🛤️ 大驿土</div>
+      <div class="tengod">伤官坐正财</div>
+      <div class="cang">藏：庚(正财) 壬(正官) 戊(伤官)</div>
+      <div class="sheng">天干长生：寅·长生 | 地支：申·临官</div>
+      <div style="font-size:10px;color:var(--ink-d)">星运：沐浴 | 空亡：寅卯</div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 2. 胎元 & 命宫 ====== -->
+<div class="sec">
+  <div class="sec-title">二、胎元 · 命宫 · 身宫</div>
+  <div class="grid3">
+    <div class="fate-palace">
+      <h3>🌱 胎元 · 癸酉</h3>
+      <p>月柱壬午顺推：天干壬→癸，地支午→酉。<br>胎元癸酉，七杀坐偏财，剑锋金。<br>母胎中已带七杀之气——<strong>先天竞争意识强</strong>，酉为丁火长生之地，胎中即有贵人暗助。</p>
+    </div>
+    <div class="fate-palace">
+      <h3>🏛️ 命宫 · 乙酉</h3>
+      <p>月午(7) + 时申(9) = 16 → 26-16=10=酉<br>年干乙，五虎遁至酉得乙。<br><strong style="color:var(--gold-b)">命宫乙酉，与大运乙酉完全重叠！</strong><br>偏印坐偏财，井泉水。大运即命宫——<br>你正在经历命中最核心的十年主题。</p>
+    </div>
+    <div class="fate-palace">
+      <h3>🧘 身宫 · 己丑</h3>
+      <p>月午(7) + 时申(9) 用另法得丑。<br>身宫己丑，食神坐食神，霹雳火。<br>丑午相害——<strong>内在安全感与外在表现</strong><br>存在微妙张力。食神双现：创作力与美食是减压出口。</p>
+    </div>
+  </div>
+  <p style="font-size:12px;color:var(--ink-d);margin-top:10px;text-align:center;">※ 命宫与大运同为乙酉，这是极为罕见的"命运同宫"格局——你现在走的路，就是你命中注定要走的路。</p>
+</div>
+
+<!-- ====== 3. 十神全表 ====== -->
+<div class="sec">
+  <div class="sec-title">三、十神关系全表</div>
+  <table class="t2">
+    <tr><th></th><th>年柱 乙亥</th><th>月柱 壬午</th><th>日柱 丁亥</th><th>时柱 戊申</th><th>大运 乙酉</th><th>流年 丙午</th></tr>
+    <tr><td>天干</td><td>乙</td><td>壬</td><td>丁 (日元)</td><td>戊</td><td>乙</td><td>丙</td></tr>
+    <tr><td>天干十神</td><td>偏印</td><td>正官</td><td>—</td><td>伤官</td><td>偏印</td><td>劫财</td></tr>
+    <tr><td>地支</td><td>亥</td><td>午</td><td>亥</td><td>申</td><td>酉</td><td>午</td></tr>
+    <tr><td>地支十神</td><td>正官</td><td>比肩</td><td>正官</td><td>正财</td><td>偏财</td><td>比肩</td></tr>
+    <tr><td>地支藏干</td><td>壬/甲</td><td>丁/己</td><td>壬/甲</td><td>庚/壬/戊</td><td>辛</td><td>丁/己</td></tr>
+    <tr><td>藏干十神</td><td>官/印</td><td>比/食</td><td>官/印</td><td>财/官/伤</td><td>偏财</td><td>比/食</td></tr>
+  </table>
+</div>
+
+<!-- ====== 4. 五行精微量化 ====== -->
+<div class="sec">
+  <div class="sec-title">四、五行精微量化分析</div>
+  <div class="grid5">
+    <div class="wx-item"><div class="lbl">🌳 木 <span class="bd-g">喜</span></div><div class="barw"><div class="bar b-wood" style="width:22%"></div></div><div class="cnt">1显+2藏=3 (16%)</div></div>
+    <div class="wx-item"><div class="lbl">🔥 火 <span class="bd-g">喜</span></div><div class="barw"><div class="bar b-fire" style="width:28%"></div></div><div class="cnt">2显+3藏=5 (28%)</div></div>
+    <div class="wx-item"><div class="lbl">⛰️ 土</div><div class="barw"><div class="bar b-earth" style="width:11%"></div></div><div class="cnt">1显+1藏=2 (11%)</div></div>
+    <div class="wx-item"><div class="lbl">⚔️ 金 <span class="bd-w">忌</span></div><div class="barw"><div class="bar b-metal" style="width:6%"></div></div><div class="cnt">0显+1藏+运1=2 (11%)</div></div>
+    <div class="wx-item"><div class="lbl">💧 水 <span class="bd-w">忌</span></div><div class="barw"><div class="bar b-water" style="width:33%"></div></div><div class="cnt">1显+4藏=5 (33%)</div></div>
+  </div>
+  <div class="card" style="margin-top:14px">
+    <h3>🔥 关键洞察：水的控制权</h3>
+    <p>水占33%——表面看是忌神泛滥。但细看：<strong>所有水（壬/癸）都藏在亥、申之中，没有独立透干的水</strong>。唯一的显水是月干壬水正官，但它被日主丁火合住（丁壬合木），化为印星。</p>
+    <p style="margin-top:8px;">这意味着：<em>你的"敌人"（水/压力）从正面攻击不了你，只能从侧面渗透（亥亥自刑的思虑、癸水七杀藏在未/丑中的暗箭）。</em>你的应对策略不是"扛住"，而是"转化"——丁壬合木就是你与生俱来的转化机制。</p>
+  </div>
+</div>
+
+<!-- ====== 5. 刑冲合害全景 ====== -->
+<div class="sec">
+  <div class="sec-title">五、刑冲合害全景图</div>
+  <div class="grid2">
+    <div class="card"><h3>🔗 合 (Union)</h3>
+      <p><span class="tag t-he">天干合</span> <strong>丁壬合木</strong> — 日合月官，化印绶。压力→智慧</p>
+      <p><span class="tag t-he">天干合</span> <strong>戊癸合火</strong> — 时干合流月/日癸水七杀，化比劫</p>
+      <p><span class="tag t-he">天干合</span> <strong>乙庚合金</strong> — 年干合流日庚金正财，财来找我</p>
+      <p><span class="tag t-ah">地支暗合</span> 亥午暗合 × 4 — 年亥/日亥 × 月午/流年午/大运午</p>
+      <p><span class="tag t-ah">地支暗合</span> 申卯暗合 — 时支与大运/流日卯</p>
+    </div>
+    <div class="card"><h3>⚡ 冲 (Clash)</h3>
+      <p><span class="tag t-ch">天干冲</span> <strong>丙壬冲</strong> — 流年劫财冲月官，事业/感情有变</p>
+      <p><span class="tag t-ch">天干冲</span> <strong>丁癸冲</strong> — 日主冲七杀，压力顶上来</p>
+      <p><span class="tag t-ch">地支冲</span> <strong>亥巳冲</strong> — 年日双亥遇巳则冲（6/12, 6/24, 7/6）</p>
+      <p><span class="tag t-ch">地支冲</span> <strong>子午冲</strong> — 流月子水冲命局月午（6/7, 7/1）</p>
+      <p><span class="tag t-ch">地支冲</span> <strong>申寅冲</strong> — 时支冲流日寅（6/9, 6/21, 7/3）</p>
+    </div>
+    <div class="card"><h3>🔴 刑 (Punishment)</h3>
+      <p><span class="tag t-x">自刑</span> <strong>亥亥自刑</strong> — 年日双亥，反复自我消耗（命局自带）</p>
+      <p><span class="tag t-x">自刑</span> <strong>午午自刑</strong> — 月支午 + 流年/流月午 (火旺自焚)</p>
+      <p><span class="tag t-x">相刑</span> <strong>申巳刑</strong> — 时支遇巳即刑（6/12, 6/24, 7/6）</p>
+    </div>
+    <div class="card"><h3>💔 害 (Harm)</h3>
+      <p><span class="tag t-ha">相害</span> <strong>申亥相害</strong> × 2 — 时支害年亥、日亥</p>
+      <p><span class="tag t-ha">相害</span> <strong>丑午相害</strong> — 流日丑害月午（6/8, 6/20, 7/2）</p>
+      <p><span class="tag t-ha">相害</span> <strong>子未相害</strong> — 2027丁未年遇子月触发</p>
+    </div>
+  </div>
+</div>
+
+<!-- ====== 6. 神煞全录 ====== -->
+<div class="sec">
+  <div class="sec-title">六、神煞全录（四柱 + 胎命身）</div>
+  <table class="t2">
+    <tr><th>柱位</th><th>干支</th><th>吉神</th><th>凶煞 / 杂煞</th></tr>
+    <tr><td>年</td><td>乙亥</td><td>天乙贵人·天德贵人·国印·福星贵人</td><td>飞刃</td></tr>
+    <tr><td>月</td><td>壬午</td><td>禄神·太极贵人·文昌贵人·天厨贵人·词馆</td><td>元辰·披头·空亡(申酉)</td></tr>
+    <tr><td>日</td><td>丁亥</td><td>天乙贵人·天德贵人·国印·福星贵人·德秀贵人</td><td>飞刃·天罗地网·<strong>十恶大败</strong></td></tr>
+    <tr><td>时</td><td>戊申</td><td>天乙贵人·金舆·德秀贵人</td><td>流霞·披麻·劫煞·空亡(寅卯)</td></tr>
+    <tr><td>胎</td><td>癸酉</td><td>天乙贵人·太极贵人·文昌贵人</td><td>灾煞·吊客·空亡(戌亥)</td></tr>
+    <tr><td>命</td><td>乙酉</td><td>天乙贵人·太极贵人·文昌贵人</td><td>灾煞·吊客·空亡(午未)</td></tr>
+    <tr><td>身</td><td>己丑</td><td>福星贵人</td><td>丧门</td></tr>
+  </table>
+  <p style="font-size:12px;color:var(--ink-d);margin-top:10px;">
+    ※ 天乙贵人五现（年·日·时·胎·命）——贵人运极旺，逢凶化吉之力远超常人。<br>
+    ※ 十恶大败在日柱——核心提醒：不投机、不赌博、不为他人担保。这是底线。<br>
+    ※ 天德贵人双现（年·日）——祖宗荫庇，遇大事有"天助"。
+  </p>
+</div>
+
+<!-- ====== 7. 十轮大运详解 ====== -->
+<div class="sec">
+  <div class="sec-title">七、十轮大运 · 一生全景</div>
+  <div class="tl">
+    <div class="tl-i low"><div class="d">5–14岁 · 1999–2008</div><div class="t">癸未 · 七杀+食神</div><div class="c">七杀攻身，食神制杀。早慧但压力大，学业竞争激烈。未中藏丁火帮身，有贵人同学。</div></div>
+    <div class="tl-i mid"><div class="d">15–24岁 · 2009–2018</div><div class="t">甲申 · 正印+正财</div><div class="c">甲木正印通关壬水——学业运最旺的十年。申亥相害：异地求学，早离家。申金正财：大学期间已有收入。</div></div>
+    <div class="tl-i high" style="border-left:3px solid var(--gold);padding-left:14px;margin-left:-3px"><div class="d" style="color:var(--gold-b)">▶ 25–34岁 · 2019–2028 · 当前大运</div><div class="t" style="color:var(--gold-b);font-size:16px">乙酉 · 偏印+偏财 · 命运同宫</div><div class="c">乙木偏印生身，酉金偏财为驿马。知识变现、副业探索、跨界转型。酉为丁火长生——暗中蓄力。<br><strong style="color:var(--gold-b)">命宫与大运同为乙酉，此十年即你命中主题。</strong>2026丙午年是大运最强年。</div></div>
+    <div class="tl-i high"><div class="d">35–44岁 · 2029–2038</div><div class="t">丙戌 · 劫财+伤官 🔥🔥🔥</div><div class="c">丙火劫财帮身！戌为火库！丁火终于有靠山了。这十年是真正的黄金十年——合伙创业、影响力爆发、收入跃升。戌中藏戊辛丁：伤官生财+比肩助身，全盘激活。</div></div>
+    <div class="tl-i mid"><div class="d">45–54岁 · 2039–2048</div><div class="t">丁亥 · 比肩+正官</div><div class="c">丁火比肩到位，亥水正官回归。稳中求进，守成之运。亥亥自刑再现——中年需要关注心理健康。</div></div>
+    <div class="tl-i mid"><div class="d">55–64岁 · 2049–2058</div><div class="t">戊子 · 伤官+七杀</div><div class="c">伤官克官，子午冲月柱。注意职场关系，不宜退休前与人正面冲突。</div></div>
+    <div class="tl-i low"><div class="d">65–74岁 · 2059–2068</div><div class="t">己丑 · 食神+食神</div><div class="c">食神双现，晚年享福。丑午相害注意脾胃。</div></div>
+    <div class="tl-i mid"><div class="d">75–84岁 · 2069–2078</div><div class="t">庚寅 · 正财+正印</div><div class="c">晚年财运不差，寅亥合木印旺身安。</div></div>
+  </div>
+</div>
+
+<!-- ====== 8. 2026丙午流年全月 ====== -->
+<div class="sec">
+  <div class="sec-title">八、2026 丙午流年 · 十二月全解析</div>
+  <div class="card hl">
+    <h3>🔥 丙午 — 天河水 — 劫财坐比肩 — 帮身之年</h3>
+    <p>流年丙午与月柱壬午天干相冲（丙壬）、地支自刑（午午）。劫财冲正官：今年有"跳出舒适区"的冲动。午午自刑：行动力拉满但需防急躁。丙火帮身，十年中最有底气的一年。</p>
+    <p style="margin-top:6px;">流年神煞：月德贵人·禄神·太极贵人·文昌贵人·天厨贵人——吉神云集。</p>
+  </div>
+  <div class="tl">
+    <div class="tl-i low"><div class="d">1月 · 己丑</div><div class="t">食神+食神 · 调整期</div><div class="c">丑午相害，火被湿土晦。宜规划不宜执行。</div></div>
+    <div class="tl-i mid"><div class="d">2月 · 庚寅</div><div class="t">正财+正印 🟡</div><div class="c">寅亥合木+寅午半合火。木火齐来，乙庚合金在年，公司层面财务变动。</div></div>
+    <div class="tl-i mid"><div class="d">3月 · 辛卯</div><div class="t">偏财+偏印 🟡</div><div class="c">卯亥半合木，丙辛合水。偏财运好但感情易感性用事。</div></div>
+    <div class="tl-i mid"><div class="d">4月 · 壬辰</div><div class="t">正官+伤官 · 变动</div><div class="c">丁壬合+丙壬冲，双官临门。机会与挑战并存。</div></div>
+    <div class="tl-i low"><div class="d">5月 · 癸巳</div><div class="t">七杀+劫财 ⚡⚡</div><div class="c"><strong>亥巳双冲日柱！</strong>年度最动荡。戊癸合火化解——有惊无险，但变动难免。</div></div>
+    <div class="tl-i high" style="border-left:3px solid var(--gold-b);padding-left:14px;margin-left:-3px"><div class="d" style="color:var(--gold-b)">▶ 6月 · 甲午 · 当前 ◀</div><div class="t" style="color:var(--gold-b);font-size:16px">正印+比肩 🟢🟢🟢 年度最佳</div><div class="c">甲木正印通关，午火帮身。签约/亮相/竞聘/决策的黄金窗口。唯一注意午午自刑——别急躁。</div></div>
+    <div class="tl-i mid"><div class="d">7月 · 乙未</div><div class="t">偏印+食神 🟡</div><div class="c">午未合火，热度延续。适合学习、培训、内部调整。</div></div>
+    <div class="tl-i mid"><div class="d">8月 · 丙申</div><div class="t">劫财+正财 · 花销月</div><div class="c">申亥相害+丙壬冲。钱进钱出，合伙财务要清晰。</div></div>
+    <div class="tl-i high"><div class="d">9月 · 丁酉</div><div class="t">比肩+偏财 🟢🟢 财运第二波</div><div class="c">丁壬合+酉偏财长生。全年偏财最强月。副业/投资收益。</div></div>
+    <div class="tl-i low"><div class="d">10月 · 戊戌</div><div class="t">伤官+伤官 🔴 年度低谷</div><div class="c">戊克壬伤官见官。午戌半合火但泄身重。宜守不宜攻，别辞职/吵架。</div></div>
+    <div class="tl-i mid"><div class="d">11月 · 己亥</div><div class="t">食神+正官 · 回归</div><div class="c">亥亥自刑再现。独处复盘，暗中蓄力。</div></div>
+    <div class="tl-i low"><div class="d">12月 · 庚子</div><div class="t">正财+七杀 · 压力收官</div><div class="c">子午双冲+申子半合水。年末压力大，提前心理建设。</div></div>
+  </div>
+</div>
+
+<!-- ====== 9. 甲午月流日精析 ====== -->
+<div class="sec">
+  <div class="sec-title">九、甲午月 · 流日精析日历（6/5–7/6）</div>
+  <div class="card">
+    <h3>📅 关键日标注</h3>
+    <p>🔴 = 亥巳冲/子午冲/申寅冲（变动日，不安排重要事务）<br>
+    🟢 = 寅亥合/亥卯合（贵人日，宜签约/见面/谈判）<br>
+    🟡 = 午未合/丁壬合（能量稳定日，宜推进日常事务）</p>
+  </div>
+  <div class="day-g" style="margin-top:12px">
+    <div class="day-c"><div class="n">6/5</div><div class="gz">庚戌</div><div class="tg"><span class="badge bd-i">芒种换月</span></div></div>
+    <div class="day-c"><div class="n">6/6</div><div class="gz">辛亥</div><div class="tg"><span class="tag t-x">亥亥刑</span> <span class="tag t-ha">申亥害</span></div></div>
+    <div class="day-c rd"><div class="n">6/7</div><div class="gz">壬子</div><div class="tg"><span class="tag t-ch">子午冲!</span></div></div>
+    <div class="day-c"><div class="n">6/8</div><div class="gz">癸丑</div><div class="tg"><span class="tag t-ha">丑午害</span></div></div>
+    <div class="day-c gd"><div class="n">6/9</div><div class="gz">甲寅</div><div class="tg"><span class="tag t-he">寅亥合</span>🔴申寅冲</div></div>
+    <div class="day-c gd"><div class="n">6/10</div><div class="gz">乙卯</div><div class="tg"><span class="tag t-he">亥卯半合</span></div></div>
+    <div class="day-c"><div class="n">6/11</div><div class="gz">丙辰</div><div class="tg">—</div></div>
+  </div>
+  <div class="day-g" style="margin-top:4px">
+    <div class="day-c rd" style="border:2px solid #c44a3c"><div class="n" style="color:#e07060">6/12 今天</div><div class="gz" style="color:#e07060">丁巳</div><div class="tg"><span class="tag t-ch">亥巳双冲!</span><span class="tag t-x">申巳刑</span></div></div>
+    <div class="day-c"><div class="n">6/13</div><div class="gz">戊午</div><div class="tg"><span class="tag t-x">午午刑</span></div></div>
+    <div class="day-c gd"><div class="n">6/14</div><div class="gz">己未</div><div class="tg"><span class="tag t-he">午未合🔥</span></div></div>
+    <div class="day-c"><div class="n">6/15</div><div class="gz">庚申</div><div class="tg"><span class="tag t-he">乙庚合</span><span class="tag t-ha">申亥害</span></div></div>
+    <div class="day-c"><div class="n">6/16</div><div class="gz">辛酉</div><div class="tg">—</div></div>
+    <div class="day-c gd"><div class="n">6/17</div><div class="gz">壬戌</div><div class="tg"><span class="tag t-he">丁壬合</span></div></div>
+    <div class="day-c"><div class="n">6/18</div><div class="gz">癸亥</div><div class="tg"><span class="tag t-x">亥亥刑</span> <span class="tag t-he">戊癸合</span></div></div>
+  </div>
+  <div class="day-g" style="margin-top:4px">
+    <div class="day-c rd"><div class="n">6/19</div><div class="gz">甲子</div><div class="tg"><span class="tag t-ch">子午冲!</span></div></div>
+    <div class="day-c"><div class="n">6/20</div><div class="gz">乙丑</div><div class="tg"><span class="tag t-ha">丑午害</span></div></div>
+    <div class="day-c gd"><div class="n">6/21</div><div class="gz">丙寅</div><div class="tg"><span class="tag t-he">寅亥合</span>🔴申寅冲</div></div>
+    <div class="day-c gd"><div class="n">6/22</div><div class="gz">丁卯</div><div class="tg"><span class="tag t-he">亥卯合</span><span class="tag t-he">丁壬合</span></div></div>
+    <div class="day-c"><div class="n">6/23</div><div class="gz">戊辰</div><div class="tg">—</div></div>
+    <div class="day-c rd"><div class="n">6/24</div><div class="gz">己巳</div><div class="tg"><span class="tag t-ch">亥巳双冲!</span></div></div>
+    <div class="day-c gd"><div class="n">6/25</div><div class="gz">庚午</div><div class="tg">🎂生日!<span class="tag t-x">午午刑</span></div></div>
+  </div>
+  <div class="day-g" style="margin-top:4px">
+    <div class="day-c gd"><div class="n">6/26</div><div class="gz">辛未</div><div class="tg"><span class="tag t-he">午未合🔥</span></div></div>
+    <div class="day-c gd"><div class="n">6/27</div><div class="gz">壬申</div><div class="tg"><span class="tag t-he">丁壬合</span></div></div>
+    <div class="day-c"><div class="n">6/28</div><div class="gz">癸酉</div><div class="tg"><span class="tag t-he">戊癸合</span></div></div>
+    <div class="day-c"><div class="n">6/29</div><div class="gz">甲戌</div><div class="tg"><span class="tag t-he">午戌半合</span></div></div>
+    <div class="day-c"><div class="n">6/30</div><div class="gz">乙亥</div><div class="tg"><span class="tag t-x">亥亥刑</span>伏吟年</div></div>
+    <div class="day-c rd"><div class="n">7/1</div><div class="gz">丙子</div><div class="tg"><span class="tag t-ch">子午双冲!</span></div></div>
+    <div class="day-c"><div class="n">7/2</div><div class="gz">丁丑</div><div class="tg"><span class="tag t-ha">丑午害</span></div></div>
+  </div>
+  <div class="day-g" style="margin-top:4px">
+    <div class="day-c gd"><div class="n">7/3</div><div class="gz">戊寅</div><div class="tg"><span class="tag t-he">寅亥合</span>🔴申寅冲</div></div>
+    <div class="day-c gd"><div class="n">7/4</div><div class="gz">己卯</div><div class="tg"><span class="tag t-he">亥卯半合</span></div></div>
+    <div class="day-c"><div class="n">7/5</div><div class="gz">庚辰</div><div class="tg">—</div></div>
+    <div class="day-c rd"><div class="n">7/6</div><div class="gz">辛巳</div><div class="tg"><span class="tag t-ch">亥巳双冲!</span></div></div>
+  </div>
+  <p style="font-size:11px;color:var(--ink-d);margin-top:10px;">※ <strong>今天 6/12 丁巳日</strong>：亥巳双冲 + 申巳刑合，能量极端。突发消息、临时变动概率极高。保持灵活性，不要在今天锁定不可撤销的决定。</p>
+</div>
+
+<!-- ====== 10. 2027-2028前瞻 ====== -->
+<div class="sec">
+  <div class="sec-title">十、2027–2028 前瞻 · 乙酉大运收官</div>
+  <div class="grid2">
+    <div class="card">
+      <h3>2027 丁未 · 天河水 · 比肩坐食神</h3>
+      <p><strong>丁壬合木</strong>（日主合月官）——温和之年，比丙午更稳。<br>
+      <strong>午未合火</strong>（流年地支合月支）——火势延续，帮身不减。<br>
+      <strong>亥未卯三合木</strong>（3月癸卯月）——印星大旺，学习/考证/进修的好时机。<br>
+      <span class="badge bd-g">整体评分：🟢 稳中向好</span></p>
+      <p style="margin-top:8px;font-size:12px;">关键月：丙午月(6月)火旺、丁未月(7月)伏吟大运、己酉月(9月)偏财旺。全年无严重冲刑。</p>
+    </div>
+    <div class="card">
+      <h3>2028 戊申 · 大驿土 · 伤官坐正财</h3>
+      <p><strong>伏吟时柱</strong>——流年与时柱完全相同。子女/下属/项目有重大变化。<br>
+      <strong>申亥相害</strong>——晚年宫与年日原局不和，注意家庭关系。<br>
+      <strong>戊克壬</strong>——伤官克官，职业路径可能有根本性转变。<br>
+      <span class="badge bd-w">注意：大运交接前一年，宜收尾不宜开局</span></p>
+      <p style="margin-top:8px;font-size:12px;">2028是乙酉大运最后一年。戊申伏吟时柱——你播下的种子要收获了。伤官见官，2028年底到2029年初可能换工作/创业。</p>
+    </div>
+  </div>
+  <div class="card hl" style="margin-top:12px">
+    <h3>🔥 2029 丙戌大运预告</h3>
+    <p>35岁入丙戌大运——<strong>丁火终于等到丙火来帮，戌为火库开库。</strong>这是你人生中最重要的十年转折。2026丙午年是这个大运的"预告片"——现在感受到的火力，2029年后将是常态。做好准备，积累资源，2029年一到就全力冲刺。</p>
+  </div>
+</div>
+
+<!-- ====== 11. 六亲定位 ====== -->
+<div class="sec">
+  <div class="sec-title">十一、六亲定位</div>
+  <div class="grid2">
+    <div class="card"><h3>👨 父亲（偏财）</h3><p>年干乙木偏印代表母亲、学业。父亲看时支申中庚金正财——庚金藏而不透，父亲为人低调务实。申亥相害：与父亲有观念分歧，但不影响感情。</p></div>
+    <div class="card"><h3>👩 母亲（正印）</h3><p>年干乙木偏印 + 日支亥中甲木正印。印星双显——母亲影响深远。乙木为花草之木，母亲细腻温柔但不够强势。亥亥自刑可能意味着母亲也有过度思虑的倾向。</p></div>
+    <div class="card"><h3>💑 配偶（正官）</h3><p>月干壬水正官 + 日支亥中壬水正官。官星双现——配偶能力强、有权威。丁壬合木意味着：你对配偶有天然的吸引力（官来合我），且这段关系会让你成长。但亥亥自刑——婚后需注意"想太多"影响关系。</p></div>
+    <div class="card"><h3>👶 子女（伤官）</h3><p>时干戊土伤官——子女有主见、不听话，但才华横溢。戊申伤官生财——子女将来经济独立，不需要你操心。时支申中庚金正财与戊土伤官，子女财运不差。</p></div>
+  </div>
+</div>
+
+<!-- ====== 12. 分领域深度 ====== -->
+<div class="sec">
+  <div class="sec-title">十二、分领域深度解读</div>
+  <div class="card"><h3>💼 事业 · 官印相生 × 伤官生财</h3>
+    <p>你命局有两条事业线并行：</p>
+    <ul>
+      <li><strong>主线路（官印相生）</strong>：壬水正官→乙木偏印→丁火日元。适合体制内、大平台、正规军。规矩保护你，不是束缚你。</li>
+      <li><strong>副线路（伤官生财）</strong>：戊土伤官→申金正财。才华变现、副业、自由职业。时柱代表晚年，35岁后这条线会越来越强。</li>
+    </ul>
+    <p style="margin-top:8px;">2026丙午年两线都在发力：丙壬冲（挑战主线）+ 甲午月印旺（主线加强）。建议：主业稳住，副业在9月丁酉月发力。</p>
+  </div>
+  <div class="card"><h3>💕 感情 · 丁壬合 × 亥亥刑</h3>
+    <ul>
+      <li><strong>丁壬合木是感情最大的福气</strong>——你不是"找对象"，你是"被对的人找到"。官来合你，不是你追官。</li>
+      <li>亥亥自刑——在感情里容易"想太多说太少"，因为害怕冲突而压抑，压抑久了又爆发。</li>
+      <li>申亥相害——时柱（子女/日常）与原局（自我）的摩擦，婚后的生活琐事比恋爱期更需要适应。</li>
+      <li>2026丙午年：丙壬冲官，单身者遇到的对象可能和现有工作圈冲突；有伴者注意火旺之年情绪易燃。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>💰 财运 · 正财深藏 × 偏财驿马</h3>
+    <ul>
+      <li>正财庚金藏在时支申中——主业收入稳定但不显赫。需要时间积累（时柱代表晚年）。</li>
+      <li>偏财辛金在大运酉中透出——乙酉大运（25-34岁）偏财运旺于正财，副业/投资收入可能超过工资。</li>
+      <li><strong>十恶大败</strong>是严格警示——不投机、不赌博、不担保。这个神煞不是诅咒，是提醒你"钱要稳"。</li>
+      <li>丁酉月（9月）是2026年偏财最强月——提前规划。</li>
+    </ul>
+  </div>
+  <div class="card"><h3>🏥 健康 · 水重火弱 × 午火为根</h3>
+    <ul>
+      <li>丁火如灯烛——心脏/血液循环/眼睛是需要长期关注的系统。</li>
+      <li>水五重包围——寒湿体质，注意关节/妇科/代谢。</li>
+      <li>午火是全局唯一明火——保护好你的"暖气片"。熬夜、冷饮、过度用眼都在消耗午火。</li>
+      <li>2026火旺——注意"炎上"症状：心悸、失眠、口腔溃疡、皮肤炎症。适当运动出汗是最好的调节。</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ====== 13. 纳音生克 ====== -->
+<div class="sec">
+  <div class="sec-title">十三、纳音五行 · 生克制化</div>
+  <div class="card">
+    <p>纳音排布：年<b style="color:#c44a3c">山头火</b> → 月<b style="color:#6b9a5c">杨柳木</b> → 日<b style="color:#c4a44a">屋上土</b> → 时<b style="color:#c4a44a">大驿土</b></p>
+    <p style="margin-top:8px;"><strong>火生木</strong>（年火生月木）— 祖辈支持父母辈<br>
+    <strong>木克土</strong>（月木克日时双土）— 月柱发力，事业上"以柔克刚"<br>
+    <strong>火生土</strong>（年火生日时土）— 祖荫直接滋养你的事业与晚年<br>
+    <strong>双土叠加</strong>（日屋上土 + 时大驿土）— 地基深厚，但土重泄火——这就是你"看起来稳如泰山，实际心累"的纳音维度解释。</p>
+    <p style="margin-top:8px;font-size:13px;color:var(--gold)">纳音给的核心提示：你的能量从年（祖辈/早年）传递到月（事业/中年）再到日时（自己/晚年），是一条完整的"火→木→土"链。不要切断这条链——家族支持、早年积累是你的根基。</p>
+  </div>
+</div>
+
+<!-- ====== 14. 三句话 ====== -->
+<div class="card hl" style="margin-top:30px">
+  <h3>✦ 终极三句话 ✦</h3>
+  <p>❶ <strong>命运同宫，此生不虚</strong>——命宫与大运同为乙酉，你现在走的路就是命中注定要走的路。2026丙午年是大运最强年，甲午月是全年的能量高峰。不要等，现在就是时机。</p>
+  <p style="margin-top:10px;">❷ <strong>丁壬合木是你的转化器，亥亥自刑是你的提示器</strong>——前者帮你把压力变智慧，后者提醒你"想够了就该做"。这两个结构放在一起看：想太多的时候，去做一件能学到东西的事——学即化解。</p>
+  <p style="margin-top:10px;">❸ <strong>2026点火 → 2027稳火 → 2028收官 → 2029冲天</strong>——丙午年（劫财帮身）→ 丁未年（比肩食神）→ 戊申年（伏吟收尾）→ 丙戌大运（火库开闸）。这三年是为你35岁后腾飞做的最后准备。每一步都算数。</p>
+</div>
+
+<div class="disclaimer">
+  ⚠️ 本回复由 AI 生成，内容为传统命理体系的解读与象征推演，仅供娱乐参考。不构成医疗、法律、财务或投资建议。命理是参考，不是定数。涉及健康、法律、重大财务决策请咨询相应专业人士。
+</div>
+
+</div>
+</body>
+</html>
